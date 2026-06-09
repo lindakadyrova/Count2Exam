@@ -57,12 +57,8 @@ fun FirstScreen() {
             label = { Text("Benutzername") }
         )
         Spacer(modifier = Modifier.height(16.dp))
-//        OutlinedTextField(
-//            modifier = Modifier.fillMaxWidth(),
-//            state = rememberTextFieldState(),
-//            label = { Text("Passwort") },
-//        )
-        PasswordTextField()
+//
+        PasswordTextField("Passwort")
 
         Spacer(modifier = Modifier.height(16.dp))
         Button(
@@ -81,14 +77,14 @@ fun FirstScreen() {
 }
 
 @Composable
-fun PasswordTextField() {
+fun PasswordTextField(label: String) {
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
 
     OutlinedTextField(
         value = password,
         onValueChange = { password = it },
-        label = { Text("Password") },
+        label = { Text(label) },
         visualTransformation =
             if (passwordVisible) VisualTransformation.None
             else PasswordVisualTransformation(),
