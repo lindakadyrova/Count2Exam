@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "630993580414",
+    "project_id": "count2exam-77939",
+    "storage_bucket": "count2exam-77939.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630993580414:android:f1b32086710faee775032f",
+        "android_client_info": {
+          "package_name": "com.kadyrova.count2exam"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxbWEXhO7EDOaTiOta6ESYNZzI_r40FoM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
