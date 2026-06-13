@@ -16,9 +16,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.kadyrova.count2exam.ui.components.AppHeader
 
 @Composable
 fun RegisterScreen() {
+    AppHeader()
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -61,7 +64,7 @@ fun RegisterScreen() {
 
         PasswordTextField("Passwort wiederholen")
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         Button(  modifier = Modifier.fillMaxWidth(),
             onClick = { }) {

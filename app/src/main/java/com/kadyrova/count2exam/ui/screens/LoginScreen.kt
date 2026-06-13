@@ -1,5 +1,6 @@
 package com.kadyrova.count2exam.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -7,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -25,11 +25,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import com.kadyrova.count2exam.R
 
 @Composable
-fun FirstScreen() {
+fun LoginScreen() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -39,6 +41,10 @@ fun FirstScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
+        Logo(
+            modifier = Modifier.height(250.dp)
+        )
+
         EmailTextField()
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -46,14 +52,21 @@ fun FirstScreen() {
         PasswordTextField("Passwort")
 
         Spacer(modifier = Modifier.height(16.dp))
+
         Button(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(40.dp),
             onClick = { }) {
             Text("Login")
         }
 
+        Spacer(modifier = Modifier.height(10.dp))
+
         Button(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(40.dp),
             onClick = { }) {
 
             Text("Registrieren")
@@ -87,7 +100,18 @@ fun PasswordTextField(label: String) {
             }
         },
         modifier = Modifier.fillMaxWidth()
-    )}
+    )
+}
+@Composable
+fun Logo(
+    modifier: Modifier = Modifier
+) {
+    Image(
+        painter = painterResource(R.drawable.count2exam),
+        contentDescription = "Count2Exam Logo",
+        modifier = modifier
+    )
+}
 
 // Für die Passwort-Anzeige wurde die offizielle Android-Dokumentation als Grundlage verwendet:
 // https://developer.android.com/develop/ui/compose/quick-guides/content/show-hide-password?hl=de
@@ -98,5 +122,5 @@ fun PasswordTextField(label: String) {
 @Preview(showSystemUi = true)
 @Composable
 fun FirstScreenPreview() {
-    FirstScreen()
+    LoginScreen()
 }
