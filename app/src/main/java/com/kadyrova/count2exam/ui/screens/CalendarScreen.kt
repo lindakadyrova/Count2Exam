@@ -1,8 +1,10 @@
 import android.R
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -38,6 +40,26 @@ fun CalendarWdiget(){
             color = Color(0xFFD81B60)
         )
         Spacer(modifier = Modifier.height(12.dp))
+
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFFD81B60))
+                .padding(vertical = 6.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ){
+            listOf("M", "T", "W", "T", "F", "S", "S").forEach{day ->
+                Text(
+                    text = day,
+                    color = Color.White,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+
     }
 }
 
