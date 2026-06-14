@@ -75,13 +75,16 @@ fun LoginScreen() {
 }
 
 @Composable
-fun PasswordTextField(label: String) {
-    var password by remember { mutableStateOf("") }
+fun PasswordTextField(
+    label: String,
+    value: String = "",
+    onValueChange: (String) -> Unit = {}
+) {
     var passwordVisible by remember { mutableStateOf(false) }
 
     OutlinedTextField(
-        value = password,
-        onValueChange = { password = it },
+        value = value,
+        onValueChange = onValueChange,
         label = { Text(label) },
         visualTransformation =
             if (passwordVisible) VisualTransformation.None
