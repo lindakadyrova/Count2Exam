@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -27,6 +28,8 @@ import androidx.compose.runtime.setValue
 fun EditExamScreen(){
 
     var fach by remember { mutableStateOf("Robotics") }
+    var datum by remember { mutableStateOf("11.02.2026") }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,7 +70,29 @@ fun EditExamScreen(){
             shape = RoundedCornerShape(12.dp),
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(25.dp))
+
+        Text(
+            text = "Datum",
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+        OutlinedTextField(
+            value = datum,
+            onValueChange = {datum = it },
+            placeholder = {Text("11.02.2026")},
+            trailingIcon = {
+                Icon(
+                    imageVector = Icons.Default.DateRange,
+                    contentDescription = "Datum auswählen"
+
+                )
+            },
+            shape = RoundedCornerShape(12.dp),
+            modifier = Modifier.fillMaxWidth()
+        )
+
     }
 }
 
