@@ -27,8 +27,9 @@ import androidx.compose.runtime.setValue
 @Composable
 fun EditExamScreen(){
 
-    var fach by remember { mutableStateOf("Robotics") }
-    var datum by remember { mutableStateOf("11.02.2026") }
+    var subject by remember { mutableStateOf("Robotics") }
+    var date by remember { mutableStateOf("11.02.2026") }
+    var notes by remember {mutableStateOf("")}
 
     Column(
         modifier = Modifier
@@ -57,8 +58,8 @@ fun EditExamScreen(){
         Spacer(modifier = Modifier.height(5.dp))
 
         OutlinedTextField(
-            value = fach,
-            onValueChange = {fach = it},
+            value = subject,
+            onValueChange = {subject = it},
             placeholder = {Text("Robotics")},
             trailingIcon = {
                 Icon(
@@ -79,8 +80,8 @@ fun EditExamScreen(){
         )
         Spacer(modifier = Modifier.height(5.dp))
         OutlinedTextField(
-            value = datum,
-            onValueChange = {datum = it },
+            value = date,
+            onValueChange = {date = it },
             placeholder = {Text("11.02.2026")},
             trailingIcon = {
                 Icon(
@@ -92,6 +93,25 @@ fun EditExamScreen(){
             shape = RoundedCornerShape(12.dp),
             modifier = Modifier.fillMaxWidth()
         )
+        Spacer(modifier = Modifier.height(25.dp))
+
+        Text(
+            text = "Notizen",
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier.height(5.dp))
+
+        OutlinedTextField(
+            value = notes,
+            onValueChange = {notes = it},
+            placeholder = {Text("Die Prüfung... ")},
+            shape = RoundedCornerShape(12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(120.dp)
+        )
+        Spacer(modifier = Modifier.height(32.dp))
 
     }
 }
