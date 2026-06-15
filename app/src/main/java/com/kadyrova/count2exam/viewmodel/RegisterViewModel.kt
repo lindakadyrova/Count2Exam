@@ -1,4 +1,4 @@
-package com.kadyrova.count2exam.ui.viewmodels
+package com.kadyrova.count2exam.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -22,6 +22,16 @@ class RegisterViewModel : ViewModel() {
     private val db = FirebaseFirestore.getInstance()
 
     fun register() {
+        if (
+            username.value.isBlank() ||
+            email.value.isBlank() ||
+            password.value.isBlank() ||
+            confirmPassword.value.isBlank()
+        ) {
+            errorMessage.value = "Bitte alle Felder ausfüllen"
+            return
+        }
+
         if (password.value != confirmPassword.value) {
             errorMessage.value = "Passwörter stimmen nicht überein"
             return

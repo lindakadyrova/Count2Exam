@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.ui.components.AppHeader
-import com.kadyrova.count2exam.ui.viewmodels.PWForgottenViewModel
+import com.kadyrova.count2exam.viewmodel.PWForgottenViewModel
 
 @Composable
 fun PWForgottenScreen(
@@ -108,6 +108,7 @@ fun PWForgottenScreenContent(
         }
     }
 }
+
 @Composable
 fun EmailTextField(
     value: String = "",

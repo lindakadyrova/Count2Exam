@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.kadyrova.count2exam.ui.viewmodels.RegisterViewModel
+import com.kadyrova.count2exam.viewmodel.RegisterViewModel
 import com.kadyrova.count2exam.ui.components.AppHeader
 
 // AI-assisted: split into two composables so the preview works without a ViewModel
@@ -29,7 +29,7 @@ fun RegisterScreen(
     onRegisterSuccess: () -> Unit = {},
     onBackClick: () -> Unit = {},
     viewModel: RegisterViewModel = viewModel()
-    ) {
+) {
     LaunchedEffect(viewModel.registerSuccess.value) {
         if (viewModel.registerSuccess.value) {
             onRegisterSuccess()

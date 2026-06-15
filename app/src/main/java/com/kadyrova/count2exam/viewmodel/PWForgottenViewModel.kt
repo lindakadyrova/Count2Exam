@@ -1,4 +1,4 @@
-package com.kadyrova.count2exam.ui.viewmodels
+package com.kadyrova.count2exam.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -14,6 +14,10 @@ class PWForgottenViewModel : ViewModel() {
     private val auth = FirebaseAuth.getInstance()
 
     fun resetPassword() {
+        if (email.value.isBlank()) {
+            errorMessage.value =  "Bitte E-Mail eintragen"
+            return
+        }
         isLoading.value = true
         errorMessage.value = null
 

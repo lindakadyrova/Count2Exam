@@ -33,7 +33,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.R
-import com.kadyrova.count2exam.ui.viewmodels.LoginViewModel
+import com.kadyrova.count2exam.viewmodel.LoginViewModel
 
 @Composable
 fun LoginScreen(
@@ -92,12 +92,16 @@ fun LoginScreenContent(
         )
 
         Spacer(modifier = Modifier.height(16.dp))
-
         PasswordTextField(
             "Passwort",
             value = password,
             onValueChange = onPasswordChange
         )
+
+        if (errorMessage != null) {
+            Text(text = errorMessage, color = Color.Red)
+            Spacer(modifier = Modifier.height(8.dp))
+        }
 
         TextButton(
             onClick = onForgotPasswordClick,
@@ -108,11 +112,6 @@ fun LoginScreenContent(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        if (errorMessage != null) {
-            Text(text = errorMessage, color = Color.Red)
-            Spacer(modifier = Modifier.height(8.dp))
-        }
-
         Button(
             modifier = Modifier
                 .fillMaxWidth()
@@ -122,7 +121,6 @@ fun LoginScreenContent(
         ) {
             Text(if (isLoading) "Laden..." else "Login")
         }
-
         Spacer(modifier = Modifier.height(10.dp))
 
         Button(
@@ -167,6 +165,7 @@ fun PasswordTextField(
         modifier = Modifier.fillMaxWidth()
     )
 }
+
 @Composable
 fun Logo(
     modifier: Modifier = Modifier
