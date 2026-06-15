@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
@@ -22,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 
 
 @Composable
@@ -112,6 +114,33 @@ fun EditExamScreen(){
                 .height(120.dp)
         )
         Spacer(modifier = Modifier.height(32.dp))
+
+        Button(
+            onClick = { },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            shape = RoundedCornerShape(50.dp),
+        ){
+            Text(
+                text = "Speichern",
+                color = Color.White
+            )
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+
+        Button(
+            onClick = { },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            shape = RoundedCornerShape(50.dp),
+        ){
+            Text(
+                text = "Verwerfen",
+                color = Color.White
+            )
+        }
 
     }
 }
