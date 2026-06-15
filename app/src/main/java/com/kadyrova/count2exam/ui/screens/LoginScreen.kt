@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.painterResource
@@ -38,6 +39,7 @@ import com.kadyrova.count2exam.ui.viewmodels.LoginViewModel
 fun LoginScreen(
     onLoginSuccess: () -> Unit = {},
     onRegisterClick: () -> Unit = {},
+    onForgotPasswordClick: () -> Unit = {},
     viewModel: LoginViewModel = viewModel()
 ) {
     LaunchedEffect(viewModel.loginSuccess.value) {
@@ -54,7 +56,8 @@ fun LoginScreen(
         onEmailChange = { viewModel.email.value = it },
         onPasswordChange = { viewModel.password.value = it },
         onLoginClick = { viewModel.login() },
-        onRegisterClick = onRegisterClick
+        onRegisterClick = onRegisterClick,
+        onForgotPasswordClick = onForgotPasswordClick
     )
 }
 
@@ -67,7 +70,8 @@ fun LoginScreenContent(
     onEmailChange: (String) -> Unit = {},
     onPasswordChange: (String) -> Unit = {},
     onLoginClick: () -> Unit = {},
-    onRegisterClick: () -> Unit = {}
+    onRegisterClick: () -> Unit = {},
+    onForgotPasswordClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -94,6 +98,13 @@ fun LoginScreenContent(
             value = password,
             onValueChange = onPasswordChange
         )
+
+        TextButton(
+            onClick = onForgotPasswordClick,
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text("Passwort vergessen?")
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
