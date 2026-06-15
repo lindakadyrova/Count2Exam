@@ -10,15 +10,51 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.ui.components.AppHeader
+import com.kadyrova.count2exam.viewmodel.PWForgottenViewModel
 
 @Composable
-fun PWForgottenScreen() {
+fun PWForgottenScreen(
+    onResetSuccess: () -> Unit = {},
+    onBackClick: () -> Unit = {},
+    viewModel: PWForgottenViewModel = viewModel()
+) {
+    LaunchedEffect(viewModel.resetSuccess.value) {
+        if (viewModel.resetSuccess.value) {
+            onResetSuccess()
+        }
+    }
+
+    PWForgottenScreenContent(
+        email = viewModel.email.value,
+        isLoading = viewModel.isLoading.value,
+        errorMessage = viewModel.errorMessage.value,
+        resetSuccess = viewModel.resetSuccess.value,
+        onEmailChange = { viewModel.email.value = it },
+        onResetClick = { viewModel.resetPassword() },
+        onBackClick = onBackClick
+    )
+}
+
+@Composable
+fun PWForgottenScreenContent(
+    email: String = "",
+    isLoading: Boolean = false,
+    errorMessage: String? = null,
+    resetSuccess: Boolean = false,
+    onEmailChange: (String) -> Unit = {},
+    onResetClick: () -> Unit = {},
+    onBackClick: () -> Unit = {}
+) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -32,21 +68,47 @@ fun PWForgottenScreen() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            EmailTextField()
+            EmailTextField(
+                value = email,
+                onValueChange = onEmailChange
+            )
 
             Spacer(modifier = Modifier.height(10.dp))
+
+            if (errorMessage != null) {
+                Text(text = errorMessage, color = Color.Red)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
+            if (resetSuccess) {
+                Text(text = "E-Mail wurde gesendet!", color = Color.Green)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
 
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(40.dp),
-                onClick = { }
+                onClick = onResetClick,
+                enabled = !isLoading
             ) {
-                Text("Passwort zurücksetzen")
+                Text(if (isLoading) "Laden..." else "Passwort zurücksetzen")
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            TextButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp),
+                onClick = onBackClick
+            ) {
+                Text("Zurück zum Login")
             }
         }
     }
 }
+
 @Composable
 fun EmailTextField(
     value: String = "",
@@ -65,5 +127,5 @@ fun EmailTextField(
 @Preview(showSystemUi = true)
 @Composable
 fun PWForgottenScreenPreview() {
-    PWForgottenScreen()
+    PWForgottenScreenContent()
 }

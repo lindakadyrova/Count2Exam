@@ -1,3 +1,5 @@
+package com.kadyrova.count2exam.ui.screens
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize

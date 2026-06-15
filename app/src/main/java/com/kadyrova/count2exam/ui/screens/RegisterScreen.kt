@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -18,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.kadyrova.count2exam.ui.viewmodels.RegisterViewModel
+import com.kadyrova.count2exam.viewmodel.RegisterViewModel
 import com.kadyrova.count2exam.ui.components.AppHeader
 
 // AI-assisted: split into two composables so the preview works without a ViewModel
@@ -26,8 +27,9 @@ import com.kadyrova.count2exam.ui.components.AppHeader
 @Composable
 fun RegisterScreen(
     onRegisterSuccess: () -> Unit = {},
+    onBackClick: () -> Unit = {},
     viewModel: RegisterViewModel = viewModel()
-    ) {
+) {
     LaunchedEffect(viewModel.registerSuccess.value) {
         if (viewModel.registerSuccess.value) {
             onRegisterSuccess()
@@ -49,7 +51,8 @@ fun RegisterScreen(
         onEmailChange = { viewModel.email.value = it },
         onPasswordChange = { viewModel.password.value = it },
         onConfirmPasswordChange = { viewModel.confirmPassword.value = it },
-        onRegisterClick = { viewModel.register() }
+        onRegisterClick = { viewModel.register() },
+        onBackClick = onBackClick
     )
 }
 
@@ -69,7 +72,8 @@ fun RegisterScreenContent(
     onEmailChange: (String) -> Unit = {},
     onPasswordChange: (String) -> Unit = {},
     onConfirmPasswordChange: (String) -> Unit = {},
-    onRegisterClick: () -> Unit = {}
+    onRegisterClick: () -> Unit = {},
+    onBackClick: () -> Unit = {}
 ) {
     AppHeader()
 
@@ -81,6 +85,7 @@ fun RegisterScreenContent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(modifier = Modifier.height(80.dp))
 
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
@@ -142,6 +147,15 @@ fun RegisterScreenContent(
             enabled = !isLoading
         ) {
             Text(if (isLoading) "Laden..." else "Registrieren")
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        TextButton(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onBackClick
+        ) {
+            Text("Zurück zum Login")
         }
     }
 }

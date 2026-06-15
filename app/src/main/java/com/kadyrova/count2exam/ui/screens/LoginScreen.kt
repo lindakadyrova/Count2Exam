@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.painterResource
@@ -32,12 +33,13 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.R
-import com.kadyrova.count2exam.ui.viewmodels.LoginViewModel
+import com.kadyrova.count2exam.viewmodel.LoginViewModel
 
 @Composable
 fun LoginScreen(
     onLoginSuccess: () -> Unit = {},
     onRegisterClick: () -> Unit = {},
+    onForgotPasswordClick: () -> Unit = {},
     viewModel: LoginViewModel = viewModel()
 ) {
     LaunchedEffect(viewModel.loginSuccess.value) {
@@ -54,7 +56,8 @@ fun LoginScreen(
         onEmailChange = { viewModel.email.value = it },
         onPasswordChange = { viewModel.password.value = it },
         onLoginClick = { viewModel.login() },
-        onRegisterClick = onRegisterClick
+        onRegisterClick = onRegisterClick,
+        onForgotPasswordClick = onForgotPasswordClick
     )
 }
 
@@ -67,7 +70,8 @@ fun LoginScreenContent(
     onEmailChange: (String) -> Unit = {},
     onPasswordChange: (String) -> Unit = {},
     onLoginClick: () -> Unit = {},
-    onRegisterClick: () -> Unit = {}
+    onRegisterClick: () -> Unit = {},
+    onForgotPasswordClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -88,19 +92,25 @@ fun LoginScreenContent(
         )
 
         Spacer(modifier = Modifier.height(16.dp))
-
         PasswordTextField(
             "Passwort",
             value = password,
             onValueChange = onPasswordChange
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
         if (errorMessage != null) {
             Text(text = errorMessage, color = Color.Red)
             Spacer(modifier = Modifier.height(8.dp))
         }
+
+        TextButton(
+            onClick = onForgotPasswordClick,
+            modifier = Modifier.align(Alignment.End)
+        ) {
+            Text("Passwort vergessen?")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         Button(
             modifier = Modifier
@@ -111,7 +121,6 @@ fun LoginScreenContent(
         ) {
             Text(if (isLoading) "Laden..." else "Login")
         }
-
         Spacer(modifier = Modifier.height(10.dp))
 
         Button(
@@ -156,6 +165,7 @@ fun PasswordTextField(
         modifier = Modifier.fillMaxWidth()
     )
 }
+
 @Composable
 fun Logo(
     modifier: Modifier = Modifier
