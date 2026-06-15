@@ -26,129 +26,130 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
+import com.kadyrova.count2exam.ui.components.AppHeader
 
 
 @Composable
-fun EditExamScreen(){
+fun EditExamScreen() {
 
     var subject by remember { mutableStateOf("Robotics") }
     var date by remember { mutableStateOf("11.02.2026") }
-    var notes by remember {mutableStateOf("")}
+    var notes by remember { mutableStateOf("") }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp)
+        modifier = Modifier.fillMaxSize()
     ) {
-        Text(
-            text = "C2E",
-            fontSize = 32.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(45.dp))
+        AppHeader()
 
-        Text(
-            text = "Prüfung bearbeiten",
-            fontSize = 16.sp,
-            fontStyle = FontStyle.Italic
-        )
-        Spacer(modifier = Modifier.height(100.dp))
-
-        Text(
-            text = "Fach",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(5.dp))
-
-        OutlinedTextField(
-            value = subject,
-            onValueChange = {subject = it},
-            placeholder = {Text("Robotics")},
-            trailingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Edit,
-                    contentDescription = "Bearbeiten"
-
-                )
-            },
-            shape = RoundedCornerShape(12.dp),
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(25.dp))
-
-        Text(
-            text = "Datum",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(5.dp))
-        OutlinedTextField(
-            value = date,
-            onValueChange = {date = it },
-            placeholder = {Text("11.02.2026")},
-            trailingIcon = {
-                Icon(
-                    imageVector = Icons.Default.DateRange,
-                    contentDescription = "Datum auswählen"
-
-                )
-            },
-            shape = RoundedCornerShape(12.dp),
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(25.dp))
-
-        Text(
-            text = "Notizen",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.height(5.dp))
-
-        OutlinedTextField(
-            value = notes,
-            onValueChange = {notes = it},
-            placeholder = {Text("Die Prüfung... ")},
-            shape = RoundedCornerShape(12.dp),
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(120.dp)
-        )
-        Spacer(modifier = Modifier.height(32.dp))
-
-        Button(
-            onClick = { },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            shape = RoundedCornerShape(50.dp),
-        ){
+                .weight(1f)
+                .padding(34.dp)
+        ) {
             Text(
-                text = "Speichern",
-                color = Color.White
+                text = "Prüfung bearbeiten",
+                fontSize = 16.sp,
+                fontStyle = FontStyle.Italic
             )
-        }
-        Spacer(modifier = Modifier.height(12.dp))
 
-        Button(
-            onClick = { },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            shape = RoundedCornerShape(50.dp),
-        ){
+            Spacer(modifier = Modifier.height(40.dp))
+
             Text(
-                text = "Verwerfen",
-                color = Color.White
+                text = "Fach",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold
             )
-        }
+            Spacer(modifier = Modifier.height(5.dp))
 
+            OutlinedTextField(
+                value = subject,
+                onValueChange = { subject = it },
+                placeholder = { Text("Robotics") },
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = "Bearbeiten"
+
+                    )
+                },
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(25.dp))
+
+            Text(
+                text = "Datum",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(5.dp))
+            OutlinedTextField(
+                value = date,
+                onValueChange = { date = it },
+                placeholder = { Text("11.02.2026") },
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = "Datum auswählen"
+
+                    )
+                },
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(25.dp))
+
+            Text(
+                text = "Notizen",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.height(5.dp))
+
+            OutlinedTextField(
+                value = notes,
+                onValueChange = { notes = it },
+                placeholder = { Text("Die Prüfung... ") },
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(120.dp)
+            )
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Button(
+                onClick = { },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(50.dp),
+            ) {
+                Text(
+                    text = "Speichern",
+                    color = Color.White
+                )
+            }
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Button(
+                onClick = { },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(50.dp),
+            ) {
+                Text(
+                    text = "Verwerfen",
+                    color = Color.White
+                )
+            }
+        }
     }
 }
 
 @Preview(showSystemUi = true)
 @Composable
-fun EditExamScreenPreview(){
+fun EditExamScreenPreview() {
     EditExamScreen()
 }
