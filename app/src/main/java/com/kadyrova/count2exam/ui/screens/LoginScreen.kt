@@ -12,10 +12,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.icons.Icons
@@ -28,10 +30,45 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.R
+import com.kadyrova.count2exam.ui.viewmodels.LoginViewModel
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    onLoginSuccess: () -> Unit = {},
+    onRegisterClick: () -> Unit = {},
+    viewModel: LoginViewModel = viewModel()
+) {
+    LaunchedEffect(viewModel.loginSuccess.value) {
+        if (viewModel.loginSuccess.value) {
+            onLoginSuccess()
+        }
+    }
+
+    LoginScreenContent(
+        email = viewModel.email.value,
+        password = viewModel.password.value,
+        isLoading = viewModel.isLoading.value,
+        errorMessage = viewModel.errorMessage.value,
+        onEmailChange = { viewModel.email.value = it },
+        onPasswordChange = { viewModel.password.value = it },
+        onLoginClick = { viewModel.login() },
+        onRegisterClick = onRegisterClick
+    )
+}
+
+@Composable
+fun LoginScreenContent(
+    email: String = "",
+    password: String = "",
+    isLoading: Boolean = false,
+    errorMessage: String? = null,
+    onEmailChange: (String) -> Unit = {},
+    onPasswordChange: (String) -> Unit = {},
+    onLoginClick: () -> Unit = {},
+    onRegisterClick: () -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,20 +82,34 @@ fun LoginScreen() {
             modifier = Modifier.height(250.dp)
         )
 
-        EmailTextField()
+        EmailTextField(
+            value = email,
+            onValueChange = onEmailChange
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        PasswordTextField("Passwort")
+        PasswordTextField(
+            "Passwort",
+            value = password,
+            onValueChange = onPasswordChange
+        )
 
         Spacer(modifier = Modifier.height(16.dp))
+
+        if (errorMessage != null) {
+            Text(text = errorMessage, color = Color.Red)
+            Spacer(modifier = Modifier.height(8.dp))
+        }
 
         Button(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(40.dp),
-            onClick = { }) {
-            Text("Login")
+            onClick = onLoginClick,
+            enabled = !isLoading
+        ) {
+            Text(if (isLoading) "Laden..." else "Login")
         }
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -67,8 +118,8 @@ fun LoginScreen() {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(40.dp),
-            onClick = { }) {
-
+            onClick = onRegisterClick,
+        ) {
             Text("Registrieren")
         }
     }
@@ -125,5 +176,5 @@ fun Logo(
 @Preview(showSystemUi = true)
 @Composable
 fun FirstScreenPreview() {
-    LoginScreen()
+    LoginScreenContent()
 }

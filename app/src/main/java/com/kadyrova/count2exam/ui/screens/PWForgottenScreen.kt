@@ -11,10 +11,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -52,12 +48,13 @@ fun PWForgottenScreen() {
     }
 }
 @Composable
-fun EmailTextField() {
-    var email by remember { mutableStateOf("") }
-
+fun EmailTextField(
+    value: String = "",
+    onValueChange: (String) -> Unit = {}
+) {
     OutlinedTextField(
-        value = email,
-        onValueChange = { email = it },
+        value = value,
+        onValueChange = onValueChange,
         label = { Text("Email") },
         modifier = Modifier.fillMaxWidth()
     )
