@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.kadyrova.count2exam.ui.screens.AddExamScreen
 import com.kadyrova.count2exam.ui.screens.EditExamScreen
 import com.kadyrova.count2exam.ui.screens.LoginScreen
 import com.kadyrova.count2exam.ui.screens.PWForgottenScreen
@@ -65,6 +66,10 @@ fun AppNavigation() {
         composable("editExam") {
             EditExamScreen()
         }
+        composable("addExam") {
+            AddExamScreen()
+        }
     }
+
 }
 

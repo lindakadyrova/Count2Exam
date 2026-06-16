@@ -20,6 +20,7 @@ class ExamViewModel : ViewModel() {
     fun addExam() {
         if (subject.value.isBlank() || date.value.isBlank()) {
             errorMessage.value = "Bitte alle Pflichtfelder ausfüllen"
+            return
         }
         isLoading.value = true
         errorMessage.value = null
