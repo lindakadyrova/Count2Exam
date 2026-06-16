@@ -58,7 +58,7 @@ fun EditExamScreen(
             Spacer(modifier = Modifier.height(40.dp))
 
             Text(
-                text = "Fach",
+                text = "Fach *",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -78,7 +78,7 @@ fun EditExamScreen(
             Spacer(modifier = Modifier.height(25.dp))
 
             Text(
-                text = "Datum",
+                text = "Datum *",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
