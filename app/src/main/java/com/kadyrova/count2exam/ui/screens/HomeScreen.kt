@@ -30,84 +30,87 @@ import androidx.compose.ui.unit.sp
 import com.kadyrova.count2exam.ui.components.AppHeader
 
 @Composable
-fun HomeScreen(){
+fun HomeScreen(
+    onAddExamClick: () -> Unit,
+    onEditExamClick: () -> Unit
+) {
 
     var isMenuOpen by remember { mutableStateOf(false) }
 
-    Box(modifier = Modifier.fillMaxSize()){
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(24.dp)
-            ){
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ){
-                    AppHeader()
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                AppHeader()
 
-                    IconButton(
-                        onClick = { isMenuOpen = true },
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Menu,
-                            contentDescription = "Menü öffnen"
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.height(120.dp))
-
-                Text(
-                    text = "3 Prüfungen offen",
-                    fontSize = 40.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(25.dp))
-
-                Text(
-                    text = "nächste in 7t 8h 25min",
-                    fontSize = 25.sp,
-                    fontStyle = FontStyle.Italic,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
-                )
-                Spacer(modifier = Modifier.height(90.dp))
-
-                Button(
-                    onClick = { },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp),
-                    shape = RoundedCornerShape(50.dp)
-                ){
-                    Text(
-                        text = "Prüfung hinzufügen"
-                    )
-                }
-                Spacer(modifier = Modifier.height(17.dp))
-
-                Button(
-                    onClick = { },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp),
-                    shape = RoundedCornerShape(50.dp)
+                IconButton(
+                    onClick = { isMenuOpen = true },
                 ) {
-                    Text(
-                        text = "Prüfung bearbeiten"
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = "Menü öffnen"
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(120.dp))
 
-            if (isMenuOpen){
-                SideMenu(
-                    onClose = {isMenuOpen = false},
-                    onCalendarClick = {},
-                    onSettingsClick = {}
+            Text(
+                text = "3 Prüfungen offen",
+                fontSize = 40.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(25.dp))
+
+            Text(
+                text = "nächste in 7t 8h 25min",
+                fontSize = 25.sp,
+                fontStyle = FontStyle.Italic,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(90.dp))
+
+            Button(
+                onClick = onAddExamClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(50.dp)
+            ) {
+                Text(
+                    text = "Prüfung hinzufügen"
                 )
             }
+            Spacer(modifier = Modifier.height(17.dp))
+
+            Button(
+                onClick = onEditExamClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(50.dp)
+            ) {
+                Text(
+                    text = "Prüfung bearbeiten"
+                )
+            }
+        }
+
+        if (isMenuOpen) {
+            SideMenu(
+                onClose = { isMenuOpen = false },
+                onCalendarClick = {},
+                onSettingsClick = {}
+            )
+        }
     }
 
 
@@ -115,6 +118,9 @@ fun HomeScreen(){
 
 @Preview(showSystemUi = true)
 @Composable
-fun HomeScreenPreview(){
-    HomeScreen()
+fun HomeScreenPreview() {
+    HomeScreen(
+        onAddExamClick = {},
+        onEditExamClick = {}
+    )
 }

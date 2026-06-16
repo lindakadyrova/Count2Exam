@@ -1,5 +1,6 @@
 package com.kadyrova.count2exam
 
+import HomeScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.kadyrova.count2exam.ui.screens.EditExamScreen
 import com.kadyrova.count2exam.ui.screens.LoginScreen
 import com.kadyrova.count2exam.ui.screens.PWForgottenScreen
 import com.kadyrova.count2exam.ui.screens.RegisterScreen
@@ -50,7 +52,19 @@ fun AppNavigation() {
             )
         }
         composable("dashboard") {
-            // placeholder so app won't crash
+            HomeScreen(
+                onAddExamClick = {
+                    navController.navigate("addExam")
+                },
+                onEditExamClick = {
+                    navController.navigate("editExam")
+                }
+            )
+        }
+
+        composable("editExam") {
+            EditExamScreen()
         }
     }
 }
+
