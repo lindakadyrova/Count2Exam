@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -20,7 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import java.nio.file.WatchEvent
+import com.kadyrova.count2exam.ui.components.AppHeader
 
 @Composable
 fun HomeScreen(){
@@ -34,24 +36,23 @@ fun HomeScreen(){
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ){
-            Text(
-                text = "C2E",
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold
-            )
+            AppHeader()
 
-            IconButton(onClick = { }) {
+            IconButton(
+                onClick = { },
+                modifier = Modifier.padding(top = 50.dp)
+            ) {
                 Icon(
                     imageVector = Icons.Default.Menu,
                     contentDescription = "Menü öffnen"
                 )
             }
         }
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(120.dp))
 
         Text(
             text = "3 Prüfungen offen",
-            fontSize = 30.sp,
+            fontSize = 40.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
@@ -59,12 +60,37 @@ fun HomeScreen(){
 
         Text(
             text = "nächste in 7t 8h 25min",
-            fontSize = 15.sp,
+            fontSize = 25.sp,
             fontStyle = FontStyle.Italic,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(50.dp))
+        Spacer(modifier = Modifier.height(90.dp))
+
+        Button(
+            onClick = { },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            shape = RoundedCornerShape(50.dp)
+        ){
+            Text(
+                text = "Prüfung hinzufügen"
+            )
+        }
+        Spacer(modifier = Modifier.height(17.dp))
+
+        Button(
+            onClick = { },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            shape = RoundedCornerShape(50.dp)
+        ) {
+            Text(
+                text = "Prüfung bearbeiten"
+            )
+        }
     }
 }
 

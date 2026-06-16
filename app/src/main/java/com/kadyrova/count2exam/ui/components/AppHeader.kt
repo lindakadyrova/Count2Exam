@@ -13,12 +13,12 @@ import androidx.compose.ui.unit.dp
 fun AppHeader() {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
+
             .padding(
                 top = 50.dp,
                 start = 20.dp
             ),
-        horizontalArrangement = Arrangement.Start
+
     ) {
         Logo(
             modifier = Modifier.size(100.dp)
