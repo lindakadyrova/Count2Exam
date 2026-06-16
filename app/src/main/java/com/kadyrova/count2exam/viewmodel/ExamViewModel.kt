@@ -43,4 +43,14 @@ class ExamViewModel : ViewModel() {
                 errorMessage.value = "Prüfung konnte nicht gespeichert werden"
             }
     }
+
+    fun clearFields() {
+        subject.value = ""
+        date.value = ""
+        room.value = ""
+        notes.value = ""
+
+        errorMessage.value = null
+        addSuccess.value = false
+    }
 }

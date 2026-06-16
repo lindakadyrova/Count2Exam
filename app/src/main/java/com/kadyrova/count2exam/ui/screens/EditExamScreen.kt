@@ -30,14 +30,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.ui.components.AppHeader
+import com.kadyrova.count2exam.viewmodel.ExamViewModel
 
 @Composable
-fun EditExamScreen() {
-    var subject by remember { mutableStateOf("Robotics") }
-    var date by remember { mutableStateOf("11.02.2026") }
-    var notes by remember { mutableStateOf("") }
-
+fun EditExamScreen(
+    viewModel: ExamViewModel = viewModel()
+) {
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -62,17 +62,14 @@ fun EditExamScreen() {
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
+
             Spacer(modifier = Modifier.height(5.dp))
 
             OutlinedTextField(
-                value = subject,
-                onValueChange = { subject = it },
+                value = viewModel.subject.value,
+                onValueChange = { viewModel.subject.value = it },
                 placeholder = { Text("Robotics") },
                 trailingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = "Bearbeiten"
-                    )
                 },
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier.fillMaxWidth()
@@ -89,8 +86,8 @@ fun EditExamScreen() {
             Spacer(modifier = Modifier.height(5.dp))
 
             OutlinedTextField(
-                value = date,
-                onValueChange = { date = it },
+                value = viewModel.date.value,
+                onValueChange = { viewModel.date.value = it },
                 placeholder = { Text("11.02.2026") },
                 trailingIcon = {
                     Icon(
@@ -113,9 +110,9 @@ fun EditExamScreen() {
             Spacer(modifier = Modifier.height(5.dp))
 
             OutlinedTextField(
-                value = notes,
-                onValueChange = { notes = it },
-                placeholder = { Text("Die Prüfung... ") },
+                value = viewModel.notes.value,
+                onValueChange = { viewModel.notes.value = it },
+                placeholder = { Text("Die Prüfung...") },
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -143,7 +140,9 @@ fun EditExamScreen() {
             Spacer(modifier = Modifier.height(12.dp))
 
             OutlinedButton(
-                onClick = { },
+                onClick = {
+                    viewModel.clearFields()
+                },
                 border = BorderStroke(
                     1.dp,
                     MaterialTheme.colorScheme.primary

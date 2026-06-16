@@ -49,9 +49,6 @@ fun AddExamScreen(
                 value = viewModel.subject.value,
                 onValueChange = { viewModel.subject.value = it },
                 placeholder = { Text("zb. Robotics") },
-                trailingIcon = {
-                    Icon(Icons.Default.Edit, contentDescription = "Bearbeiten")
-                },
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -135,12 +132,7 @@ fun AddExamScreen(
 
             OutlinedButton(
                 onClick = {
-                    viewModel.subject.value = ""
-                    viewModel.date.value = ""
-                    viewModel.room.value = ""
-                    viewModel.notes.value = ""
-                    viewModel.errorMessage.value = null
-                    viewModel.addSuccess.value = false
+                    viewModel.clearFields()
                 },
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
                 colors = ButtonDefaults.outlinedButtonColors(
