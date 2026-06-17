@@ -15,6 +15,7 @@ class ExamViewModel : ViewModel() {
     val errorMessage = mutableStateOf<String?>(null)
     val addSuccess = mutableStateOf(false)
 
+    val exams = mutableStateOf<List<Map<String, Any>>>(emptyList())
     private val db = FirebaseFirestore.getInstance()
 
     fun addExam() {
@@ -32,16 +33,13 @@ class ExamViewModel : ViewModel() {
             "notes" to notes.value
         )
 
-        db.collection("exams")
-            .add(exam)
-            .addOnSuccessListener {
-                isLoading.value = false
-                addSuccess.value = true
-            }
-            .addOnFailureListener {
-                isLoading.value = false
-                errorMessage.value = "Prüfung konnte nicht gespeichert werden"
-            }
+        db.collection("exams").add(exam).addOnSuccessListener {
+            isLoading.value = false
+            addSuccess.value = true
+        }.addOnFailureListener {
+            isLoading.value = false
+            errorMessage.value = "Prüfung konnte nicht gespeichert werden"
+        }
     }
 
     fun clearFields() {
@@ -53,4 +51,25 @@ class ExamViewModel : ViewModel() {
         errorMessage.value = null
         addSuccess.value = false
     }
+
+    fun loadExams() {
+        isLoading.value = true
+        errorMessage.value = null
+
+        db.collection("exams")
+            .get()
+            .addOnSuccessListener { result ->
+                val examList = result.documents.map { document ->
+                    document.data ?: emptyMap()
+                }
+
+                exams.value = examList
+                isLoading.value = false
+            }
+            .addOnFailureListener {
+                isLoading.value = false
+                errorMessage.value = "Prüfungen konnten nicht geladen werden"
+            }
+    }
 }
+

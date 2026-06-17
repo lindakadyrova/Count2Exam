@@ -24,22 +24,34 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.runtime.LaunchedEffect
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.kadyrova.count2exam.viewmodel.ExamViewModel
 
 @Composable
-fun ExamListScreen() {
+fun ExamListScreen(viewModel: ExamViewModel = viewModel()) {
+    LaunchedEffect(Unit) {
+        viewModel.loadExams()
+    }
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
         AppHeader()
 
         Text(
-            text = "Meine Prüfungen",
-            fontSize = 20.sp,
-            modifier = Modifier.padding(34.dp)
+            text = "Meine Prüfungen", fontSize = 20.sp, modifier = Modifier.padding(34.dp)
         )
-        ExamCard("Robotics", "11.02.2026")
-        ExamCard("IT-Recht", "20.02.2026")
-        ExamCard("Kotlin", "01.03.2026")
+        LazyColumn {
+            items(viewModel.exams.value.size) { index ->
+                val exam = viewModel.exams.value[index]
+
+                ExamCard(
+                    subject = exam["subject"].toString(),
+                    date = exam["date"].toString()
+                )
+            }
+        }
     }
 }
 
@@ -60,13 +72,11 @@ fun ExamCard(subject: String, date: String) {
         ) {
             Column {
                 Text(
-                    text = subject,
-                    fontSize = 16.sp
+                    text = subject, fontSize = 16.sp
                 )
 
                 Text(
-                    text = date,
-                    fontSize = 14.sp
+                    text = date, fontSize = 14.sp
                 )
             }
 
