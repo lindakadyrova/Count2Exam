@@ -16,6 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.kadyrova.count2exam.R
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -91,7 +93,7 @@ fun RegisterScreenContent(
             modifier = Modifier.fillMaxWidth(),
             value = firstName,
             onValueChange = onFirstNameChange,
-            label = { Text("Vorname") },
+            label = { Text(stringResource(R.string.first_name_label)) },
         )
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -99,7 +101,7 @@ fun RegisterScreenContent(
             modifier = Modifier.fillMaxWidth(),
             value = lastName,
             onValueChange = onLastNameChange,
-            label = { Text("Nachname") },
+            label = { Text(stringResource(R.string.last_name_label)) },
         )
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -107,7 +109,7 @@ fun RegisterScreenContent(
             modifier = Modifier.fillMaxWidth(),
             value = username,
             onValueChange = onUsernameChange,
-            label = { Text("Benutzername") },
+            label = { Text(stringResource(R.string.username_label)) },
         )
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -115,21 +117,21 @@ fun RegisterScreenContent(
             modifier = Modifier.fillMaxWidth(),
             value = email,
             onValueChange = onEmailChange,
-            label = { Text("E-Mail") }
+            label = { Text(stringResource(R.string.email_label)) }
         )
         Spacer(modifier = Modifier.height(20.dp))
 
         PasswordTextField(
             value = password,
             onValueChange = onPasswordChange,
-            label = "Passwort"
+            label = stringResource(R.string.password_label)
         )
         Spacer(modifier = Modifier.height(20.dp))
 
         PasswordTextField(
             value = confirmPassword,
             onValueChange = onConfirmPasswordChange,
-            label = "Passwort wiederholen"
+            label = stringResource(R.string.password_repeat_label)
         )
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -146,7 +148,7 @@ fun RegisterScreenContent(
             onClick = onRegisterClick,
             enabled = !isLoading
         ) {
-            Text(if (isLoading) "Laden..." else "Registrieren")
+            Text(if (isLoading) stringResource(R.string.loading) else stringResource(R.string.register_button))
         }
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -155,7 +157,7 @@ fun RegisterScreenContent(
             modifier = Modifier.fillMaxWidth(),
             onClick = onBackClick
         ) {
-            Text("Zurück zum Login")
+            Text(stringResource(R.string.back_to_login))
         }
     }
 }
