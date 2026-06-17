@@ -41,4 +41,11 @@ class EditExamViewModel : ViewModel() {
                 errorMessage.value = "Speichern fehlgeschlagen"
             }
     }
+
+    fun discard(){
+        subject.value = ""
+        date.value = ""
+        notes.value = ""
+        errorMessage.value = null
+    }
 }
