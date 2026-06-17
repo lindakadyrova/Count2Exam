@@ -14,7 +14,14 @@ class EditExamViewModel : ViewModel() {
 
     private val db = FirebaseFirestore.getInstance()
     fun save(){
+
+        if (subject.value.isBlank() || date.value.isBlank()) {
+            errorMessage.value = "Bitte Fach und Datum ausfüllen"
+            return
+        }
+
         isLoading.value = true
+        errorMessage.value = null
 
         val examData = hashMapOf(
             "subject" to subject.value,
