@@ -35,14 +35,18 @@ fun ExamListScreen(viewModel: ExamViewModel = viewModel()) {
         viewModel.loadExams()
     }
     Column(
+
         modifier = Modifier.fillMaxSize()
+
     ) {
         AppHeader()
 
         Text(
             text = "Meine Prüfungen", fontSize = 20.sp, modifier = Modifier.padding(34.dp)
         )
-        LazyColumn {
+
+        LazyColumn (    modifier = Modifier.height(710.dp)
+        ){
             items(viewModel.exams.value.size) { index ->
                 val exam = viewModel.exams.value[index]
 
