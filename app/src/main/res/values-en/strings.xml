@@ -17,4 +17,9 @@
     <string name="reset_password_button">Reset password</string>
     <string name="reset_email_sent">E-Mail has been sent!</string>
     <string name="email_not_found">E-Mail could not be found</string>
+    <string name="menu_open">Open menu</string>
+    <string name="exams_open">exams open</string>
+    <string name="next_exam">next in</string>
+    <string name="add_exam">Add exam</string>
+    <string name="edit_exam">Edit exam</string>
 </resources>

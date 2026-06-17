@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -28,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kadyrova.count2exam.ui.components.AppHeader
+import com.kadyrova.count2exam.R
 
 @Composable
 fun HomeScreen(
@@ -55,14 +57,14 @@ fun HomeScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Menu,
-                        contentDescription = "Menü öffnen"
+                        contentDescription = stringResource(R.string.menu_open)
                     )
                 }
             }
             Spacer(modifier = Modifier.height(120.dp))
 
             Text(
-                text = "3 Prüfungen offen",
+                text = "3 ${stringResource(R.string.exams_open)}",
                 fontSize = 40.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
@@ -70,7 +72,7 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(25.dp))
 
             Text(
-                text = "nächste in 7t 8h 25min",
+                text = "${stringResource(R.string.next_exam)} 7t 8h 25min",
                 fontSize = 25.sp,
                 fontStyle = FontStyle.Italic,
                 textAlign = TextAlign.Center,
@@ -86,7 +88,7 @@ fun HomeScreen(
                 shape = RoundedCornerShape(50.dp)
             ) {
                 Text(
-                    text = "Prüfung hinzufügen"
+                    text = stringResource(R.string.add_exam)
                 )
             }
             Spacer(modifier = Modifier.height(17.dp))
@@ -99,7 +101,7 @@ fun HomeScreen(
                 shape = RoundedCornerShape(50.dp)
             ) {
                 Text(
-                    text = "Prüfung bearbeiten"
+                    text = stringResource(R.string.edit_exam)
                 )
             }
         }

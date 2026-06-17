@@ -16,4 +16,9 @@
     <string name="reset_password_button">Passwort zurücksetzen</string>
     <string name="reset_email_sent">E-Mail wurde gesendet!</string>
     <string name="email_not_found">E-Mail konnte nicht gefunden werden</string>
+    <string name="menu_open">Menü öffnen</string>
+    <string name="exams_open">Prüfungen offen</string>
+    <string name="next_exam">nächste in</string>
+    <string name="add_exam">Prüfung hinzufügen</string>
+    <string name="edit_exam">Prüfung bearbeiten</string>
 </resources>
