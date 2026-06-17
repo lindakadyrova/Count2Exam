@@ -34,6 +34,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.R
 import com.kadyrova.count2exam.viewmodel.LoginViewModel
+import androidx.compose.ui.res.stringResource
+
 
 @Composable
 fun LoginScreen(
@@ -92,8 +94,9 @@ fun LoginScreenContent(
         )
 
         Spacer(modifier = Modifier.height(16.dp))
+
         PasswordTextField(
-            "Passwort",
+            stringResource(R.string.password_label),
             value = password,
             onValueChange = onPasswordChange
         )
@@ -107,7 +110,7 @@ fun LoginScreenContent(
             onClick = onForgotPasswordClick,
             modifier = Modifier.align(Alignment.End)
         ) {
-            Text("Passwort vergessen?")
+            Text(stringResource(R.string.forgot_password))
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -119,7 +122,7 @@ fun LoginScreenContent(
             onClick = onLoginClick,
             enabled = !isLoading
         ) {
-            Text(if (isLoading) "Laden..." else "Login")
+            Text(if (isLoading) stringResource(R.string.loading) else stringResource(R.string.login_button))
         }
         Spacer(modifier = Modifier.height(10.dp))
 
@@ -129,7 +132,7 @@ fun LoginScreenContent(
                 .height(40.dp),
             onClick = onRegisterClick,
         ) {
-            Text("Registrieren")
+            Text(stringResource(R.string.register_button))
         }
     }
 }
