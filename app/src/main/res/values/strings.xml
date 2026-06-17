@@ -36,4 +36,7 @@
     <string name="discard">Verwerfen</string>
     <string name="edit_exam_title">Prüfung bearbeiten</string>
     <string name="save">Speichern</string>
+    <string name="close">Schließen</string>
+    <string name="show_calendar">Kalender anzeigen</string>
+    <string name="settings">Einstellungen</string>
 </resources>
