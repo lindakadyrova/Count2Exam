@@ -16,11 +16,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.ui.components.AppHeader
 import com.kadyrova.count2exam.viewmodel.PWForgottenViewModel
+import com.kadyrova.count2exam.R
+
 
 @Composable
 fun PWForgottenScreen(
@@ -81,7 +84,7 @@ fun PWForgottenScreenContent(
             }
 
             if (resetSuccess) {
-                Text(text = "E-Mail wurde gesendet!", color = Color.Green)
+                Text(text = stringResource(R.string.reset_email_sent), color = Color.Green)
                 Spacer(modifier = Modifier.height(8.dp))
             }
 
@@ -92,7 +95,7 @@ fun PWForgottenScreenContent(
                 onClick = onResetClick,
                 enabled = !isLoading
             ) {
-                Text(if (isLoading) "Laden..." else "Passwort zurücksetzen")
+                Text(if (isLoading) stringResource(R.string.loading) else stringResource(R.string.reset_password_button))
             }
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -103,7 +106,7 @@ fun PWForgottenScreenContent(
                     .height(40.dp),
                 onClick = onBackClick
             ) {
-                Text("Zurück zum Login")
+                Text(stringResource(R.string.back_to_login))
             }
         }
     }
@@ -117,7 +120,7 @@ fun EmailTextField(
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
-        label = { Text("Email") },
+        label = { Text(stringResource(R.string.email_label)) },
         modifier = Modifier.fillMaxWidth()
     )
 
