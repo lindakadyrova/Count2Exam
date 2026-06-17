@@ -21,4 +21,17 @@
     <string name="next_exam">nächste in</string>
     <string name="add_exam">Prüfung hinzufügen</string>
     <string name="edit_exam">Prüfung bearbeiten</string>
+    <string name="add_exam_title">Prüfung hinzufügen</string>
+    <string name="subject_label">Fach *</string>
+    <string name="subject_placeholder">zb. Robotics</string>
+    <string name="date_label">Datum *</string>
+    <string name="date_placeholder">11.02.2026</string>
+    <string name="date_picker">Datum auswählen</string>
+    <string name="room_label">Raum</string>
+    <string name="room_placeholder">zb. 102b30i</string>
+    <string name="notes_label">Notizen</string>
+    <string name="notes_placeholder">Die Prüfung...</string>
+    <string name="exam_saved">Prüfung wurde gespeichert!</string>
+    <string name="saving">Speichern...</string>
+    <string name="discard">Verwerfen</string>
 </resources>
