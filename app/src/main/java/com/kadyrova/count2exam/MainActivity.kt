@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kadyrova.count2exam.ui.screens.AddExamScreen
 import com.kadyrova.count2exam.ui.screens.EditExamScreen
+import com.kadyrova.count2exam.ui.screens.ExamListScreen
 import com.kadyrova.count2exam.ui.screens.LoginScreen
 import com.kadyrova.count2exam.ui.screens.PWForgottenScreen
 import com.kadyrova.count2exam.ui.screens.RegisterScreen
@@ -22,7 +23,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Count2ExamTheme {
-                AppNavigation()
+                ExamListScreen()
             }
         }
     }

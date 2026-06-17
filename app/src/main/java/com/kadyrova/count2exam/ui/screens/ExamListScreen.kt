@@ -21,8 +21,9 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.height
 
 @Composable
 fun ExamListScreen() {
@@ -36,16 +37,19 @@ fun ExamListScreen() {
             fontSize = 20.sp,
             modifier = Modifier.padding(34.dp)
         )
-        ExamCard()
+        ExamCard("Robotics", "11.02.2026")
+        ExamCard("IT-Recht", "20.02.2026")
+        ExamCard("Kotlin", "01.03.2026")
     }
 }
 
 @Composable
-fun ExamCard() {
+fun ExamCard(subject: String, date: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 34.dp, vertical = 8.dp),
+            .padding(horizontal = 34.dp, vertical = 8.dp)
+            .clickable { },
         shape = RoundedCornerShape(16.dp),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
     ) {
@@ -54,7 +58,17 @@ fun ExamCard() {
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            Text("Robotics - 11.02.2026")
+            Column {
+                Text(
+                    text = subject,
+                    fontSize = 16.sp
+                )
+
+                Text(
+                    text = date,
+                    fontSize = 14.sp
+                )
+            }
 
             Spacer(modifier = Modifier.weight(1f))
 
