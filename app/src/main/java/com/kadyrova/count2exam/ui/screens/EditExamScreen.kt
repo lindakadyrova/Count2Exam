@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.ui.components.AppHeader
 import com.kadyrova.count2exam.viewmodel.EditExamViewModel
+import com.kadyrova.count2exam.R
 
 @Composable
 fun EditExamScreen(
@@ -50,7 +52,7 @@ fun EditExamScreen(
                 .padding(34.dp)
         ) {
             Text(
-                text = "Prüfung bearbeiten",
+                text = stringResource(R.string.edit_exam_title),
                 fontSize = 16.sp,
                 fontStyle = FontStyle.Italic
             )
@@ -58,7 +60,7 @@ fun EditExamScreen(
             Spacer(modifier = Modifier.height(40.dp))
 
             Text(
-                text = "Fach *",
+                text = stringResource(R.string.subject_label),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -68,7 +70,7 @@ fun EditExamScreen(
             OutlinedTextField(
                 value = viewModel.subject.value,
                 onValueChange = { viewModel.subject.value = it },
-                placeholder = { Text("Robotics") },
+                placeholder = { Text(stringResource(R.string.subject_placeholder)) },
                 trailingIcon = {
                 },
                 shape = RoundedCornerShape(12.dp),
@@ -78,7 +80,7 @@ fun EditExamScreen(
             Spacer(modifier = Modifier.height(25.dp))
 
             Text(
-                text = "Datum *",
+                text = stringResource(R.string.date_label),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -88,11 +90,11 @@ fun EditExamScreen(
             OutlinedTextField(
                 value = viewModel.date.value,
                 onValueChange = { viewModel.date.value = it },
-                placeholder = { Text("11.02.2026") },
+                placeholder = { Text(stringResource(R.string.date_placeholder)) },
                 trailingIcon = {
                     Icon(
                         imageVector = Icons.Default.DateRange,
-                        contentDescription = "Datum auswählen"
+                        contentDescription = stringResource(R.string.date_picker)
                     )
                 },
                 shape = RoundedCornerShape(12.dp),
@@ -102,7 +104,7 @@ fun EditExamScreen(
             Spacer(modifier = Modifier.height(25.dp))
 
             Text(
-                text = "Notizen",
+                text = stringResource(R.string.notes_label),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -112,7 +114,7 @@ fun EditExamScreen(
             OutlinedTextField(
                 value = viewModel.notes.value,
                 onValueChange = { viewModel.notes.value = it },
-                placeholder = { Text("Die Prüfung...") },
+                placeholder = { Text(stringResource(R.string.notes_placeholder)) },
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -138,7 +140,7 @@ fun EditExamScreen(
                 shape = RoundedCornerShape(50.dp)
             ) {
                 Text(
-                    text = "Speichern",
+                    text = stringResource(R.string.save),
                     color = Color.White
                 )
             }
@@ -159,7 +161,7 @@ fun EditExamScreen(
                     .height(50.dp),
                 shape = RoundedCornerShape(50.dp)
             ) {
-                Text("Verwerfen")
+                Text(stringResource(R.string.discard))
             }
         }
     }

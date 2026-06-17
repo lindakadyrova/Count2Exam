@@ -35,4 +35,6 @@
     <string name="exam_saved">Exam has been saved!</string>
     <string name="saving">Saving...</string>
     <string name="discard">Discard</string>
+    <string name="edit_exam_title">Edit exam</string>
+    <string name="save">Save</string>
 </resources>

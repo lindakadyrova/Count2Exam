@@ -34,4 +34,6 @@
     <string name="exam_saved">Prüfung wurde gespeichert!</string>
     <string name="saving">Speichern...</string>
     <string name="discard">Verwerfen</string>
+    <string name="edit_exam_title">Prüfung bearbeiten</string>
+    <string name="save">Speichern</string>
 </resources>
