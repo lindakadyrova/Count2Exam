@@ -11,6 +11,7 @@ class EditExamViewModel : ViewModel() {
 
     val isLoading = mutableStateOf(false)
     val errorMessage = mutableStateOf<String?>(null)
+    val saveSuccess = mutableStateOf(false)
 
     private val db = FirebaseFirestore.getInstance()
     fun save(){
@@ -33,6 +34,7 @@ class EditExamViewModel : ViewModel() {
             .set(examData)
             .addOnSuccessListener {
                 isLoading.value = false
+                saveSuccess.value = true
             }
             .addOnFailureListener {
                 isLoading.value = false
