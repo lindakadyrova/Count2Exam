@@ -32,11 +32,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.ui.components.AppHeader
-import com.kadyrova.count2exam.viewmodel.ExamViewModel
+import com.kadyrova.count2exam.viewmodel.EditExamViewModel
 
 @Composable
 fun EditExamScreen(
-    viewModel: ExamViewModel = viewModel()
+    viewModel: EditExamViewModel = viewModel()
 ) {
     Column(
         modifier = Modifier.fillMaxSize()
@@ -121,8 +121,14 @@ fun EditExamScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
+            viewModel.errorMessage.value?.let { error ->
+                Text(text = error, color = Color.Red, fontSize = 13.sp)
+                Spacer(modifier = Modifier.height(12.dp))
+            }
+
+
             Button(
-                onClick = { },
+                onClick = { viewModel.save()},
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary
                 ),
@@ -140,9 +146,7 @@ fun EditExamScreen(
             Spacer(modifier = Modifier.height(12.dp))
 
             OutlinedButton(
-                onClick = {
-                    viewModel.clearFields()
-                },
+                onClick = { viewModel.discard() },
                 border = BorderStroke(
                     1.dp,
                     MaterialTheme.colorScheme.primary
