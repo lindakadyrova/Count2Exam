@@ -99,8 +99,15 @@ fun ExamCard(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            IconButton(onClick = { }) {
-                Icon(Icons.Default.Edit, contentDescription = "Bearbeiten")
+            IconButton(
+                onClick = {
+                    onClick(examId)
+                }
+            ) {
+                Icon(
+                    Icons.Default.Edit,
+                    contentDescription = "Bearbeiten"
+                )
             }
 
             IconButton(onClick = { }) {
