@@ -55,8 +55,10 @@ fun CalendarWdiget(
     val daysInMonth = today.lengthOfMonth()
 
     Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 180.dp),
+        contentAlignment = Alignment.TopCenter
     ) {
         Column(
             modifier = Modifier
@@ -141,16 +143,31 @@ fun CalendarScreen(
     var selectedExam by remember {
         mutableStateOf<Exam?>(null)
     }
+
     LaunchedEffect(Unit) {
         examViewModel.loadExams()
     }
 
-    CalendarWdiget(
-        exams = examViewModel.exams.value,
-        onDayClick = { exam ->
-            selectedExam = exam
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        AppHeader()
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp),
+            contentAlignment = Alignment.TopCenter
+        ) {
+            CalendarWdiget(
+                exams = examViewModel.exams.value,
+                onDayClick = { exam ->
+                    selectedExam = exam
+                }
+            )
         }
-    )
+    }
+
     selectedExam?.let { exam ->
         AlertDialog(
             onDismissRequest = {
@@ -178,7 +195,6 @@ fun CalendarScreen(
         )
     }
 }
-
 
 @Preview(showSystemUi = true)
 @Composable
