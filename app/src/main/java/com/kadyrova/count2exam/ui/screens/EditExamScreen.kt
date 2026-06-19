@@ -45,6 +45,7 @@ import androidx.compose.runtime.LaunchedEffect
 fun EditExamScreen(
     examId: String,
     onSaveSuccess: () -> Unit = {},
+    onDiscard: () -> Unit = {},
     viewModel: EditExamViewModel = viewModel()
 ) {
     LaunchedEffect(examId) {
@@ -207,7 +208,17 @@ fun EditExamScreen(
             Spacer(modifier = Modifier.height(12.dp))
 
             OutlinedButton(
-                onClick = { viewModel.discard() },
+                onClick = {
+                    viewModel.discard()
+
+                    Toast.makeText(
+                        context,
+                        "Änderungen verworfen",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    onDiscard()
+                },
                 border = BorderStroke(
                     1.dp,
                     MaterialTheme.colorScheme.primary

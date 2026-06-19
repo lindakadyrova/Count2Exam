@@ -71,6 +71,9 @@ fun AppNavigation() {
                 examId = examId,
                 onSaveSuccess = {
                     navController.navigate("examList")
+                },
+                onDiscard = {
+                    navController.navigate("examList")
                 }
             )
         }
