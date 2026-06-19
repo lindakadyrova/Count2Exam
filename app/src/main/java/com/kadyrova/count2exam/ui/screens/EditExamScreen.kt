@@ -209,8 +209,6 @@ fun EditExamScreen(
 
             OutlinedButton(
                 onClick = {
-                    viewModel.discard()
-
                     Toast.makeText(
                         context,
                         "Änderungen verworfen",
