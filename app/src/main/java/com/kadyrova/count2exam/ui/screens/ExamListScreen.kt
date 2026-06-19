@@ -55,9 +55,9 @@ fun ExamListScreen(
                 val exam = viewModel.exams.value[index]
 
                 ExamCard(
-                    subject = exam["subject"].toString(),
-                    date = exam["date"].toString(),
-                    examId = exam["id"].toString(),
+                    subject = exam.subject,
+                    date = exam.date,
+                    examId = exam.id,
                     onClick = onExamClick,
                     onDeleteClick = { viewModel.deleteExam(it) }
                 )

@@ -10,7 +10,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kadyrova.count2exam.ui.screens.AddExamScreen
+import com.kadyrova.count2exam.ui.screens.CalendarScreen
 import com.kadyrova.count2exam.ui.screens.EditExamScreen
+import com.kadyrova.count2exam.ui.screens.ExamDetailScreen
 import com.kadyrova.count2exam.ui.screens.ExamListScreen
 import com.kadyrova.count2exam.ui.screens.LoginScreen
 import com.kadyrova.count2exam.ui.screens.PWForgottenScreen
@@ -60,6 +62,9 @@ fun AppNavigation() {
                 },
                 onEditExamClick = {
                     navController.navigate("examList")
+                },
+                onCalendarClick = {
+                    navController.navigate("calendar")
                 }
             )
         }
@@ -77,6 +82,21 @@ fun AppNavigation() {
                 }
             )
         }
+
+        composable("examDetail/{examId}") { backStackEntry ->
+            val examId = backStackEntry.arguments?.getString("examId") ?: ""
+
+            ExamDetailScreen(examId = examId)
+        }
+
+        composable("calendar") {
+            CalendarScreen(
+                onExamClick = { examId ->
+                    navController.navigate("examDetail/$examId")
+                }
+            )
+        }
+
         composable("addExam") {
             AddExamScreen()
             AddExamScreen()

@@ -34,7 +34,8 @@ import com.kadyrova.count2exam.R
 @Composable
 fun HomeScreen(
     onAddExamClick: () -> Unit,
-    onEditExamClick: () -> Unit
+    onEditExamClick: () -> Unit,
+    onCalendarClick: () -> Unit
 ) {
 
     var isMenuOpen by remember { mutableStateOf(false) }
@@ -109,7 +110,7 @@ fun HomeScreen(
         if (isMenuOpen) {
             SideMenu(
                 onClose = { isMenuOpen = false },
-                onCalendarClick = {},
+                onCalendarClick = onCalendarClick,
                 onSettingsClick = {}
             )
         }
@@ -123,6 +124,7 @@ fun HomeScreen(
 fun HomeScreenPreview() {
     HomeScreen(
         onAddExamClick = {},
-        onEditExamClick = {}
+        onEditExamClick = {},
+        onCalendarClick = {}
     )
 }
