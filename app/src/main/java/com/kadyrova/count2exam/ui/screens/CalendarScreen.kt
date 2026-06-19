@@ -11,13 +11,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,10 +26,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kadyrova.count2exam.ui.components.AppHeader
+import java.time.LocalDate
+import java.time.format.TextStyle
+import java.util.Locale
 
 
 @Composable
 fun CalendarWdiget() {
+
+    val today = LocalDate.now()
+    val monthName = today.month.getDisplayName(TextStyle.FULL, Locale.GERMAN)
+
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -43,10 +49,10 @@ fun CalendarWdiget() {
                 .padding(16.dp)
         ) {
             Text(
-                text = "September",
+                text = monthName,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color(0xFFD81B60)
+                color = Color(0xFFD78DA7)
             )
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -54,7 +60,7 @@ fun CalendarWdiget() {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFFD81B60))
+                    .background(Color(0xFFD27798))
                     .padding(vertical = 6.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
