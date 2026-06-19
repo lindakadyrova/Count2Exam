@@ -1,4 +1,5 @@
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -60,13 +61,17 @@ fun SideMenu(
                 Text(
                     text = stringResource(R.string.show_calendar),
                     fontSize = 16.sp,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier
+                        .padding(vertical = 8.dp)
+                        .clickable { onCalendarClick() }
                 )
 
                 Text(
                     text = stringResource(R.string.settings),
                     fontSize = 16.sp,
-                    modifier = Modifier.padding(vertical = 8.dp)
+                    modifier = Modifier
+                        .padding(vertical = 8.dp)
+                        .clickable { onSettingsClick() }
                 )
             }
         }
