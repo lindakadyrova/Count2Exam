@@ -72,5 +72,17 @@ class ExamViewModel : ViewModel() {
                 errorMessage.value = "Prüfungen konnten nicht geladen werden"
             }
     }
+
+    fun deleteExam(examId: String) {
+        db.collection("exams")
+            .document(examId)
+            .delete()
+            .addOnSuccessListener {
+                loadExams()
+            }
+            .addOnFailureListener {
+                errorMessage.value = "Prüfung konnte nicht gelöscht werden"
+            }
+    }
 }
 

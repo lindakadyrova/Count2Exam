@@ -58,7 +58,8 @@ fun ExamListScreen(
                     subject = exam["subject"].toString(),
                     date = exam["date"].toString(),
                     examId = exam["id"].toString(),
-                    onClick = onExamClick
+                    onClick = onExamClick,
+                    onDeleteClick = { viewModel.deleteExam(it) }
                 )
             }
         }
@@ -70,7 +71,8 @@ fun ExamCard(
     subject: String,
     date: String,
     examId: String,
-    onClick: (String) -> Unit
+    onClick: (String) -> Unit,
+    onDeleteClick: (String) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -110,7 +112,11 @@ fun ExamCard(
                 )
             }
 
-            IconButton(onClick = { }) {
+            IconButton(
+                onClick = {
+                    onDeleteClick(examId)
+                }
+            ) {
                 Icon(Icons.Default.Delete, contentDescription = "Löschen")
             }
         }
