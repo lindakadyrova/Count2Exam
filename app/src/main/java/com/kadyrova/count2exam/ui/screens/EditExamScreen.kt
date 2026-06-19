@@ -1,6 +1,10 @@
 package com.kadyrova.count2exam.ui.screens
 
+import android.app.DatePickerDialog
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,21 +14,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -32,14 +34,32 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.kadyrova.count2exam.R
 import com.kadyrova.count2exam.ui.components.AppHeader
 import com.kadyrova.count2exam.viewmodel.EditExamViewModel
-import com.kadyrova.count2exam.R
+import java.util.Calendar
 
 @Composable
 fun EditExamScreen(
     viewModel: EditExamViewModel = viewModel()
 ) {
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+
+    val datePickerDialog = DatePickerDialog(
+        context,
+        { _, year, month, dayOfMonth ->
+            viewModel.date.value = "%02d.%02d.%04d".format(
+                dayOfMonth,
+                month + 1,
+                year
+            )
+        },
+        calendar.get(Calendar.YEAR),
+        calendar.get(Calendar.MONTH),
+        calendar.get(Calendar.DAY_OF_MONTH)
+    )
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -87,19 +107,39 @@ fun EditExamScreen(
 
             Spacer(modifier = Modifier.height(5.dp))
 
-            OutlinedTextField(
-                value = viewModel.date.value,
-                onValueChange = { viewModel.date.value = it },
-                placeholder = { Text(stringResource(R.string.date_placeholder)) },
-                trailingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.DateRange,
-                        contentDescription = stringResource(R.string.date_picker)
-                    )
-                },
-                shape = RoundedCornerShape(12.dp),
-                modifier = Modifier.fillMaxWidth()
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
+                        datePickerDialog.show()
+                    }
+            ) {
+                OutlinedTextField(
+                    value = viewModel.date.value,
+                    onValueChange = { },
+                    readOnly = true,
+                    enabled = false,
+                    placeholder = { Text(stringResource(R.string.date_placeholder)) },
+                    trailingIcon = {
+                        Icon(
+                            Icons.Default.DateRange,
+                            contentDescription = stringResource(R.string.date_picker)
+                        )
+                    },
+                    singleLine = true,
+                    shape = RoundedCornerShape(12.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                        disabledBorderColor = MaterialTheme.colorScheme.outline,
+                        disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
 
             Spacer(modifier = Modifier.height(25.dp))
 
@@ -130,7 +170,7 @@ fun EditExamScreen(
 
 
             Button(
-                onClick = { viewModel.save()},
+                onClick = { viewModel.save() },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary
                 ),
