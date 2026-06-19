@@ -1,14 +1,16 @@
 package com.kadyrova.count2exam.ui.screens
 
+import android.app.DatePickerDialog
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -16,14 +18,32 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.kadyrova.count2exam.R
 import com.kadyrova.count2exam.ui.components.AppHeader
 import com.kadyrova.count2exam.viewmodel.ExamViewModel
-import com.kadyrova.count2exam.R
+import java.util.Calendar
 
 @Composable
 fun AddExamScreen(
     viewModel: ExamViewModel = viewModel()
 ) {
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+
+    val datePickerDialog = DatePickerDialog(
+        context,
+        { _, year, month, dayOfMonth ->
+            viewModel.date.value = "%02d.%02d.%04d".format(
+                dayOfMonth,
+                month + 1,
+                year
+            )
+        },
+        calendar.get(Calendar.YEAR),
+        calendar.get(Calendar.MONTH),
+        calendar.get(Calendar.DAY_OF_MONTH)
+    )
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -43,49 +63,80 @@ fun AddExamScreen(
 
             Spacer(modifier = Modifier.height(40.dp))
 
-            Text(stringResource(R.string.subject_label), fontSize = 14.sp, fontWeight = FontWeight.Bold)
+            Text(
+                stringResource(R.string.subject_label),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold
+            )
+
             Spacer(modifier = Modifier.height(5.dp))
 
             OutlinedTextField(
                 value = viewModel.subject.value,
                 onValueChange = { viewModel.subject.value = it },
                 placeholder = { Text(stringResource(R.string.subject_placeholder)) },
+                singleLine = true,
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(25.dp))
 
-            Text(stringResource(R.string.date_label), fontSize = 14.sp, fontWeight = FontWeight.Bold)
+            Text(
+                stringResource(R.string.date_label),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold
+            )
+
             Spacer(modifier = Modifier.height(5.dp))
 
             OutlinedTextField(
                 value = viewModel.date.value,
-                onValueChange = { viewModel.date.value = it },
+                onValueChange = { },
+                readOnly = true,
                 placeholder = { Text(stringResource(R.string.date_placeholder)) },
                 trailingIcon = {
-                    Icon(Icons.Default.DateRange, contentDescription = stringResource(R.string.date_picker))
+                    IconButton(onClick = {
+                        datePickerDialog.show()
+                    }) {
+                        Icon(
+                            Icons.Default.DateRange,
+                            contentDescription = stringResource(R.string.date_picker)
+                        )
+                    }
                 },
+                singleLine = true,
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(25.dp))
 
-            Text(stringResource(R.string.room_label), fontSize = 14.sp, fontWeight = FontWeight.Bold)
+            Text(
+                stringResource(R.string.room_label),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold
+            )
+
             Spacer(modifier = Modifier.height(5.dp))
 
             OutlinedTextField(
                 value = viewModel.room.value,
                 onValueChange = { viewModel.room.value = it },
                 placeholder = { Text(stringResource(R.string.room_placeholder)) },
+                singleLine = true,
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier.fillMaxWidth()
             )
 
             Spacer(modifier = Modifier.height(25.dp))
 
-            Text(stringResource(R.string.notes_label), fontSize = 14.sp, fontWeight = FontWeight.Bold)
+            Text(
+                stringResource(R.string.notes_label),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold
+            )
+
             Spacer(modifier = Modifier.height(5.dp))
 
             OutlinedTextField(
@@ -125,7 +176,10 @@ fun AddExamScreen(
                 shape = RoundedCornerShape(50.dp)
             ) {
                 Text(
-                    text = if (viewModel.isLoading.value) stringResource(R.string.saving) else stringResource(R.string.add_exam_title)
+                    text = if (viewModel.isLoading.value)
+                        stringResource(R.string.saving)
+                    else
+                        stringResource(R.string.add_exam_title)
                 )
             }
 
