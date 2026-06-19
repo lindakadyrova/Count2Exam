@@ -36,6 +36,12 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 
 @Composable
@@ -97,7 +103,7 @@ fun CalendarWdiget(
                     val dayDate = today.withDayOfMonth(day)
                     val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
                     val formattedDate = dayDate.format(formatter)
-                    val examOnThisDay = exams.find { it.date == dayDate.toString() }
+                    val examOnThisDay = exams.find { it.date == formattedDate }
 
                     Box(
                         modifier = Modifier
@@ -132,15 +138,47 @@ fun CalendarScreen(
     examViewModel: ExamViewModel = viewModel(),
     onExamClick: (String) -> Unit
 ) {
+    var selectedExam by remember {
+        mutableStateOf<Exam?>(null)
+    }
     LaunchedEffect(Unit) {
         examViewModel.loadExams()
     }
 
     CalendarWdiget(
         exams = examViewModel.exams.value,
-        onDayClick = { exam -> onExamClick(exam.id) }
+        onDayClick = { exam ->
+            selectedExam = exam
+        }
     )
+    selectedExam?.let { exam ->
+        AlertDialog(
+            onDismissRequest = {
+                selectedExam = null
+            },
+            title = {
+                Text(exam.subject)
+            },
+            text = {
+                Column {
+                    Text("Datum: ${exam.date}")
+                    Text("Raum: ${exam.room}")
+                    Text("Notizen: ${exam.notes}")
+                }
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        selectedExam = null
+                    }
+                ) {
+                    Text("Schließen")
+                }
+            }
+        )
+    }
 }
+
 
 @Preview(showSystemUi = true)
 @Composable
