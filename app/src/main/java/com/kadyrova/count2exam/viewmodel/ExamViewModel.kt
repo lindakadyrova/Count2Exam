@@ -14,8 +14,9 @@ class ExamViewModel : ViewModel() {
     val isLoading = mutableStateOf(false)
     val errorMessage = mutableStateOf<String?>(null)
     val addSuccess = mutableStateOf(false)
+    val exams = mutableStateOf<List<Exam>>(emptyList())
 
-    val exams = mutableStateOf<List<Map<String, Any>>>(emptyList())
+    val selectedExam = mutableStateOf<Exam?>(null)
     private val db = FirebaseFirestore.getInstance()
 
     fun addExam() {
@@ -60,10 +61,14 @@ class ExamViewModel : ViewModel() {
             .get()
             .addOnSuccessListener { result ->
                 val examList = result.documents.map { document ->
-                    val data = document.data ?: emptyMap()
-                    data + ("id" to document.id)
+                    Exam(
+                        id = document.id,
+                        subject = document.getString("subject") ?: "",
+                        date = document.getString("date") ?: "",
+                        room = document.getString("room") ?: "",
+                        notes = document.getString("notes") ?: ""
+                    )
                 }
-
                 exams.value = examList
                 isLoading.value = false
             }
@@ -82,6 +87,33 @@ class ExamViewModel : ViewModel() {
             }
             .addOnFailureListener {
                 errorMessage.value = "Prüfung konnte nicht gelöscht werden"
+            }
+    }
+
+
+    fun loadExamById(id: String) {
+        isLoading.value = true
+        errorMessage.value = null
+
+        db.collection("exams").document(id)
+            .get()
+            .addOnSuccessListener { document ->
+                isLoading.value = false
+                if (document.exists()) {
+                    selectedExam.value = Exam(
+                        id = document.id,
+                        subject = document.getString("subject") ?: "",
+                        date = document.getString("date") ?: "",
+                        room = document.getString("room") ?: "",
+                        notes = document.getString("notes") ?: ""
+                    )
+                } else {
+                    errorMessage.value = "Prüfung nicht gefunden"
+                }
+            }
+            .addOnFailureListener {
+                isLoading.value = false
+                errorMessage.value = "Prüfung konnte nicht geladen werden"
             }
     }
 }

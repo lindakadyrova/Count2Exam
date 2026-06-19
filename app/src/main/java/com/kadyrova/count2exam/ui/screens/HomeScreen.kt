@@ -24,7 +24,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,13 +37,17 @@ import com.kadyrova.count2exam.viewmodel.ExamViewModel
 fun HomeScreen(
     onAddExamClick: () -> Unit,
     onEditExamClick: () -> Unit,
-    examViewModel: ExamViewModel = viewModel()
+    examViewModel: ExamViewModel = viewModel(),
+    onCalendarClick: () -> Unit
 ) {
     LaunchedEffect(Unit) {
         examViewModel.loadExams()
     }
 
     var isMenuOpen by remember { mutableStateOf(false) }
+    val examCount = examViewModel.exams.value.size
+    val nextExam = examViewModel.exams.value.minByOrNull { it.date }
+
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -116,7 +119,7 @@ fun HomeScreen(
         if (isMenuOpen) {
             SideMenu(
                 onClose = { isMenuOpen = false },
-                onCalendarClick = {},
+                onCalendarClick = onCalendarClick,
                 onSettingsClick = {}
             )
         }
@@ -131,6 +134,6 @@ fun HomeScreenPreview() {
     HomeScreen(
         onAddExamClick = {},
         onEditExamClick = {},
-
+        onCalendarClick = {}
     )
 }
