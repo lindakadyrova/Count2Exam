@@ -102,7 +102,11 @@ fun HomeScreen(
 
             Text(
                 text = if (nextExam != null) {
-                    "${stringResource(R.string.next_exam)} in $daysUntilExam Tagen"
+                    when (daysUntilExam) {
+                        0L -> "${stringResource(R.string.next_exam)} heute"
+                        1L -> "${stringResource(R.string.next_exam)} in 1 Tag"
+                        else -> "${stringResource(R.string.next_exam)} in $daysUntilExam Tagen"
+                    }
                 } else {
                     "Keine Prüfung geplant"
                 },

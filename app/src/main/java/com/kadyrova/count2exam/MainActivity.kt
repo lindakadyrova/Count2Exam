@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Count2ExamTheme {
-                AppNavigation()
+                CalendarScreen() { }
             }
         }
     }
