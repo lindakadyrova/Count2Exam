@@ -14,7 +14,21 @@ class EditExamViewModel : ViewModel() {
     val saveSuccess = mutableStateOf(false)
 
     private val db = FirebaseFirestore.getInstance()
-    fun save(){
+    fun loadExam(examId: String) {
+        db.collection("exams")
+            .document(examId)
+            .get()
+            .addOnSuccessListener { document ->
+                subject.value = document.getString("subject") ?: ""
+                date.value = document.getString("date") ?: ""
+                notes.value = document.getString("notes") ?: ""
+            }
+            .addOnFailureListener {
+                errorMessage.value = "Prüfung konnte nicht geladen werden"
+            }
+    }
+
+    fun save(examId: String) {
 
         if (subject.value.isBlank() || date.value.isBlank()) {
             errorMessage.value = "Bitte Fach und Datum ausfüllen"
@@ -30,7 +44,7 @@ class EditExamViewModel : ViewModel() {
             "notes" to notes.value
         )
 
-        db.collection("exams").document()
+        db.collection("exams").document(examId)
             .set(examData)
             .addOnSuccessListener {
                 isLoading.value = false
@@ -42,7 +56,7 @@ class EditExamViewModel : ViewModel() {
             }
     }
 
-    fun discard(){
+    fun discard() {
         subject.value = ""
         date.value = ""
         notes.value = ""

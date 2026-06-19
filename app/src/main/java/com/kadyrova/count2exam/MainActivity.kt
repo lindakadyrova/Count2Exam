@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Count2ExamTheme {
-             AddExamScreen()
+                AppNavigation()
             }
         }
     }
@@ -59,16 +59,28 @@ fun AppNavigation() {
                     navController.navigate("addExam")
                 },
                 onEditExamClick = {
-                    navController.navigate("editExam")
+                    navController.navigate("examList")
                 }
             )
         }
 
-        composable("editExam") {
-            EditExamScreen()
+        composable("editExam/{examId}") { backStackEntry ->
+            val examId = backStackEntry.arguments?.getString("examId") ?: ""
+
+            EditExamScreen(
+                examId = examId
+            )
         }
         composable("addExam") {
             AddExamScreen()
+            AddExamScreen()
+        }
+        composable("examList") {
+            ExamListScreen(
+                onExamClick = { examId ->
+                    navController.navigate("editExam/$examId")
+                }
+            )
         }
     }
 

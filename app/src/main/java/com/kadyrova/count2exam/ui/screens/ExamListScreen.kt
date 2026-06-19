@@ -30,7 +30,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.viewmodel.ExamViewModel
 
 @Composable
-fun ExamListScreen(viewModel: ExamViewModel = viewModel()) {
+fun ExamListScreen(
+    onExamClick: (String) -> Unit = {},
+    viewModel: ExamViewModel = viewModel()
+) {
     LaunchedEffect(Unit) {
         viewModel.loadExams()
     }
@@ -45,14 +48,17 @@ fun ExamListScreen(viewModel: ExamViewModel = viewModel()) {
             text = "Meine Prüfungen", fontSize = 20.sp, modifier = Modifier.padding(34.dp)
         )
 
-        LazyColumn (    modifier = Modifier.height(710.dp)
-        ){
+        LazyColumn(
+            modifier = Modifier.height(710.dp)
+        ) {
             items(viewModel.exams.value.size) { index ->
                 val exam = viewModel.exams.value[index]
 
                 ExamCard(
                     subject = exam["subject"].toString(),
-                    date = exam["date"].toString()
+                    date = exam["date"].toString(),
+                    examId = exam["id"].toString(),
+                    onClick = onExamClick
                 )
             }
         }
@@ -60,12 +66,19 @@ fun ExamListScreen(viewModel: ExamViewModel = viewModel()) {
 }
 
 @Composable
-fun ExamCard(subject: String, date: String) {
+fun ExamCard(
+    subject: String,
+    date: String,
+    examId: String,
+    onClick: (String) -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 34.dp, vertical = 8.dp)
-            .clickable { },
+            .clickable {
+                onClick(examId)
+            },
         shape = RoundedCornerShape(16.dp),
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary)
     ) {

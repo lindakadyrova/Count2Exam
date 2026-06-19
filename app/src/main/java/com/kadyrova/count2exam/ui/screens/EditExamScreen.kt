@@ -38,13 +38,19 @@ import com.kadyrova.count2exam.R
 import com.kadyrova.count2exam.ui.components.AppHeader
 import com.kadyrova.count2exam.viewmodel.EditExamViewModel
 import java.util.Calendar
+import androidx.compose.runtime.LaunchedEffect
 
 @Composable
 fun EditExamScreen(
+    examId: String,
     viewModel: EditExamViewModel = viewModel()
 ) {
+    LaunchedEffect(examId) {
+        viewModel.loadExam(examId)
+    }
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
+
 
     val datePickerDialog = DatePickerDialog(
         context,
@@ -92,8 +98,6 @@ fun EditExamScreen(
                 value = viewModel.subject.value,
                 onValueChange = { viewModel.subject.value = it },
                 placeholder = { Text(stringResource(R.string.subject_placeholder)) },
-                trailingIcon = {
-                },
                 shape = RoundedCornerShape(12.dp),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -171,7 +175,7 @@ fun EditExamScreen(
 
 
             Button(
-                onClick = { viewModel.save() },
+                onClick = { viewModel.save(examId) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary
                 ),
@@ -211,5 +215,7 @@ fun EditExamScreen(
 @Preview(showSystemUi = true)
 @Composable
 fun EditExamScreenPreview() {
-    EditExamScreen()
+    EditExamScreen(
+        examId = "preview"
+    )
 }

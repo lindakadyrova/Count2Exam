@@ -60,7 +60,8 @@ class ExamViewModel : ViewModel() {
             .get()
             .addOnSuccessListener { result ->
                 val examList = result.documents.map { document ->
-                    document.data ?: emptyMap()
+                    val data = document.data ?: emptyMap()
+                    data + ("id" to document.id)
                 }
 
                 exams.value = examList
