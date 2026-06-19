@@ -68,7 +68,10 @@ fun AppNavigation() {
             val examId = backStackEntry.arguments?.getString("examId") ?: ""
 
             EditExamScreen(
-                examId = examId
+                examId = examId,
+                onSaveSuccess = {
+                    navController.navigate("examList")
+                }
             )
         }
         composable("addExam") {

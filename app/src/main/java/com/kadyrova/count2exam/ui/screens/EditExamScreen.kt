@@ -1,6 +1,7 @@
 package com.kadyrova.count2exam.ui.screens
 
 import android.app.DatePickerDialog
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -43,12 +44,25 @@ import androidx.compose.runtime.LaunchedEffect
 @Composable
 fun EditExamScreen(
     examId: String,
+    onSaveSuccess: () -> Unit = {},
     viewModel: EditExamViewModel = viewModel()
 ) {
     LaunchedEffect(examId) {
         viewModel.loadExam(examId)
     }
     val context = LocalContext.current
+    LaunchedEffect(viewModel.saveSuccess.value) {
+        if (viewModel.saveSuccess.value) {
+            Toast.makeText(
+                context,
+                "Prüfung wurde gespeichert",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            onSaveSuccess()
+        }
+    }
+
     val calendar = Calendar.getInstance()
 
 
