@@ -22,6 +22,8 @@ import com.kadyrova.count2exam.R
 import com.kadyrova.count2exam.ui.components.AppHeader
 import com.kadyrova.count2exam.viewmodel.ExamViewModel
 import java.util.Calendar
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 
 @Composable
 fun AddExamScreen(
@@ -90,25 +92,39 @@ fun AddExamScreen(
 
             Spacer(modifier = Modifier.height(5.dp))
 
-            OutlinedTextField(
-                value = viewModel.date.value,
-                onValueChange = { },
-                readOnly = true,
-                placeholder = { Text(stringResource(R.string.date_placeholder)) },
-                trailingIcon = {
-                    IconButton(onClick = {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
                         datePickerDialog.show()
-                    }) {
+                    }
+            ) {
+                OutlinedTextField(
+                    value = viewModel.date.value,
+                    onValueChange = { },
+                    readOnly = true,
+                    enabled = false,
+                    placeholder = { Text(stringResource(R.string.date_placeholder)) },
+                    trailingIcon = {
                         Icon(
                             Icons.Default.DateRange,
                             contentDescription = stringResource(R.string.date_picker)
                         )
-                    }
-                },
-                singleLine = true,
-                shape = RoundedCornerShape(12.dp),
-                modifier = Modifier.fillMaxWidth()
-            )
+                    },
+                    singleLine = true,
+                    shape = RoundedCornerShape(12.dp),
+                    colors = OutlinedTextFieldDefaults.colors(
+                        disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                        disabledBorderColor = MaterialTheme.colorScheme.outline,
+                        disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                        disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
 
             Spacer(modifier = Modifier.height(25.dp))
 
