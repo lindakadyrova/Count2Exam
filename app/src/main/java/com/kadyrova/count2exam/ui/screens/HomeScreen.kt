@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,14 +29,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.ui.components.AppHeader
 import com.kadyrova.count2exam.R
+import com.kadyrova.count2exam.viewmodel.ExamViewModel
 
 @Composable
 fun HomeScreen(
     onAddExamClick: () -> Unit,
-    onEditExamClick: () -> Unit
+    onEditExamClick: () -> Unit,
+    examViewModel: ExamViewModel = viewModel()
 ) {
+    LaunchedEffect(Unit) {
+        examViewModel.loadExams()
+    }
 
     var isMenuOpen by remember { mutableStateOf(false) }
 
@@ -64,7 +71,7 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(120.dp))
 
             Text(
-                text = "3 ${stringResource(R.string.exams_open)}",
+                text = "${examViewModel.exams.value.size} ${stringResource(R.string.exams_open)}",
                 fontSize = 40.sp,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
@@ -123,6 +130,7 @@ fun HomeScreen(
 fun HomeScreenPreview() {
     HomeScreen(
         onAddExamClick = {},
-        onEditExamClick = {}
+        onEditExamClick = {},
+
     )
 }
