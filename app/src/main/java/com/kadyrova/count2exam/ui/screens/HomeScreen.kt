@@ -32,7 +32,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.ui.components.AppHeader
 import com.kadyrova.count2exam.R
 import com.kadyrova.count2exam.viewmodel.ExamViewModel
-
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 @Composable
 fun HomeScreen(
     onAddExamClick: () -> Unit,
@@ -46,8 +47,26 @@ fun HomeScreen(
 
     var isMenuOpen by remember { mutableStateOf(false) }
     val examCount = examViewModel.exams.value.size
-    val nextExam = examViewModel.exams.value.minByOrNull { it.date }
+    val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
 
+    val nextExam = examViewModel.exams.value
+        .mapNotNull { exam ->
+            try {
+                exam to LocalDate.parse(exam.date, formatter)
+            } catch (_: Exception) {
+                null
+            }
+        }
+        .filter { (_, date) ->
+            !date.isBefore(LocalDate.now())
+        }
+        .minByOrNull { (_, date) ->
+            date
+        }
+
+    val daysUntilExam = nextExam?.second?.toEpochDay()?.minus(
+        LocalDate.now().toEpochDay()
+    )
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -82,7 +101,11 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(25.dp))
 
             Text(
-                text = "${stringResource(R.string.next_exam)} 7t 8h 25min",
+                text = if (nextExam != null) {
+                    "${stringResource(R.string.next_exam)} in $daysUntilExam Tagen"
+                } else {
+                    "Keine Prüfung geplant"
+                },
                 fontSize = 25.sp,
                 fontStyle = FontStyle.Italic,
                 textAlign = TextAlign.Center,
