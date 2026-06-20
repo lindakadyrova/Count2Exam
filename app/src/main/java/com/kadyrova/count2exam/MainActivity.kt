@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         NotificationHelper.createNotificationChannel(this)
-        NotificationHelper.scheduleTestAlarm(this)
+        //NotificationHelper.scheduleTestAlarm(this)
         setContent {
             Count2ExamTheme {
                 AppNavigation()

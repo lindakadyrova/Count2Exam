@@ -24,6 +24,8 @@ import com.kadyrova.count2exam.viewmodel.ExamViewModel
 import java.util.Calendar
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 
 @Composable
 fun AddExamScreen(
@@ -56,6 +58,7 @@ fun AddExamScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
+                .verticalScroll(rememberScrollState())
                 .padding(34.dp)
         ) {
             Text(
@@ -182,7 +185,7 @@ fun AddExamScreen(
             }
 
             Button(
-                onClick = { viewModel.addExam() },
+                onClick = { viewModel.addExam(context) },
                 enabled = !viewModel.isLoading.value,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary

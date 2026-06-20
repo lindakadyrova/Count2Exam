@@ -1,8 +1,10 @@
 package com.kadyrova.count2exam.viewmodel
 
+import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
+import com.kadyrova.count2exam.utils.NotificationHelper
 
 class ExamViewModel : ViewModel() {
 
@@ -19,11 +21,12 @@ class ExamViewModel : ViewModel() {
     val selectedExam = mutableStateOf<Exam?>(null)
     private val db = FirebaseFirestore.getInstance()
 
-    fun addExam() {
+    fun addExam(context: Context) {
         if (subject.value.isBlank() || date.value.isBlank()) {
             errorMessage.value = "Bitte alle Pflichtfelder ausfüllen"
             return
         }
+
         isLoading.value = true
         errorMessage.value = null
 
@@ -34,13 +37,23 @@ class ExamViewModel : ViewModel() {
             "notes" to notes.value
         )
 
-        db.collection("exams").add(exam).addOnSuccessListener {
-            isLoading.value = false
-            addSuccess.value = true
-        }.addOnFailureListener {
-            isLoading.value = false
-            errorMessage.value = "Prüfung konnte nicht gespeichert werden"
-        }
+        db.collection("exams")
+            .add(exam)
+            .addOnSuccessListener { documentReference ->
+                NotificationHelper.scheduleExamReminder(
+                    context = context,
+                    examId = documentReference.id,
+                    examSubject = subject.value,
+                    examDate = date.value
+                )
+
+                isLoading.value = false
+                addSuccess.value = true
+            }
+            .addOnFailureListener {
+                isLoading.value = false
+                errorMessage.value = "Prüfung konnte nicht gespeichert werden"
+            }
     }
 
     fun clearFields() {
