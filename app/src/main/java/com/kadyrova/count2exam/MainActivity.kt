@@ -18,14 +18,17 @@ import com.kadyrova.count2exam.ui.screens.LoginScreen
 import com.kadyrova.count2exam.ui.screens.PWForgottenScreen
 import com.kadyrova.count2exam.ui.screens.RegisterScreen
 import com.kadyrova.count2exam.ui.theme.Count2ExamTheme
+import com.kadyrova.count2exam.utils.NotificationHelper
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        NotificationHelper.createNotificationChannel(this)
+        NotificationHelper.scheduleTestAlarm(this)
         setContent {
             Count2ExamTheme {
-                CalendarScreen() { }
+                AppNavigation()
             }
         }
     }
