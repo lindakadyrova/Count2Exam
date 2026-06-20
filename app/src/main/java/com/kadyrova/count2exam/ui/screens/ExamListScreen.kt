@@ -48,19 +48,27 @@ fun ExamListScreen(
             text = "Meine Prüfungen", fontSize = 20.sp, modifier = Modifier.padding(34.dp)
         )
 
-        LazyColumn(
-            modifier = Modifier.height(710.dp)
-        ) {
-            items(viewModel.exams.value.size) { index ->
-                val exam = viewModel.exams.value[index]
+        if (viewModel.exams.value.isEmpty()) {
+            Text(
+                text = "Keine Prüfungen vorhanden",
+                fontSize = 16.sp,
+                modifier = Modifier.padding(horizontal = 34.dp)
+            )
+        } else {
+            LazyColumn(
+                modifier = Modifier.height(710.dp)
+            ) {
+                items(viewModel.exams.value.size) { index ->
+                    val exam = viewModel.exams.value[index]
 
-                ExamCard(
-                    subject = exam.subject,
-                    date = exam.date,
-                    examId = exam.id,
-                    onClick = onExamClick,
-                    onDeleteClick = { viewModel.deleteExam(it) }
-                )
+                    ExamCard(
+                        subject = exam.subject,
+                        date = exam.date,
+                        examId = exam.id,
+                        onClick = onExamClick,
+                        onDeleteClick = { viewModel.deleteExam(it) }
+                    )
+                }
             }
         }
     }
