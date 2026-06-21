@@ -16,6 +16,8 @@ class StudySessionViewModel : ViewModel() {
     val elapsedSeconds = mutableStateOf(0L)
     val isRunning = mutableStateOf(false)
     val sessionSaved = mutableStateOf(false)
+    val totalSeconds = mutableStateOf(0L)
+    val sessionCount = mutableStateOf(0)
 
     private var timerJob: Job? = null
     private val auth = FirebaseAuth.getInstance()
@@ -50,6 +52,20 @@ class StudySessionViewModel : ViewModel() {
             .addOnSuccessListener {
                 sessionSaved.value = true
                 elapsedSeconds.value = 0
+            }
+    }
+
+    fun loadStatsForExam(examId: String) {
+        val uid = auth.currentUser?.uid ?: return
+
+        db.collection("users").document(uid)
+            .collection("sessions")
+            .whereEqualTo("examId", examId)
+            .get()
+            .addOnSuccessListener { result ->
+                val sessions = result.documents
+                sessionCount.value = sessions.size
+                totalSeconds.value = sessions.sumOf { it.getLong("durationSeconds") ?: 0L }
             }
     }
 }

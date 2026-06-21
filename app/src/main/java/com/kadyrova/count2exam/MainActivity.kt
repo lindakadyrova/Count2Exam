@@ -77,10 +77,15 @@ fun AppNavigation() {
                 },
                 onCalendarClick = {
                     navController.navigate("calendar")
+                },
+                onExamDetailClick = { examId ->
+                    navController.navigate("examDetail/$examId")
+                },
+                onStartSessionClick = { examId, examSubject ->
+                    navController.navigate("activeSession/$examId/$examSubject")
                 }
             )
         }
-
         composable("editExam/{examId}") { backStackEntry ->
             val examId = backStackEntry.arguments?.getString("examId") ?: ""
 
@@ -94,7 +99,6 @@ fun AppNavigation() {
                 }
             )
         }
-
         composable("examDetail/{examId}") { backStackEntry ->
             val examId = backStackEntry.arguments?.getString("examId") ?: ""
 
@@ -102,10 +106,15 @@ fun AppNavigation() {
                 examId = examId,
                 onStartSessionClick = { id, subject ->
                     navController.navigate("activeSession/$id/$subject")
+                },
+                onEditClick = { id ->
+                    navController.navigate("editExam/$id")
+                },
+                onDeleteSuccess = {
+                    navController.popBackStack()
                 }
             )
         }
-
         composable(
             "activeSession/{examId}/{examSubject}",
             arguments = listOf(
@@ -121,7 +130,6 @@ fun AppNavigation() {
                 onSessionSaved = { navController.popBackStack() }
             )
         }
-
         composable("calendar") {
             CalendarScreen(
                 onExamClick = { examId ->
@@ -129,9 +137,7 @@ fun AppNavigation() {
                 }
             )
         }
-
         composable("addExam") {
-            AddExamScreen()
             AddExamScreen()
         }
         composable("examList") {
