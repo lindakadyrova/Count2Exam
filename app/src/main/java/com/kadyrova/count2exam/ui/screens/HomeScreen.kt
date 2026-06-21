@@ -7,6 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PageSize
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -31,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.ui.components.AppHeader
 import com.kadyrova.count2exam.R
+import com.kadyrova.count2exam.ui.components.ExamCard
 import com.kadyrova.count2exam.viewmodel.ExamViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -39,40 +43,31 @@ fun HomeScreen(
     onAddExamClick: () -> Unit,
     onEditExamClick: () -> Unit,
     examViewModel: ExamViewModel = viewModel(),
-    onCalendarClick: () -> Unit
+    onCalendarClick: () -> Unit,
+    onExamDetailClick: (String) -> Unit = {},
+    onStartSessionClick: (String, String) -> Unit = { _, _ -> }
 ) {
     LaunchedEffect(Unit) {
         examViewModel.loadExams()
     }
 
     var isMenuOpen by remember { mutableStateOf(false) }
-    val examCount = examViewModel.exams.value.size
     val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
-
-    val nextExam = examViewModel.exams.value
-        .mapNotNull { exam ->
+    val exams = examViewModel.exams.value
+        .sortedBy { exam ->
             try {
-                exam to LocalDate.parse(exam.date, formatter)
+                LocalDate.parse(exam.date, formatter)
             } catch (_: Exception) {
-                null
+                LocalDate.MAX
             }
         }
-        .filter { (_, date) ->
-            !date.isBefore(LocalDate.now())
-        }
-        .minByOrNull { (_, date) ->
-            date
-        }
-
-    val daysUntilExam = nextExam?.second?.toEpochDay()?.minus(
-        LocalDate.now().toEpochDay()
-    )
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(24.dp)
+                .padding(24.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -90,32 +85,36 @@ fun HomeScreen(
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(120.dp))
 
-            Text(
-                text = "${examViewModel.exams.value.size} ${stringResource(R.string.exams_open)}",
-                fontSize = 40.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(25.dp))
 
-            Text(
-                text = if (nextExam != null) {
-                    when (daysUntilExam) {
-                        0L -> "${stringResource(R.string.next_exam)} heute"
-                        1L -> "${stringResource(R.string.next_exam)} in 1 Tag"
-                        else -> "${stringResource(R.string.next_exam)} in $daysUntilExam Tagen"
+            if (exams.isEmpty()) {
+                Text("Keine Prüfungen vorhanden")
+            } else {
+                val pagerState = rememberPagerState(pageCount = { exams.size })
+
+                HorizontalPager(
+                    state = pagerState,
+                    pageSize = PageSize.Fixed(280.dp),
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 32.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) { page ->
+                    val exam = exams[page]
+                    val examDate = try {
+                        LocalDate.parse(exam.date, formatter)
+                    } catch (_: Exception) {
+                        null
                     }
-                } else {
-                    "Keine Prüfung geplant"
-                },
-                fontSize = 25.sp,
-                fontStyle = FontStyle.Italic,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
-            Spacer(modifier = Modifier.height(90.dp))
+                    val daysUntilExam = examDate?.toEpochDay()?.minus(LocalDate.now().toEpochDay())
+
+                    ExamCard(
+                        exam = exam,
+                        daysUntilExam = daysUntilExam,
+                        onDetailsClick = { onExamDetailClick(exam.id) },
+                        onStartSessionClick = { onStartSessionClick(exam.id, exam.subject) },
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    )
+                }
+            }
 
             Button(
                 onClick = onAddExamClick,
@@ -124,22 +123,7 @@ fun HomeScreen(
                     .height(50.dp),
                 shape = RoundedCornerShape(50.dp)
             ) {
-                Text(
-                    text = stringResource(R.string.add_exam)
-                )
-            }
-            Spacer(modifier = Modifier.height(17.dp))
-
-            Button(
-                onClick = onEditExamClick,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                shape = RoundedCornerShape(50.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.edit_exam)
-                )
+                Text(stringResource(R.string.add_exam))
             }
         }
 
@@ -151,9 +135,9 @@ fun HomeScreen(
             )
         }
     }
-
-
 }
+
+
 
 @Preview(showSystemUi = true)
 @Composable
