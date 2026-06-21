@@ -16,41 +16,22 @@ object NotificationHelper {
     const val CHANNEL_ID = "exam_notifications"
 
     fun createNotificationChannel(context: Context) {
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
             val channel = NotificationChannel(
-                CHANNEL_ID,
-                "Prüfungsbenachrichtigungen",
-                NotificationManager.IMPORTANCE_HIGH
+                CHANNEL_ID, "Prüfungsbenachrichtigungen", NotificationManager.IMPORTANCE_HIGH
             ).apply {
                 description = "Erinnerungen für bevorstehende Prüfungen"
             }
 
             val notificationManager =
-                context.getSystemService(Context.NOTIFICATION_SERVICE)
-                        as NotificationManager
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
             notificationManager.createNotificationChannel(channel)
         }
     }
 
-    fun scheduleTestAlarm(context: Context) {
-        scheduleAlarm(
-            context = context,
-            requestCode = 1234,
-            triggerTime = System.currentTimeMillis() + 10_000,
-            examSubject = "Test Prüfung",
-            hoursBefore = 0
-        )
-    }
-
     private fun scheduleAlarm(
-        context: Context,
-        requestCode: Int,
-        triggerTime: Long,
-        examSubject: String,
-        hoursBefore: Int
+        context: Context, requestCode: Int, triggerTime: Long, examSubject: String, hoursBefore: Int
     ) {
         if (triggerTime <= System.currentTimeMillis()) return
 
@@ -74,43 +55,25 @@ object NotificationHelper {
                 alarmManager.setAlarmClock(alarmInfo, pendingIntent)
             } else {
                 alarmManager.setExact(
-                    AlarmManager.RTC_WAKEUP,
-                    triggerTime,
-                    pendingIntent
+                    AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent
                 )
             }
         } catch (e: SecurityException) {
             alarmManager.set(
-                AlarmManager.RTC_WAKEUP,
-                triggerTime,
-                pendingIntent
+                AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent
             )
         }
     }
 
     fun scheduleExamReminder(
-        context: Context,
-        examId: String,
-        examSubject: String,
-        examDate: String
+        context: Context, examId: String, examSubject: String, examDate: String
     ) {
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
         val examLocalDate = LocalDate.parse(examDate, formatter)
-        val examDateTime = examLocalDate
-            .atTime(8, 0)
-            .atZone(ZoneId.systemDefault())
+        val examDateTime = examLocalDate.atTime(8, 0).atZone(ZoneId.systemDefault())
 
         val reminder72h = examDateTime.minusHours(72).toInstant().toEpochMilli()
         val reminder24h = examDateTime.minusHours(24).toInstant().toEpochMilli()
-        val testReminder = System.currentTimeMillis() + 10_000 // In 10 Sekunden zum Testen
-
-        scheduleAlarm(
-            context = context,
-            requestCode = examId.hashCode() + 999,
-            triggerTime = testReminder,
-            examSubject = examSubject,
-            hoursBefore = 0
-        )
 
         scheduleAlarm(
             context = context,
