@@ -26,6 +26,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import android.app.AlarmManager
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.provider.Settings
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
 
 @Composable
 fun AddExamScreen(
@@ -33,6 +40,33 @@ fun AddExamScreen(
 ) {
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
+    var showPermissionDialog by remember { mutableStateOf(false) }
+
+    if (showPermissionDialog) {
+        AlertDialog(
+            onDismissRequest = { showPermissionDialog = false },
+            title = { Text("Erinnerungen aktivieren") },
+            text = { Text("Damit wir dich pünktlich an deine Prüfung erinnern können, benötigt die App die Berechtigung für exakte Alarme. Möchtest du diese jetzt in den Einstellungen aktivieren?") },
+            confirmButton = {
+                TextButton(onClick = {
+                    showPermissionDialog = false
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        context.startActivity(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM))
+                    }
+                }) {
+                    Text("Einstellungen öffnen")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { 
+                    showPermissionDialog = false
+                    viewModel.addExam(context) // Trotzdem speichern, halt ohne exakten Alarm
+                }) {
+                    Text("Später")
+                }
+            }
+        )
+    }
 
     val datePickerDialog = DatePickerDialog(
         context,
@@ -58,7 +92,7 @@ fun AddExamScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-               // .verticalScroll(rememberScrollState())
+                .verticalScroll(rememberScrollState())
                 .padding(34.dp)
         ) {
             Text(
@@ -185,7 +219,14 @@ fun AddExamScreen(
             }
 
             Button(
-                onClick = { viewModel.addExam(context) },
+                onClick = {
+                    val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
+                        showPermissionDialog = true
+                    } else {
+                        viewModel.addExam(context)
+                    }
+                },
                 enabled = !viewModel.isLoading.value,
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary

@@ -190,7 +190,7 @@ fun EditExamScreen(
 
 
             Button(
-                onClick = { viewModel.save(examId) },
+                onClick = { viewModel.save(context, examId) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary
                 ),

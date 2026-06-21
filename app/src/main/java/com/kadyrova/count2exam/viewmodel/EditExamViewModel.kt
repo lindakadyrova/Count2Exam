@@ -1,8 +1,10 @@
 package com.kadyrova.count2exam.viewmodel
 
+import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.FirebaseFirestore
+import com.kadyrova.count2exam.utils.NotificationHelper
 
 class EditExamViewModel : ViewModel() {
     val subject = mutableStateOf("")
@@ -28,7 +30,7 @@ class EditExamViewModel : ViewModel() {
             }
     }
 
-    fun save(examId: String) {
+    fun save(context: Context, examId: String) {
 
         if (subject.value.isBlank() || date.value.isBlank()) {
             errorMessage.value = "Bitte Fach und Datum ausfüllen"
@@ -47,6 +49,12 @@ class EditExamViewModel : ViewModel() {
         db.collection("exams").document(examId)
             .set(examData)
             .addOnSuccessListener {
+                NotificationHelper.scheduleExamReminder(
+                    context = context,
+                    examId = examId,
+                    examSubject = subject.value,
+                    examDate = date.value
+                )
                 isLoading.value = false
                 saveSuccess.value = true
             }

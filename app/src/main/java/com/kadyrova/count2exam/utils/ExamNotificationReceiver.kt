@@ -9,6 +9,14 @@ import androidx.core.app.NotificationCompat
 class ExamNotificationReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
+        val examSubject = intent.getStringExtra("examSubject") ?: "Prüfung"
+        val hoursBefore = intent.getIntExtra("hoursBefore", 0)
+
+        val contentText = if (hoursBefore > 0) {
+            "Deine Prüfung '$examSubject' beginnt in $hoursBefore Stunden!"
+        } else {
+            "Deine Prüfung '$examSubject' steht an!"
+        }
 
         val notification = NotificationCompat.Builder(
             context,
@@ -16,16 +24,20 @@ class ExamNotificationReceiver : BroadcastReceiver() {
         )
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setContentTitle("Prüfungserinnerung")
-            .setContentText("Eine Prüfung steht bald an!")
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentText(contentText)
+            .setPriority(NotificationCompat.PRIORITY_MAX)
+            .setCategory(NotificationCompat.CATEGORY_ALARM)
+            .setDefaults(NotificationCompat.DEFAULT_ALL)
+            .setAutoCancel(true)
             .build()
 
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE)
                     as NotificationManager
 
+        val notificationId = examSubject.hashCode() + hoursBefore
         notificationManager.notify(
-            1,
+            notificationId,
             notification
         )
     }

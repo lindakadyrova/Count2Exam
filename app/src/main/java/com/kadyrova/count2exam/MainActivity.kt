@@ -1,11 +1,17 @@
 package com.kadyrova.count2exam
 
 import HomeScreen
+import android.app.AlarmManager
+import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -26,17 +32,22 @@ import com.kadyrova.count2exam.utils.NotificationHelper
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            requestPermissions(
-                arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
-                100
-            )
-        }
+        
         enableEdgeToEdge()
         NotificationHelper.createNotificationChannel(this)
-        //NotificationHelper.scheduleTestAlarm(this)
+        
         setContent {
             Count2ExamTheme {
+                // Hier fragen wir nach den Berechtigungen für die Banner
+                LaunchedEffect(Unit) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        requestPermissions(
+                            arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
+                            100
+                        )
+                    }
+                }
+                
                 AppNavigation()
             }
         }
@@ -148,6 +159,4 @@ fun AppNavigation() {
             )
         }
     }
-
 }
-
