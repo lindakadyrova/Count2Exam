@@ -6,9 +6,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.kadyrova.count2exam.ui.screens.ActiveSessionScreen
 import com.kadyrova.count2exam.ui.screens.AddExamScreen
 import com.kadyrova.count2exam.ui.screens.CalendarScreen
 import com.kadyrova.count2exam.ui.screens.EditExamScreen
@@ -95,7 +98,28 @@ fun AppNavigation() {
         composable("examDetail/{examId}") { backStackEntry ->
             val examId = backStackEntry.arguments?.getString("examId") ?: ""
 
-            ExamDetailScreen(examId = examId)
+            ExamDetailScreen(
+                examId = examId,
+                onStartSessionClick = { id, subject ->
+                    navController.navigate("activeSession/$id/$subject")
+                }
+            )
+        }
+
+        composable(
+            "activeSession/{examId}/{examSubject}",
+            arguments = listOf(
+                navArgument("examId") { type = NavType.StringType },
+                navArgument("examSubject") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val examId = backStackEntry.arguments?.getString("examId") ?: ""
+            val examSubject = backStackEntry.arguments?.getString("examSubject") ?: ""
+            ActiveSessionScreen(
+                examId = examId,
+                examSubject = examSubject,
+                onSessionSaved = { navController.popBackStack() }
+            )
         }
 
         composable("calendar") {

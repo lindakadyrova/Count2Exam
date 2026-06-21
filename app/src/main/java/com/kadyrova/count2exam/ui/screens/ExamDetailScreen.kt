@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,6 +21,7 @@ import com.kadyrova.count2exam.viewmodel.ExamViewModel
 @Composable
 fun ExamDetailScreen(
     examId: String,
+    onStartSessionClick: (String, String) -> Unit = { _, _ -> },
     viewModel: ExamViewModel = viewModel()
 ) {
     val exam = viewModel.selectedExam.value
@@ -52,6 +54,11 @@ fun ExamDetailScreen(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(text = "Notizen: ${exam.notes}", fontSize = 16.sp)
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Button(onClick = { onStartSessionClick(exam.id, exam.subject) }) {
+                Text("Lernsession starten")
+            }
         }
     }
 }
