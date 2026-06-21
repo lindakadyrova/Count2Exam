@@ -3,6 +3,7 @@ package com.kadyrova.count2exam.viewmodel
 import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kadyrova.count2exam.utils.NotificationHelper
 
@@ -16,14 +17,22 @@ class EditExamViewModel : ViewModel() {
     val saveSuccess = mutableStateOf(false)
 
     private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
+
     fun loadExam(examId: String) {
+        val currentUser = auth.currentUser ?: return
+
         db.collection("exams")
             .document(examId)
             .get()
             .addOnSuccessListener { document ->
-                subject.value = document.getString("subject") ?: ""
-                date.value = document.getString("date") ?: ""
-                notes.value = document.getString("notes") ?: ""
+                if (document.getString("userId") == currentUser.uid) {
+                    subject.value = document.getString("subject") ?: ""
+                    date.value = document.getString("date") ?: ""
+                    notes.value = document.getString("notes") ?: ""
+                } else {
+                    errorMessage.value = "Zugriff verweigert"
+                }
             }
             .addOnFailureListener {
                 errorMessage.value = "Prüfung konnte nicht geladen werden"
@@ -31,6 +40,11 @@ class EditExamViewModel : ViewModel() {
     }
 
     fun save(context: Context, examId: String) {
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            errorMessage.value = "Nicht angemeldet"
+            return
+        }
 
         if (subject.value.isBlank() || date.value.isBlank()) {
             errorMessage.value = "Bitte Fach und Datum ausfüllen"
@@ -43,7 +57,8 @@ class EditExamViewModel : ViewModel() {
         val examData = hashMapOf(
             "subject" to subject.value,
             "date" to date.value,
-            "notes" to notes.value
+            "notes" to notes.value,
+            "userId" to currentUser.uid
         )
 
         db.collection("exams").document(examId)

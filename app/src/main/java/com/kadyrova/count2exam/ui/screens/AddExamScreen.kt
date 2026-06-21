@@ -34,13 +34,29 @@ import android.provider.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.TextButton
 
+import android.widget.Toast
+import androidx.compose.runtime.LaunchedEffect
+
 @Composable
 fun AddExamScreen(
+    onAddSuccess: () -> Unit = {},
+    onDiscard: () -> Unit = {},
     viewModel: ExamViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
     var showPermissionDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(viewModel.addSuccess.value) {
+        if (viewModel.addSuccess.value) {
+            Toast.makeText(
+                context,
+                "Prüfung wurde erfolgreich hinzugefügt",
+                Toast.LENGTH_SHORT
+            ).show()
+            onAddSuccess()
+        }
+    }
 
     if (showPermissionDialog) {
         AlertDialog(
@@ -249,6 +265,12 @@ fun AddExamScreen(
             OutlinedButton(
                 onClick = {
                     viewModel.clearFields()
+                    Toast.makeText(
+                        context,
+                        "Änderungen verworfen",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    onDiscard()
                 },
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
                 colors = ButtonDefaults.outlinedButtonColors(

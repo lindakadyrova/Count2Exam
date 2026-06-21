@@ -103,10 +103,10 @@ fun AppNavigation() {
             EditExamScreen(
                 examId = examId,
                 onSaveSuccess = {
-                    navController.navigate("examList")
+                    navController.popBackStack()
                 },
                 onDiscard = {
-                    navController.navigate("examList")
+                    navController.popBackStack()
                 }
             )
         }
@@ -149,7 +149,14 @@ fun AppNavigation() {
             )
         }
         composable("addExam") {
-            AddExamScreen()
+            AddExamScreen(
+                onAddSuccess = {
+                    navController.popBackStack()
+                },
+                onDiscard = {
+                    navController.popBackStack()
+                }
+            )
         }
         composable("examList") {
             ExamListScreen(

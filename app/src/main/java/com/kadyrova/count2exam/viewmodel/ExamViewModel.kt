@@ -3,6 +3,7 @@ package com.kadyrova.count2exam.viewmodel
 import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kadyrova.count2exam.utils.NotificationHelper
 
@@ -20,8 +21,15 @@ class ExamViewModel : ViewModel() {
 
     val selectedExam = mutableStateOf<Exam?>(null)
     private val db = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
 
     fun addExam(context: Context) {
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            errorMessage.value = "Nicht angemeldet"
+            return
+        }
+
         if (subject.value.isBlank() || date.value.isBlank()) {
             errorMessage.value = "Bitte alle Pflichtfelder ausfüllen"
             return
@@ -34,7 +42,8 @@ class ExamViewModel : ViewModel() {
             "subject" to subject.value,
             "date" to date.value,
             "room" to room.value,
-            "notes" to notes.value
+            "notes" to notes.value,
+            "userId" to currentUser.uid
         )
 
         db.collection("exams")
@@ -67,10 +76,17 @@ class ExamViewModel : ViewModel() {
     }
 
     fun loadExams() {
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            exams.value = emptyList()
+            return
+        }
+
         isLoading.value = true
         errorMessage.value = null
 
         db.collection("exams")
+            .whereEqualTo("userId", currentUser.uid)
             .get()
             .addOnSuccessListener { result ->
                 val examList = result.documents.map { document ->
@@ -92,19 +108,31 @@ class ExamViewModel : ViewModel() {
     }
 
     fun deleteExam(examId: String) {
-        db.collection("exams")
-            .document(examId)
-            .delete()
-            .addOnSuccessListener {
-                loadExams()
+        val currentUser = auth.currentUser ?: return
+
+        db.collection("exams").document(examId).get().addOnSuccessListener { document ->
+            if (document.getString("userId") == currentUser.uid) {
+                db.collection("exams")
+                    .document(examId)
+                    .delete()
+                    .addOnSuccessListener {
+                        loadExams()
+                    }
+                    .addOnFailureListener {
+                        errorMessage.value = "Prüfung konnte nicht gelöscht werden"
+                    }
             }
-            .addOnFailureListener {
-                errorMessage.value = "Prüfung konnte nicht gelöscht werden"
-            }
+        }
     }
 
 
     fun loadExamById(id: String) {
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            errorMessage.value = "Nicht angemeldet"
+            return
+        }
+
         isLoading.value = true
         errorMessage.value = null
 
@@ -112,7 +140,7 @@ class ExamViewModel : ViewModel() {
             .get()
             .addOnSuccessListener { document ->
                 isLoading.value = false
-                if (document.exists()) {
+                if (document.exists() && document.getString("userId") == currentUser.uid) {
                     selectedExam.value = Exam(
                         id = document.id,
                         subject = document.getString("subject") ?: "",
@@ -121,7 +149,7 @@ class ExamViewModel : ViewModel() {
                         notes = document.getString("notes") ?: ""
                     )
                 } else {
-                    errorMessage.value = "Prüfung nicht gefunden"
+                    errorMessage.value = "Prüfung nicht gefunden oder Zugriff verweigert"
                 }
             }
             .addOnFailureListener {
