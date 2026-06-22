@@ -85,7 +85,7 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    IconButton(onClick = { isMenuOpen = true }) {
+                    IconButton(onClick = { onCalendarClick() }) {
                         Icon(
                             Icons.Default.CalendarMonth,
                             contentDescription = stringResource(R.string.show_calendar)
