@@ -30,6 +30,8 @@ import com.kadyrova.count2exam.viewmodel.StudySessionViewModel
 import androidx.compose.ui.res.stringResource
 import com.kadyrova.count2exam.R
 
+// KI-Unterstützung: LaunchedEffect und loadExamById() wurden mit KI-Hilfe ergänzt,
+// um die Prüfung automatisch beim Öffnen des Screens zu laden
 @Composable
 fun ExamDetailScreen(
     examId: String,

@@ -139,6 +139,8 @@ fun CalendarWdiget(
     }
 }
 
+// KI-Unterstützung: CalendarScreen wurde mit KI-Hilfe erstellt –
+// lädt Prüfungen aus Firestore und verbindet sie mit dem CalendarWdiget
 @Composable
 fun CalendarScreen(
     examViewModel: ExamViewModel = viewModel(),

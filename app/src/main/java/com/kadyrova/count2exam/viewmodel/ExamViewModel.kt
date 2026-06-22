@@ -20,6 +20,8 @@ class ExamViewModel : ViewModel() {
     val addSuccess = mutableStateOf(false)
     val exams = mutableStateOf<List<Exam>>(emptyList())
 
+    // KI-Unterstützung: selectedExam wurde mit KI-Hilfe ergänzt,
+    // um die aktuell ausgewählte Prüfung für die Detailansicht zu speichern
     val selectedExam = mutableStateOf<Exam?>(null)
     private val db = FirebaseFirestore.getInstance()
     private val auth = FirebaseAuth.getInstance()
@@ -127,6 +129,8 @@ class ExamViewModel : ViewModel() {
     }
 
 
+    // KI-Unterstützung: loadExamById() wurde mit KI-Hilfe erstellt –
+    // lädt eine einzelne Prüfung anhand ihrer Firestore-ID für die Detailansicht
     fun loadExamById(id: String, context: Context) {
         val currentUser = auth.currentUser
         if (currentUser == null) {
