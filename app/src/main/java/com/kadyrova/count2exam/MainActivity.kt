@@ -33,10 +33,8 @@ import com.kadyrova.count2exam.utils.NotificationHelper
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
         enableEdgeToEdge()
         NotificationHelper.createNotificationChannel(this)
-        
         setContent {
             Count2ExamTheme {
                 // Hier fragen wir nach den Berechtigungen für die Banner
@@ -48,7 +46,6 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 }
-                
                 AppNavigation()
             }
         }
@@ -83,12 +80,13 @@ fun AppNavigation() {
         }
         composable("dashboard") {
             HomeScreen(
+                navController = navController,
                 onAddExamClick = {
                     navController.navigate("addExam")
                 },
-                onEditExamClick = {
-                    navController.navigate("examList")
-                },
+//                onEditExamClick = {
+//                    navController.navigate("examList")
+//                },
                 onCalendarClick = {
                     navController.navigate("calendar")
                 },

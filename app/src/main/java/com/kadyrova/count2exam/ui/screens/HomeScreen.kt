@@ -12,6 +12,7 @@ import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -32,16 +33,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.kadyrova.count2exam.ui.components.AppHeader
 import com.kadyrova.count2exam.R
 import com.kadyrova.count2exam.ui.components.ExamCard
 import com.kadyrova.count2exam.viewmodel.ExamViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+
 @Composable
 fun HomeScreen(
+    navController: NavController,
     onAddExamClick: () -> Unit,
-    onEditExamClick: () -> Unit,
+//    onEditExamClick: () -> Unit,
     examViewModel: ExamViewModel = viewModel(),
     onCalendarClick: () -> Unit,
     onExamDetailClick: (String) -> Unit = {},
@@ -75,6 +79,19 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 AppHeader()
+                Row {
+                    IconButton(onClick = {
+                        com.google.firebase.auth.FirebaseAuth.getInstance().signOut()
+                        navController.navigate("login") {
+                            popUpTo(0)
+                        }
+                    }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                            contentDescription = "Logout"
+                        )
+                    }
+                }
 
                 IconButton(
                     onClick = { isMenuOpen = true },
@@ -138,13 +155,13 @@ fun HomeScreen(
 }
 
 
-
 @Preview(showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
+        navController = androidx.navigation.compose.rememberNavController(), //Mit hilfe von KI gelöst
         onAddExamClick = {},
-        onEditExamClick = {},
-        onCalendarClick = {}
+//        onEditExamClick = {},
+        onCalendarClick = {},
     )
 }
