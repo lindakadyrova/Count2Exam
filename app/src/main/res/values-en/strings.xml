@@ -67,4 +67,8 @@
     <string name="session">Session</string>
     <string name="logout">Logout</string>
     <string name="no_exams_subtitle">Add your first exam!</string>
+
+
+    <string name="email_required">Please enter your email</string>
+    <string name="fill_all_fields">Please fill in all fields</string>
 </resources>

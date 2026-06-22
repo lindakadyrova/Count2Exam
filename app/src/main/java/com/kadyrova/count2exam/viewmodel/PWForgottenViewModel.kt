@@ -1,8 +1,10 @@
 package com.kadyrova.count2exam.viewmodel
 
+import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.kadyrova.count2exam.R
 
 class PWForgottenViewModel : ViewModel() {
     val email = mutableStateOf("")
@@ -13,9 +15,9 @@ class PWForgottenViewModel : ViewModel() {
 
     private val auth = FirebaseAuth.getInstance()
 
-    fun resetPassword() {
+    fun resetPassword(context: Context) {
         if (email.value.isBlank()) {
-            errorMessage.value =  "Bitte E-Mail eintragen"
+            errorMessage.value =  context.getString(R.string.email_required)
             return
         }
         isLoading.value = true
@@ -28,7 +30,7 @@ class PWForgottenViewModel : ViewModel() {
             }
             .addOnFailureListener {
                 isLoading.value = false
-                errorMessage.value = "E-Mail konnte nicht gefunden werden"
+                errorMessage.value = context.getString(R.string.email_not_found)
             }
     }
 }

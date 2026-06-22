@@ -66,4 +66,8 @@
     <string name="session">Session</string>
     <string name="logout">Logout</string>
     <string name="no_exams_subtitle">Füge deine erste Prüfung hinzu!</string>
+
+
+    <string name="email_required">Bitte E-Mail eintragen</string>
+    <string name="fill_all_fields">Bitte alle Felder ausfüllen</string>
 </resources>
