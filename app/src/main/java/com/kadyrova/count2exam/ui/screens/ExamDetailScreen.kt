@@ -28,6 +28,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.ui.components.AppHeader
 import com.kadyrova.count2exam.viewmodel.ExamViewModel
 import com.kadyrova.count2exam.viewmodel.StudySessionViewModel
+import androidx.compose.ui.res.stringResource
+import com.kadyrova.count2exam.R
 
 @Composable
 fun ExamDetailScreen(
@@ -55,7 +57,7 @@ fun ExamDetailScreen(
         Spacer(modifier = Modifier.height(40.dp))
 
         if (exam == null) {
-            Text(text = "Lädt...")
+            Text(text = stringResource(R.string.loading_text))
         } else {
             Text(
                 text = exam.subject,
@@ -73,11 +75,11 @@ fun ExamDetailScreen(
                 Column(
                     modifier = Modifier.padding(20.dp)
                 ) {
-                    DetailRow(label = "Datum", value = exam.date)
+                    DetailRow(label = stringResource(R.string.date_detail), value = exam.date)
                     Spacer(modifier = Modifier.height(16.dp))
-                    DetailRow(label = "Raum", value = exam.room.ifBlank { "—" })
+                    DetailRow(label = stringResource(R.string.room_detail), value = exam.room.ifBlank { "—" })
                     Spacer(modifier = Modifier.height(16.dp))
-                    DetailRow(label = "Notizen", value = exam.notes.ifBlank { "—" })
+                    DetailRow(label = stringResource(R.string.notes_detail), value = exam.notes.ifBlank { "—" })
                 }
             }
 
@@ -92,20 +94,20 @@ fun ExamDetailScreen(
                     modifier = Modifier.padding(20.dp)
                 ) {
                     Text(
-                        text = "Lernstatistik",
+                        text = stringResource(R.string.study_stats),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
                     DetailRow(
-                        label = "Gesamtzeit",
+                        label = stringResource(R.string.total_time),
                         value = formatTime(sessionViewModel.totalSeconds.value)
                     )
                     Spacer(modifier = Modifier.height(16.dp))
 
                     DetailRow(
-                        label = "Sessions",
+                        label = stringResource(R.string.session),
                         value = sessionViewModel.sessionCount.value.toString()
                     )
                 }
@@ -123,7 +125,7 @@ fun ExamDetailScreen(
                         .height(50.dp),
                     shape = RoundedCornerShape(50.dp)
                 ) {
-                    Text("Bearbeiten")
+                    Text(stringResource(R.string.edit))
                 }
 
                 Spacer(modifier = Modifier.width(12.dp))
@@ -141,7 +143,7 @@ fun ExamDetailScreen(
                         contentColor = MaterialTheme.colorScheme.error
                     )
                 ) {
-                    Text("Löschen")
+                    Text(stringResource(R.string.delete))
                 }
             }
         }

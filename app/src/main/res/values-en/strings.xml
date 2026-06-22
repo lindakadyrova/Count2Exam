@@ -58,4 +58,11 @@
     <string name="notes_detail">Notes</string>
     <string name="no_exams">No exams available</string>
     <string name="exam_saved_success">Exam has been saved</string>
+    <string name="loading_text">Loading...</string>
+    <string name="study_stats">Study statistics</string>
+    <string name="total_time">Total time</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="start_session_button">Start session</string>
+    <string name="session">Session</string>
 </resources>
