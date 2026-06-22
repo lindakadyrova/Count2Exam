@@ -52,4 +52,8 @@
     <string name="open_settings">Einstellungen öffnen</string>
     <string name="later">Später</string>
     <string name="changes_discarded">Änderungen verworfen</string>
+    <string name="date_detail">Datum</string>
+    <string name="room_detail">Raum</string>
+    <string name="notes_detail">Notizen</string>
+    <string name="no_exams">Keine Prüfungen vorhanden</string>
 </resources>

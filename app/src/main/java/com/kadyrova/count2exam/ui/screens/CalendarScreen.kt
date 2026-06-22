@@ -42,6 +42,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
+import com.kadyrova.count2exam.R
+import androidx.compose.ui.platform.LocalLocale
 
 
 @Composable
@@ -51,7 +54,7 @@ fun CalendarWdiget(
 ) {
 
     val today = LocalDate.now()
-    val monthName = today.month.getDisplayName(TextStyle.FULL, Locale.GERMAN)
+    val monthName = today.month.getDisplayName(TextStyle.FULL, LocalLocale.current.platformLocale)
     val daysInMonth = today.lengthOfMonth()
 
     Box(
@@ -178,9 +181,9 @@ fun CalendarScreen(
             },
             text = {
                 Column {
-                    Text("Datum: ${exam.date}")
-                    Text("Raum: ${exam.room}")
-                    Text("Notizen: ${exam.notes}")
+                    Text("${stringResource(R.string.date_detail)}: ${exam.date}")
+                    Text("${stringResource(R.string.room_detail)}: ${exam.room}")
+                    Text("${stringResource(R.string.notes_detail)}: ${exam.notes}")
                 }
             },
             confirmButton = {
@@ -189,7 +192,7 @@ fun CalendarScreen(
                         selectedExam = null
                     }
                 ) {
-                    Text("Schließen")
+                    Text(stringResource(R.string.close))
                 }
             }
         )

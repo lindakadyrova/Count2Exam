@@ -53,4 +53,8 @@
     <string name="open_settings">Open settings</string>
     <string name="later">Later</string>
     <string name="changes_discarded">Changes discarded</string>
+    <string name="date_detail">Date</string>
+    <string name="room_detail">Room</string>
+    <string name="notes_detail">Notes</string>
+    <string name="no_exams">No exams available</string>
 </resources>
