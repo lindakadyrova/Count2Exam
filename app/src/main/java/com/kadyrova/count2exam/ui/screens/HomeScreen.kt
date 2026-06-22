@@ -52,7 +52,6 @@ import androidx.compose.runtime.collectAsState
 fun HomeScreen(
     navController: NavController,
     onAddExamClick: () -> Unit,
-//    onEditExamClick: () -> Unit,
     examViewModel: ExamViewModel = viewModel(),
     onCalendarClick: () -> Unit,
     onExamDetailClick: (String) -> Unit = {},
@@ -69,7 +68,6 @@ fun HomeScreen(
         }
     }
 
-    var isMenuOpen by remember { mutableStateOf(false) }
     val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy")
     val exams = examViewModel.exams.value
         .sortedBy { exam ->
@@ -189,7 +187,6 @@ fun HomeScreenPreview() {
     HomeScreen(
         navController = androidx.navigation.compose.rememberNavController(), //Mit hilfe von KI gelöst
         onAddExamClick = {},
-//        onEditExamClick = {},
         onCalendarClick = {},
     )
 }
