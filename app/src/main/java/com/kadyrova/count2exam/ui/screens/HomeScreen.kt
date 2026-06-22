@@ -79,27 +79,24 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 AppHeader()
-                Row {
-                    IconButton(onClick = {
-                        com.google.firebase.auth.FirebaseAuth.getInstance().signOut()
-                        navController.navigate("login") {
-                            popUpTo(0)
-                        }
-                    }) {
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(onClick = { isMenuOpen = true }) {
                         Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-                            contentDescription = "Logout"
+                            Icons.Default.Menu,
+                            contentDescription = stringResource(R.string.menu_open)
                         )
                     }
-                }
 
-                IconButton(
-                    onClick = { isMenuOpen = true },
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Menu,
-                        contentDescription = stringResource(R.string.menu_open)
-                    )
+                    IconButton(onClick = {
+                        com.google.firebase.auth.FirebaseAuth.getInstance().signOut()
+                        navController.navigate("login") { popUpTo(0) }
+                    }) {
+                        Icon(Icons.AutoMirrored.Filled.ExitToApp, contentDescription = "Logout")
+                    }
                 }
             }
 
