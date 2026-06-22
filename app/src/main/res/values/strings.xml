@@ -65,4 +65,5 @@
     <string name="start_session_button">Lernsession starten</string>
     <string name="session">Session</string>
     <string name="logout">Logout</string>
+    <string name="no_exams_subtitle">Füge deine erste Prüfung hinzu!</string>
 </resources>

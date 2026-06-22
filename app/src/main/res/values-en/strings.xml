@@ -66,4 +66,5 @@
     <string name="start_session_button">Start session</string>
     <string name="session">Session</string>
     <string name="logout">Logout</string>
+    <string name="no_exams_subtitle">Add your first exam!</string>
 </resources>
