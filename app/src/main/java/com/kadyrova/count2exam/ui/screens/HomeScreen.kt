@@ -47,6 +47,7 @@ import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun HomeScreen(
@@ -61,10 +62,11 @@ fun HomeScreen(
     //debugging with AI because deleted exams were still shown on the HomeScreen
     val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
     val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
+    val context = LocalContext.current
 
     LaunchedEffect(lifecycleState) {
         if (lifecycleState == androidx.lifecycle.Lifecycle.State.RESUMED) {
-            examViewModel.loadExams()
+            examViewModel.loadExams(context)
         }
     }
 

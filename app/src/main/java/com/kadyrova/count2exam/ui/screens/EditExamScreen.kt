@@ -48,10 +48,11 @@ fun EditExamScreen(
     onDiscard: () -> Unit = {},
     viewModel: EditExamViewModel = viewModel()
 ) {
-    LaunchedEffect(examId) {
-        viewModel.loadExam(examId)
-    }
     val context = LocalContext.current
+
+    LaunchedEffect(examId) {
+        viewModel.loadExam(examId, context)
+    }
     val examSavedSuccess = stringResource(R.string.exam_saved_success)
     val changesDiscarded = stringResource(R.string.changes_discarded)
 

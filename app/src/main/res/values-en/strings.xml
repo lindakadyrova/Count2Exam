@@ -67,4 +67,13 @@
     <string name="session">Session</string>
     <string name="logout">Logout</string>
     <string name="no_exams_subtitle">Add your first exam!</string>
+    <string name="error_access_denied">Access denied</string>
+    <string name="error_load_exam">Could not load exam</string>
+    <string name="error_not_logged_in">Not logged in</string>
+    <string name="error_fill_subject_date">Please fill in subject and date</string>
+    <string name="error_save_failed">Saving failed</string>
+    <string name="error_fill_required_fields">Please fill in all required fields</string>
+    <string name="error_exam_not_saved">Exam could not be saved</string>
+    <string name="error_delete_exam">Exam could not be deleted</string>
+    <string name="error_exam_not_found_or_access_denied">Exam not found or access denied</string>
 </resources>

@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.kadyrova.count2exam.R
 import com.kadyrova.count2exam.utils.NotificationHelper
 
 class ExamViewModel : ViewModel() {
@@ -26,12 +27,12 @@ class ExamViewModel : ViewModel() {
     fun addExam(context: Context) {
         val currentUser = auth.currentUser
         if (currentUser == null) {
-            errorMessage.value = "Nicht angemeldet"
+            errorMessage.value = context.getString(R.string.error_not_logged_in)
             return
         }
 
         if (subject.value.isBlank() || date.value.isBlank()) {
-            errorMessage.value = "Bitte alle Pflichtfelder ausfüllen"
+            errorMessage.value = context.getString(R.string.error_fill_required_fields)
             return
         }
 
@@ -61,7 +62,7 @@ class ExamViewModel : ViewModel() {
             }
             .addOnFailureListener {
                 isLoading.value = false
-                errorMessage.value = "Prüfung konnte nicht gespeichert werden"
+                errorMessage.value = context.getString(R.string.error_exam_not_saved)
             }
     }
 
@@ -75,7 +76,7 @@ class ExamViewModel : ViewModel() {
         addSuccess.value = false
     }
 
-    fun loadExams() {
+    fun loadExams(context: Context) {
         val currentUser = auth.currentUser
         if (currentUser == null) {
             exams.value = emptyList()
@@ -103,11 +104,11 @@ class ExamViewModel : ViewModel() {
             }
             .addOnFailureListener {
                 isLoading.value = false
-                errorMessage.value = "Prüfungen konnten nicht geladen werden"
+                errorMessage.value = context.getString(R.string.error_load_exam)
             }
     }
 
-    fun deleteExam(examId: String) {
+    fun deleteExam(examId: String, context: Context) {
         val currentUser = auth.currentUser ?: return
 
         db.collection("exams").document(examId).get().addOnSuccessListener { document ->
@@ -116,20 +117,20 @@ class ExamViewModel : ViewModel() {
                     .document(examId)
                     .delete()
                     .addOnSuccessListener {
-                        loadExams()
+                        loadExams(context)
                     }
                     .addOnFailureListener {
-                        errorMessage.value = "Prüfung konnte nicht gelöscht werden"
+                        errorMessage.value = context.getString(R.string.error_delete_exam)
                     }
             }
         }
     }
 
 
-    fun loadExamById(id: String) {
+    fun loadExamById(id: String, context: Context) {
         val currentUser = auth.currentUser
         if (currentUser == null) {
-            errorMessage.value = "Nicht angemeldet"
+            errorMessage.value = context.getString(R.string.error_not_logged_in)
             return
         }
 
@@ -149,12 +150,12 @@ class ExamViewModel : ViewModel() {
                         notes = document.getString("notes") ?: ""
                     )
                 } else {
-                    errorMessage.value = "Prüfung nicht gefunden oder Zugriff verweigert"
+                    errorMessage.value = context.getString(R.string.error_exam_not_found_or_access_denied)
                 }
             }
             .addOnFailureListener {
                 isLoading.value = false
-                errorMessage.value = "Prüfung konnte nicht geladen werden"
+                errorMessage.value = context.getString(R.string.error_load_exam)
             }
     }
 }

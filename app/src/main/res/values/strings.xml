@@ -66,4 +66,13 @@
     <string name="session">Session</string>
     <string name="logout">Logout</string>
     <string name="no_exams_subtitle">Füge deine erste Prüfung hinzu!</string>
+    <string name="error_access_denied">Zugriff verweigert</string>
+    <string name="error_load_exam">Prüfung konnte nicht geladen werden</string>
+    <string name="error_not_logged_in">Nicht angemeldet</string>
+    <string name="error_fill_subject_date">Bitte Fach und Datum ausfüllen</string>
+    <string name="error_save_failed">Speichern fehlgeschlagen</string>
+    <string name="error_fill_required_fields">Bitte alle Pflichtfelder ausfüllen</string>
+    <string name="error_exam_not_saved">Prüfung konnte nicht gespeichert werden</string>
+    <string name="error_delete_exam">Prüfung konnte nicht gelöscht werden</string>
+    <string name="error_exam_not_found_or_access_denied">Prüfung nicht gefunden oder Zugriff verweigert</string>
 </resources>

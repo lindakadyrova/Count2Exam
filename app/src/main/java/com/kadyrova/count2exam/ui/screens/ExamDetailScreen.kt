@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,9 +40,10 @@ fun ExamDetailScreen(
     sessionViewModel: StudySessionViewModel = viewModel()
 ) {
     val exam = viewModel.selectedExam.value
+    val context = LocalContext.current
 
     LaunchedEffect(examId) {
-        viewModel.loadExamById(examId)
+        viewModel.loadExamById(examId, context)
         sessionViewModel.loadStatsForExam(examId)
     }
 
@@ -130,7 +132,7 @@ fun ExamDetailScreen(
 
                 OutlinedButton(
                     onClick = {
-                        viewModel.deleteExam(exam.id)
+                        viewModel.deleteExam(exam.id, context)
                         onDeleteSuccess()
                     },
                     modifier = Modifier

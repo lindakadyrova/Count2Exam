@@ -42,6 +42,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.kadyrova.count2exam.R
 import androidx.compose.ui.platform.LocalLocale
@@ -146,9 +147,10 @@ fun CalendarScreen(
     var selectedExam by remember {
         mutableStateOf<Exam?>(null)
     }
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        examViewModel.loadExams()
+        examViewModel.loadExams(context)
     }
 
     Column(
