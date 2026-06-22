@@ -65,5 +65,4 @@
     <string name="start_session_button">Lernsession starten</string>
     <string name="session">Session</string>
     <string name="logout">Logout</string>
-    <string name="no_exams">Keine Prüfungen vorhanden</string>
 </resources>
