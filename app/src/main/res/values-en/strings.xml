@@ -76,4 +76,6 @@
     <string name="error_exam_not_saved">Exam could not be saved</string>
     <string name="error_delete_exam">Exam could not be deleted</string>
     <string name="error_exam_not_found_or_access_denied">Exam not found or access denied</string>
+    <string name="email_required">Please enter your email</string>
+    <string name="fill_all_fields">Please fill in all fields</string>
 </resources>

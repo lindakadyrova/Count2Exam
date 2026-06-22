@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.kadyrova.count2exam.R
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,6 +33,8 @@ fun RegisterScreen(
     onBackClick: () -> Unit = {},
     viewModel: RegisterViewModel = viewModel()
 ) {
+    val context = LocalContext.current
+
     LaunchedEffect(viewModel.registerSuccess.value) {
         if (viewModel.registerSuccess.value) {
             onRegisterSuccess()
@@ -53,7 +56,7 @@ fun RegisterScreen(
         onEmailChange = { viewModel.email.value = it },
         onPasswordChange = { viewModel.password.value = it },
         onConfirmPasswordChange = { viewModel.confirmPassword.value = it },
-        onRegisterClick = { viewModel.register() },
+        onRegisterClick = { viewModel.register(context) },
         onBackClick = onBackClick
     )
 }

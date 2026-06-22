@@ -1,8 +1,10 @@
 package com.kadyrova.count2exam.viewmodel
 
+import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.kadyrova.count2exam.R
 
 class LoginViewModel : ViewModel() {
 
@@ -15,9 +17,9 @@ class LoginViewModel : ViewModel() {
 
     private val auth = FirebaseAuth.getInstance()
 
-    fun login() {
+    fun login(context: Context) {
         if (email.value.isBlank() || password.value.isBlank()) {
-            errorMessage.value = "Bitte alle Felder ausfüllen"
+            errorMessage.value = context.getString(R.string.fill_all_fields)
             return
         }
         isLoading.value = true
@@ -30,7 +32,7 @@ class LoginViewModel : ViewModel() {
             }
             .addOnFailureListener {
                 isLoading.value = false
-                errorMessage.value = "E-Mail oder Passwort ist falsch"
+                errorMessage.value = context.getString(R.string.wrong_credentials)
             }
     }
 }

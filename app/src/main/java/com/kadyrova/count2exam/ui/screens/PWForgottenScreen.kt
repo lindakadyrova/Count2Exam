@@ -23,6 +23,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.ui.components.AppHeader
 import com.kadyrova.count2exam.viewmodel.PWForgottenViewModel
 import com.kadyrova.count2exam.R
+import androidx.compose.ui.platform.LocalContext
 
 
 @Composable
@@ -31,6 +32,8 @@ fun PWForgottenScreen(
     onBackClick: () -> Unit = {},
     viewModel: PWForgottenViewModel = viewModel()
 ) {
+    val context = LocalContext.current
+
     LaunchedEffect(viewModel.resetSuccess.value) {
         if (viewModel.resetSuccess.value) {
             onResetSuccess()
@@ -43,7 +46,7 @@ fun PWForgottenScreen(
         errorMessage = viewModel.errorMessage.value,
         resetSuccess = viewModel.resetSuccess.value,
         onEmailChange = { viewModel.email.value = it },
-        onResetClick = { viewModel.resetPassword() },
+        onResetClick = { viewModel.resetPassword(context) },
         onBackClick = onBackClick
     )
 }

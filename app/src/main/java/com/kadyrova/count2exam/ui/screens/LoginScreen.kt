@@ -28,6 +28,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -44,6 +45,8 @@ fun LoginScreen(
     onForgotPasswordClick: () -> Unit = {},
     viewModel: LoginViewModel = viewModel()
 ) {
+    val context = LocalContext.current
+
     LaunchedEffect(viewModel.loginSuccess.value) {
         if (viewModel.loginSuccess.value) {
             onLoginSuccess()
@@ -57,7 +60,7 @@ fun LoginScreen(
         errorMessage = viewModel.errorMessage.value,
         onEmailChange = { viewModel.email.value = it },
         onPasswordChange = { viewModel.password.value = it },
-        onLoginClick = { viewModel.login() },
+        onLoginClick = { viewModel.login(context) },
         onRegisterClick = onRegisterClick,
         onForgotPasswordClick = onForgotPasswordClick
     )
