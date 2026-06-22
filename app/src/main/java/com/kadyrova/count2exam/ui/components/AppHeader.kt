@@ -15,13 +15,13 @@ fun AppHeader() {
         modifier = Modifier
 
             .padding(
-                top = 50.dp,
-                start = 20.dp
+                top = 10.dp,
+                start = 10.dp
             ),
 
     ) {
         Logo(
-            modifier = Modifier.size(100.dp)
+            modifier = Modifier.size(80.dp)
         )
     }
 }

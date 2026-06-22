@@ -171,14 +171,6 @@ fun HomeScreen(
                 Text(stringResource(R.string.add_exam))
             }
         }
-
-        if (isMenuOpen) {
-            SideMenu(
-                onClose = { isMenuOpen = false },
-                onCalendarClick = onCalendarClick,
-                onSettingsClick = {}
-            )
-        }
     }
 }
 

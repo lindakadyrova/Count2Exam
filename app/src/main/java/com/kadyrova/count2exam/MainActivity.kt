@@ -23,7 +23,6 @@ import com.kadyrova.count2exam.ui.screens.AddExamScreen
 import com.kadyrova.count2exam.ui.screens.CalendarScreen
 import com.kadyrova.count2exam.ui.screens.EditExamScreen
 import com.kadyrova.count2exam.ui.screens.ExamDetailScreen
-import com.kadyrova.count2exam.ui.screens.ExamListScreen
 import com.kadyrova.count2exam.ui.screens.LoginScreen
 import com.kadyrova.count2exam.ui.screens.PWForgottenScreen
 import com.kadyrova.count2exam.ui.screens.RegisterScreen
@@ -156,13 +155,6 @@ fun AppNavigation() {
                 },
                 onDiscard = {
                     navController.popBackStack()
-                }
-            )
-        }
-        composable("examList") {
-            ExamListScreen(
-                onExamClick = { examId ->
-                    navController.navigate("editExam/$examId")
                 }
             )
         }
