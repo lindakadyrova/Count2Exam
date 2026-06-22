@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.ui.components.AppHeader
 import com.kadyrova.count2exam.viewmodel.StudySessionViewModel
+import androidx.compose.ui.res.stringResource
+import com.kadyrova.count2exam.R
 
 @Composable
 fun ActiveSessionScreen(
@@ -76,11 +78,11 @@ fun ActiveSessionScreenContent(
 
             if (!isRunning) {
                 Button(onClick = onStartClick) {
-                    Text("Start")
+                    Text(stringResource(R.string.start))
                 }
             } else {
                 Button(onClick = onStopClick) {
-                    Text("Stop")
+                    Text(stringResource(R.string.stop))
                 }
             }
         }

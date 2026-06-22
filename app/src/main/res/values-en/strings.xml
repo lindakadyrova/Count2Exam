@@ -45,4 +45,6 @@
     <string name="days_left">%d days left</string>
     <string name="start_session">Start session</string>
     <string name="show_details">Show details</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
 </resources>

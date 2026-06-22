@@ -44,4 +44,6 @@
     <string name="days_left">Noch %d Tage</string>
     <string name="start_session">Lernsession starten</string>
     <string name="show_details">Details anzeigen</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
 </resources>
