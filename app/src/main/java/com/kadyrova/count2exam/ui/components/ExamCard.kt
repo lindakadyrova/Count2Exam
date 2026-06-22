@@ -16,10 +16,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kadyrova.count2exam.viewmodel.Exam
+import com.kadyrova.count2exam.R
 
 @Composable
 fun ExamCard(
@@ -53,9 +55,9 @@ fun ExamCard(
             Text(
                 text = when (daysUntilExam) {
                     null -> ""
-                    0L -> "Heute"
-                    1L -> "Noch 1 Tag"
-                    else -> "Noch $daysUntilExam Tage"
+                    0L -> stringResource(R.string.today)
+                    1L -> stringResource(R.string.one_day_left)
+                    else -> stringResource(R.string.days_left, daysUntilExam)
                 },
                 fontSize = 18.sp
             )
@@ -65,7 +67,7 @@ fun ExamCard(
                 onClick = onStartSessionClick,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Lernsession starten")
+                Text(stringResource(R.string.start_session))
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -74,7 +76,7 @@ fun ExamCard(
                 onClick = onDetailsClick,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Details anzeigen")
+                Text(stringResource(R.string.show_details))
             }
         }
     }
