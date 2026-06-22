@@ -11,6 +11,7 @@ class EditExamViewModel : ViewModel() {
     val subject = mutableStateOf("")
     val date = mutableStateOf("")
     val notes = mutableStateOf("")
+    val room = mutableStateOf("")
 
     val isLoading = mutableStateOf(false)
     val errorMessage = mutableStateOf<String?>(null)
@@ -30,6 +31,7 @@ class EditExamViewModel : ViewModel() {
                     subject.value = document.getString("subject") ?: ""
                     date.value = document.getString("date") ?: ""
                     notes.value = document.getString("notes") ?: ""
+                    room.value = document.getString("room") ?: ""
                 } else {
                     errorMessage.value = "Zugriff verweigert"
                 }
@@ -58,7 +60,8 @@ class EditExamViewModel : ViewModel() {
             "subject" to subject.value,
             "date" to date.value,
             "notes" to notes.value,
-            "userId" to currentUser.uid
+            "userId" to currentUser.uid,
+            "room" to room.value
         )
 
         db.collection("exams").document(examId)
@@ -83,6 +86,7 @@ class EditExamViewModel : ViewModel() {
         subject.value = ""
         date.value = ""
         notes.value = ""
+        room.value = ""
         errorMessage.value = null
     }
 }

@@ -167,6 +167,24 @@ fun EditExamScreen(
             Spacer(modifier = Modifier.height(25.dp))
 
             Text(
+                text = stringResource(R.string.room_label),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold
+            )
+
+            Spacer(modifier = Modifier.height(5.dp))
+
+            OutlinedTextField(
+                value = viewModel.room.value,
+                onValueChange = { viewModel.room.value = it },
+                placeholder = { Text(stringResource(R.string.room_placeholder)) },
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(25.dp))
+
+            Text(
                 text = stringResource(R.string.notes_label),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold

@@ -46,6 +46,7 @@ import java.time.format.DateTimeFormatter
 import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.collectAsState
 
 @Composable
 fun HomeScreen(
@@ -57,8 +58,15 @@ fun HomeScreen(
     onExamDetailClick: (String) -> Unit = {},
     onStartSessionClick: (String, String) -> Unit = { _, _ -> }
 ) {
-    LaunchedEffect(Unit) {
-        examViewModel.loadExams()
+
+    //debugging with AI because deleted exams were still shown on the HomeScreen
+    val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
+    val lifecycleState by lifecycleOwner.lifecycle.currentStateFlow.collectAsState()
+
+    LaunchedEffect(lifecycleState) {
+        if (lifecycleState == androidx.lifecycle.Lifecycle.State.RESUMED) {
+            examViewModel.loadExams()
+        }
     }
 
     var isMenuOpen by remember { mutableStateOf(false) }
