@@ -17,6 +17,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.google.firebase.auth.FirebaseAuth
 import com.kadyrova.count2exam.ui.screens.ActiveSessionScreen
 import com.kadyrova.count2exam.ui.screens.AddExamScreen
 import com.kadyrova.count2exam.ui.screens.CalendarScreen
@@ -57,8 +58,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
+    val currentUser = FirebaseAuth.getInstance().currentUser
+    val startDestination = if (currentUser != null) "dashboard" else "login"
 
-    NavHost(navController = navController, startDestination = "login") {
+    NavHost(navController = navController, startDestination = startDestination) {
         composable("login") {
             LoginScreen(
                 onLoginSuccess = { navController.navigate("dashboard") },
