@@ -143,9 +143,6 @@ fun AppNavigation() {
         }
         composable("calendar") {
             CalendarScreen(
-                onExamClick = { examId ->
-                    navController.navigate("examDetail/$examId")
-                }
             )
         }
         composable("addExam") {

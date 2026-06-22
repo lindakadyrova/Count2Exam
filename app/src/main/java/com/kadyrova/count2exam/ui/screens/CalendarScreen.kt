@@ -142,7 +142,6 @@ fun CalendarWdiget(
 @Composable
 fun CalendarScreen(
     examViewModel: ExamViewModel = viewModel(),
-    onExamClick: (String) -> Unit
 ) {
     var selectedExam by remember {
         mutableStateOf<Exam?>(null)
