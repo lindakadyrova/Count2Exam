@@ -96,14 +96,14 @@ fun HomeScreen(
                         com.google.firebase.auth.FirebaseAuth.getInstance().signOut()
                         navController.navigate("login") { popUpTo(0) }
                     }) {
-                        Icon(Icons.AutoMirrored.Filled.ExitToApp, contentDescription = "Logout")
+                        Icon(Icons.AutoMirrored.Filled.ExitToApp, contentDescription = stringResource(R.string.logout))
                     }
                 }
             }
 
 
             if (exams.isEmpty()) {
-                Text("Keine Prüfungen vorhanden")
+                Text(stringResource(R.string.no_exams))
             } else {
                 val pagerState = rememberPagerState(pageCount = { exams.size })
 
