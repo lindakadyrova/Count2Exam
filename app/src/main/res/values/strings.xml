@@ -56,4 +56,5 @@
     <string name="room_detail">Raum</string>
     <string name="notes_detail">Notizen</string>
     <string name="no_exams">Keine Prüfungen vorhanden</string>
+    <string name="exam_saved_success">Prüfung wurde gespeichert</string>
 </resources>

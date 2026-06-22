@@ -57,4 +57,5 @@
     <string name="room_detail">Room</string>
     <string name="notes_detail">Notes</string>
     <string name="no_exams">No exams available</string>
+    <string name="exam_saved_success">Exam has been saved</string>
 </resources>

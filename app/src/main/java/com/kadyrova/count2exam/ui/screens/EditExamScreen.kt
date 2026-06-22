@@ -52,11 +52,14 @@ fun EditExamScreen(
         viewModel.loadExam(examId)
     }
     val context = LocalContext.current
+    val examSavedSuccess = stringResource(R.string.exam_saved_success)
+    val changesDiscarded = stringResource(R.string.changes_discarded)
+
     LaunchedEffect(viewModel.saveSuccess.value) {
         if (viewModel.saveSuccess.value) {
             Toast.makeText(
                 context,
-                "Prüfung wurde gespeichert",
+                examSavedSuccess,
                 Toast.LENGTH_SHORT
             ).show()
 
@@ -211,7 +214,7 @@ fun EditExamScreen(
                 onClick = {
                     Toast.makeText(
                         context,
-                        "Änderungen verworfen",
+                        changesDiscarded,
                         Toast.LENGTH_SHORT
                     ).show()
 
