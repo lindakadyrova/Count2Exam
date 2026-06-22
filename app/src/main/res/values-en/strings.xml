@@ -47,4 +47,10 @@
     <string name="show_details">Show details</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
+    <string name="exam_added_success">Exam successfully added</string>
+    <string name="enable_reminders_title">Enable reminders</string>
+    <string name="enable_reminders_text">To remind you of your exam on time, the app needs permission for exact alarms. Would you like to enable this in settings now?</string>
+    <string name="open_settings">Open settings</string>
+    <string name="later">Later</string>
+    <string name="changes_discarded">Changes discarded</string>
 </resources>

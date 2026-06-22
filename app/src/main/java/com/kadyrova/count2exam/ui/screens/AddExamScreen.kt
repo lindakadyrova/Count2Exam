@@ -46,12 +46,13 @@ fun AddExamScreen(
     val context = LocalContext.current
     val calendar = Calendar.getInstance()
     var showPermissionDialog by remember { mutableStateOf(false) }
+    val examAddedSuccess = stringResource(R.string.exam_added_success)
 
     LaunchedEffect(viewModel.addSuccess.value) {
         if (viewModel.addSuccess.value) {
             Toast.makeText(
                 context,
-                "Prüfung wurde erfolgreich hinzugefügt",
+                examAddedSuccess, //debugged with AI because stringResource can't be called in LaunchEffect
                 Toast.LENGTH_SHORT
             ).show()
             onAddSuccess()
@@ -61,8 +62,8 @@ fun AddExamScreen(
     if (showPermissionDialog) {
         AlertDialog(
             onDismissRequest = { showPermissionDialog = false },
-            title = { Text("Erinnerungen aktivieren") },
-            text = { Text("Damit wir dich pünktlich an deine Prüfung erinnern können, benötigt die App die Berechtigung für exakte Alarme. Möchtest du diese jetzt in den Einstellungen aktivieren?") },
+            title = { Text(stringResource(R.string.enable_reminders_title)) },
+            text = { Text(stringResource(R.string.enable_reminders_text)) },
             confirmButton = {
                 TextButton(onClick = {
                     showPermissionDialog = false
@@ -70,7 +71,7 @@ fun AddExamScreen(
                         context.startActivity(Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM))
                     }
                 }) {
-                    Text("Einstellungen öffnen")
+                    Text(stringResource(R.string.open_settings))
                 }
             },
             dismissButton = {
@@ -78,7 +79,7 @@ fun AddExamScreen(
                     showPermissionDialog = false
                     viewModel.addExam(context) // Trotzdem speichern, halt ohne exakten Alarm
                 }) {
-                    Text("Später")
+                    Text(stringResource(R.string.later))
                 }
             }
         )
@@ -262,12 +263,14 @@ fun AddExamScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
+            val changesDiscarded = stringResource(R.string.changes_discarded)
+
             OutlinedButton(
                 onClick = {
                     viewModel.clearFields()
                     Toast.makeText(
                         context,
-                        "Änderungen verworfen",
+                        changesDiscarded,
                         Toast.LENGTH_SHORT
                     ).show()
                     onDiscard()

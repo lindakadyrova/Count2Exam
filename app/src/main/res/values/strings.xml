@@ -46,4 +46,10 @@
     <string name="show_details">Details anzeigen</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
+    <string name="exam_added_success">Prüfung wurde erfolgreich hinzugefügt</string>
+    <string name="enable_reminders_title">Erinnerungen aktivieren</string>
+    <string name="enable_reminders_text">Damit wir dich pünktlich an deine Prüfung erinnern können, benötigt die App die Berechtigung für exakte Alarme. Möchtest du diese jetzt in den Einstellungen aktivieren?</string>
+    <string name="open_settings">Einstellungen öffnen</string>
+    <string name="later">Später</string>
+    <string name="changes_discarded">Änderungen verworfen</string>
 </resources>
