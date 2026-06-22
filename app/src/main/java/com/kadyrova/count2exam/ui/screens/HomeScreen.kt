@@ -13,6 +13,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -86,8 +87,8 @@ fun HomeScreen(
                 ) {
                     IconButton(onClick = { isMenuOpen = true }) {
                         Icon(
-                            Icons.Default.Menu,
-                            contentDescription = stringResource(R.string.menu_open)
+                            Icons.Default.CalendarMonth,
+                            contentDescription = stringResource(R.string.show_calendar)
                         )
                     }
 
