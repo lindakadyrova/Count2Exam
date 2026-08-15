@@ -24,6 +24,11 @@ import com.kadyrova.count2exam.ui.components.AppHeader
 import com.kadyrova.count2exam.viewmodel.PWForgottenViewModel
 import com.kadyrova.count2exam.R
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 
 
 @Composable
@@ -61,6 +66,8 @@ fun PWForgottenScreenContent(
     onResetClick: () -> Unit = {},
     onBackClick: () -> Unit = {}
 ) {
+    val focusManager = LocalFocusManager.current
+
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -76,7 +83,14 @@ fun PWForgottenScreenContent(
         ) {
             EmailTextField(
                 value = email,
-                onValueChange = onEmailChange
+                onValueChange = onEmailChange,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        focusManager.clearFocus()
+                        onResetClick()
+                    }
+                )
             )
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -118,13 +132,18 @@ fun PWForgottenScreenContent(
 @Composable
 fun EmailTextField(
     value: String = "",
-    onValueChange: (String) -> Unit = {}
+    onValueChange: (String) -> Unit = {},
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+    keyboardActions: KeyboardActions = KeyboardActions()
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(stringResource(R.string.email_label)) },
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        singleLine = true
     )
 
 }

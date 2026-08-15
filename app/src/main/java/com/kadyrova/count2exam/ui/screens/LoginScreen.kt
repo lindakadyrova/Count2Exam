@@ -32,6 +32,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.R
 import com.kadyrova.count2exam.viewmodel.LoginViewModel
@@ -78,6 +84,8 @@ fun LoginScreenContent(
     onRegisterClick: () -> Unit = {},
     onForgotPasswordClick: () -> Unit = {}
 ) {
+    val focusManager = LocalFocusManager.current
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -93,7 +101,14 @@ fun LoginScreenContent(
 
         EmailTextField(
             value = email,
-            onValueChange = onEmailChange
+            onValueChange = onEmailChange,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.Email
+            ),
+            keyboardActions = KeyboardActions(
+                onNext = { focusManager.moveFocus(FocusDirection.Down) }
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -101,7 +116,14 @@ fun LoginScreenContent(
         PasswordTextField(
             stringResource(R.string.password_label),
             value = password,
-            onValueChange = onPasswordChange
+            onValueChange = onPasswordChange,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    focusManager.clearFocus()
+                    onLoginClick()
+                }
+            )
         )
 
         if (errorMessage != null) {
@@ -144,7 +166,9 @@ fun LoginScreenContent(
 fun PasswordTextField(
     label: String,
     value: String = "",
-    onValueChange: (String) -> Unit = {}
+    onValueChange: (String) -> Unit = {},
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+    keyboardActions: KeyboardActions = KeyboardActions()
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
 
@@ -168,7 +192,10 @@ fun PasswordTextField(
                 )
             }
         },
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        singleLine = true
     )
 }
 
