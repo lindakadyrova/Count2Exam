@@ -1,13 +1,47 @@
 package com.kadyrova.count2exam.ui.screens
 
-import android.app.DatePickerDialog
+import android.app.AlarmManager
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.provider.Settings
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDefaults
+import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -22,20 +56,8 @@ import com.kadyrova.count2exam.R
 import com.kadyrova.count2exam.ui.components.AppHeader
 import com.kadyrova.count2exam.viewmodel.ExamViewModel
 import java.util.Calendar
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import android.app.AlarmManager
-import android.content.Context
-import android.content.Intent
-import android.os.Build
-import android.provider.Settings
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.TextButton
-import android.widget.Toast
-import androidx.compose.runtime.LaunchedEffect
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddExamScreen(
     onAddSuccess: () -> Unit = {},
@@ -43,15 +65,15 @@ fun AddExamScreen(
     viewModel: ExamViewModel = viewModel()
 ) {
     val context = LocalContext.current
-    val calendar = Calendar.getInstance()
     var showPermissionDialog by remember { mutableStateOf(false) }
+    var showDatePicker by remember { mutableStateOf(false) }
     val examAddedSuccess = stringResource(R.string.exam_added_success)
 
     LaunchedEffect(viewModel.addSuccess.value) {
         if (viewModel.addSuccess.value) {
             Toast.makeText(
                 context,
-                examAddedSuccess, //debugged with AI because stringResource can't be called in LaunchEffect
+                examAddedSuccess,
                 Toast.LENGTH_SHORT
             ).show()
             onAddSuccess()
@@ -74,30 +96,15 @@ fun AddExamScreen(
                 }
             },
             dismissButton = {
-                TextButton(onClick = { 
+                TextButton(onClick = {
                     showPermissionDialog = false
-                    viewModel.addExam(context) // Trotzdem speichern, halt ohne exakten Alarm
+                    viewModel.addExam(context)
                 }) {
                     Text(stringResource(R.string.later))
                 }
             }
         )
     }
-
-    val datePickerDialog = DatePickerDialog(
-        context,
-        { _, year, month, dayOfMonth ->
-            viewModel.date.value = "%02d.%02d.%04d".format(
-                dayOfMonth,
-                month + 1,
-                year
-            )
-        },
-        calendar.get(Calendar.YEAR),
-        calendar.get(Calendar.MONTH),
-        calendar.get(Calendar.DAY_OF_MONTH)
-    )
-    datePickerDialog.datePicker.minDate = System.currentTimeMillis()
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -153,7 +160,7 @@ fun AddExamScreen(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null
                     ) {
-                        datePickerDialog.show()
+                        showDatePicker = true
                     }
             ) {
                 OutlinedTextField(
@@ -285,6 +292,50 @@ fun AddExamScreen(
             ) {
                 Text(stringResource(R.string.discard))
             }
+        }
+    }
+
+    if (showDatePicker) {
+        val datePickerState = rememberDatePickerState()
+
+        DatePickerDialog(
+            onDismissRequest = { showDatePicker = false },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        datePickerState.selectedDateMillis?.let { millis ->
+                            val cal = Calendar.getInstance().apply { timeInMillis = millis }
+                            viewModel.date.value = "%02d.%02d.%04d".format(
+                                cal.get(Calendar.DAY_OF_MONTH),
+                                cal.get(Calendar.MONTH) + 1,
+                                cal.get(Calendar.YEAR)
+                            )
+                        }
+                        showDatePicker = false
+                    }
+                ) {
+                    Text("OK", color = Color(0xFFD78DA7))
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showDatePicker = false }
+                ) {
+                    Text("Cancel", color = Color.Gray)
+                }
+            }
+        ) {
+            DatePicker(
+                state = datePickerState,
+                colors = DatePickerDefaults.colors(
+                    containerColor = Color.White,
+                    headlineContentColor = Color(0xFFD78DA7),
+                    selectedDayContainerColor = Color(0xFFD78DA7),
+                    selectedDayContentColor = Color.White,
+                    todayDateBorderColor = Color(0xFFD78DA7),
+                    todayContentColor = Color(0xFFD78DA7)
+                )
+            )
         }
     }
 }
