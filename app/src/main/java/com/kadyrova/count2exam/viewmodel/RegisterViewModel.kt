@@ -59,6 +59,7 @@ class RegisterViewModel : ViewModel() {
                         registerSuccess.value = true
                     }
                     .addOnFailureListener { e ->
+                        result.user?.delete()
                         isLoading.value = false
                         errorMessage.value = e.message
                     }
