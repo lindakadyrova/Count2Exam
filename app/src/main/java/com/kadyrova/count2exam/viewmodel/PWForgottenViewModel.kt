@@ -10,12 +10,16 @@ import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import androidx.compose.runtime.State
 
 
 class PWForgottenViewModel @JvmOverloads constructor(
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 ) : ViewModel() {
-    val email = mutableStateOf("")
+    private val _email = mutableStateOf("")
+    val email: State<String> = _email
+
+    fun onEmailChange(value: String) { _email.value = value }
 
     val isLoading = mutableStateOf(false)
 

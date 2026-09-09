@@ -56,7 +56,7 @@ fun PWForgottenScreen(
         isLoading = viewModel.isLoading.value,
         errorMessage = viewModel.error.value?.toMessage(),
         resetSuccess = viewModel.resetSuccess.value,
-        onEmailChange = { viewModel.email.value = it },
+        onEmailChange = { viewModel.onEmailChange(it) },
         onResetClick = { viewModel.resetPassword() },
         onBackClick = onBackClick
     )
