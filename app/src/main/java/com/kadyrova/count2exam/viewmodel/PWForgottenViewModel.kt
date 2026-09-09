@@ -2,11 +2,14 @@ package com.kadyrova.count2exam.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 
 class PWForgottenViewModel @JvmOverloads constructor(
@@ -46,21 +49,25 @@ class PWForgottenViewModel @JvmOverloads constructor(
         isLoading.value = true
         error.value = null
 
-        auth.sendPasswordResetEmail(email.value)
-            .addOnSuccessListener {
-                isLoading.value = false
+        viewModelScope.launch {
+            isLoading.value = true
+            error.value = null
+
+            try {
+                auth.sendPasswordResetEmail(email.value).await()
                 resetSuccess.value = true
-                _events.trySend(ResetEvent.EmailSent)
-            }
-            .addOnFailureListener { e ->
-                isLoading.value = false
+                _events.send(ResetEvent.EmailSent)
+            } catch (e: Exception) {
                 if (e is FirebaseAuthInvalidUserException) {
                     resetSuccess.value = true
-                    _events.trySend(ResetEvent.EmailSent)
+                    _events.send(ResetEvent.EmailSent)
                 } else {
                     error.value = mapFirebaseError(e)
                 }
+            } finally {
+                isLoading.value = false
             }
+        }
     }
 
     private fun mapFirebaseError(e: Exception): ResetError = when (e) {
