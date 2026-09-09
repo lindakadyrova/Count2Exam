@@ -48,6 +48,7 @@ class RegisterViewModel @JvmOverloads constructor(
     sealed interface RegisterError {
         object EmptyFields : RegisterError
         object PasswordsDoNotMatch : RegisterError
+        object InvalidEmailFormat : RegisterError
         object EmailAlreadyInUse : RegisterError
         object WeakPassword : RegisterError
         object NetworkError : RegisterError
@@ -73,6 +74,11 @@ class RegisterViewModel @JvmOverloads constructor(
             confirmPassword.value.isBlank()
         ) {
             error.value = RegisterError.EmptyFields
+            return
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.value).matches()) {
+            error.value = RegisterError.InvalidEmailFormat
             return
         }
 

@@ -213,7 +213,9 @@ fun RegisterScreenContent(
             }
 
             Button(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp),
                 onClick = onRegisterClick,
                 enabled = !isLoading
             ) {
