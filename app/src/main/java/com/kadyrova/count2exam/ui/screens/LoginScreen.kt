@@ -44,6 +44,14 @@ import com.kadyrova.count2exam.viewmodel.LoginViewModel
 import androidx.compose.ui.res.stringResource
 import com.kadyrova.count2exam.viewmodel.LoginViewModel.LoginEvent
 
+@Composable
+private fun LoginViewModel.LoginError.toMessage(): String = when (this) {
+    LoginViewModel.LoginError.EmptyFields -> stringResource(R.string.fill_all_fields)
+    LoginViewModel.LoginError.InvalidCredentials -> stringResource(R.string.wrong_credentials)
+    LoginViewModel.LoginError.NetworkError -> stringResource(R.string.no_internet)
+    LoginViewModel.LoginError.TooManyAttempts -> stringResource(R.string.too_many_attempts)
+    is LoginViewModel.LoginError.Unknown -> stringResource(R.string.unknown_error)
+}
 
 @Composable
 fun LoginScreen(
@@ -66,10 +74,10 @@ fun LoginScreen(
         email = viewModel.email.value,
         password = viewModel.password.value,
         isLoading = viewModel.isLoading.value,
-        errorMessage = viewModel.errorMessage.value,
+        errorMessage = viewModel.error.value?.toMessage(),
         onEmailChange = { viewModel.email.value = it },
         onPasswordChange = { viewModel.password.value = it },
-        onLoginClick = { viewModel.login(context) },
+        onLoginClick = { viewModel.login() },
         onRegisterClick = onRegisterClick,
         onForgotPasswordClick = onForgotPasswordClick
     )

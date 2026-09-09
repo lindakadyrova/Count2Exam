@@ -1,6 +1,5 @@
 package com.kadyrova.count2exam.viewmodel
 
-import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +8,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.FirebaseTooManyRequestsException
-import com.kadyrova.count2exam.R
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -21,41 +19,49 @@ class LoginViewModel : ViewModel() {
     val password = mutableStateOf("")
 
     val isLoading = mutableStateOf(false)
-    val errorMessage = mutableStateOf<String?>(null)
+    val error = mutableStateOf<LoginError?>(null)
 
     private val auth = FirebaseAuth.getInstance()
 
     sealed interface LoginEvent {
         object NavigateToHome : LoginEvent
     }
+
+    sealed interface LoginError {
+        object EmptyFields : LoginError
+        object InvalidCredentials : LoginError
+        object NetworkError : LoginError
+        object TooManyAttempts : LoginError
+        data class Unknown(val message: String?) : LoginError
+    }
     private val _events = Channel<LoginEvent>(Channel.BUFFERED)
     val events = _events.receiveAsFlow()
 
-    fun login(context: Context) {
+    fun login() {
         if (email.value.isBlank() || password.value.isBlank()) {
-            errorMessage.value = context.getString(R.string.fill_all_fields)
+            error.value = LoginError.EmptyFields
             return
         }
         isLoading.value = true
-        errorMessage.value = null
+        error.value = null
 
         viewModelScope.launch {
             try {
                 auth.signInWithEmailAndPassword(email.value, password.value).await()
                 _events.send(LoginEvent.NavigateToHome)
             } catch (e: Exception) {
-                errorMessage.value = mapFirebaseError(context, e)
+                error.value = mapFirebaseError(e)
             } finally {
                 isLoading.value = false
             }
         }
     }
 
-    private fun mapFirebaseError(context: Context, e: Exception): String = when (e) {
+    private fun mapFirebaseError(e: Exception): LoginError = when (e) {
         is FirebaseAuthInvalidUserException,
-        is FirebaseAuthInvalidCredentialsException -> context.getString(R.string.wrong_credentials)
-        is FirebaseNetworkException -> context.getString(R.string.no_internet)
-        is FirebaseTooManyRequestsException -> context.getString(R.string.too_many_attempts)
-        else -> context.getString(R.string.unknown_error)
+        is FirebaseAuthInvalidCredentialsException -> LoginError.InvalidCredentials
+        is FirebaseNetworkException -> LoginError.NetworkError
+        is FirebaseTooManyRequestsException -> LoginError.TooManyAttempts
+        else -> LoginError.Unknown(e.message)
     }
 }
