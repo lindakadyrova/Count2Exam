@@ -36,6 +36,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -165,7 +166,7 @@ fun LoginScreenContent(
         }
         Spacer(modifier = Modifier.height(10.dp))
 
-        Button(
+        OutlinedButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),
