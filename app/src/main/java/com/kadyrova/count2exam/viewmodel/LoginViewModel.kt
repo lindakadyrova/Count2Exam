@@ -42,10 +42,9 @@ class LoginViewModel : ViewModel() {
             error.value = LoginError.EmptyFields
             return
         }
-        isLoading.value = true
-        error.value = null
-
         viewModelScope.launch {
+            isLoading.value = true
+            error.value = null
             try {
                 auth.signInWithEmailAndPassword(email.value, password.value).await()
                 _events.send(LoginEvent.NavigateToHome)
