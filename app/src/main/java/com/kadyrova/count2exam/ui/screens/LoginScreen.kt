@@ -129,7 +129,10 @@ fun LoginScreenContent(
             stringResource(R.string.password_label),
             value = password,
             onValueChange = onPasswordChange,
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done
+            ),
             keyboardActions = KeyboardActions(
                 onDone = {
                     focusManager.clearFocus()
