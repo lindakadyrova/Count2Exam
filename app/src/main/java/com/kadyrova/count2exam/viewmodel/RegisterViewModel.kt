@@ -9,6 +9,9 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class RegisterViewModel : ViewModel() {
 
@@ -60,40 +63,42 @@ class RegisterViewModel : ViewModel() {
             return
         }
 
-        isLoading.value = true
-        error.value = null
+        viewModelScope.launch {
+            isLoading.value = true
+            error.value = null
 
-        auth.createUserWithEmailAndPassword(email.value, password.value)
-            .addOnSuccessListener { result ->
-                val uid = result.user?.uid
-                if (uid == null) {
-                    isLoading.value = false
-                    error.value = RegisterError.Unknown(null)
-                    return@addOnSuccessListener
-                }
-
-                val user = hashMapOf(
-                    "firstName" to firstName.value,
-                    "lastName" to lastName.value,
-                    "username" to username.value,
-                    "email" to email.value
-                )
-
-                db.collection("users").document(uid).set(user)
-                    .addOnSuccessListener {
-                        isLoading.value = false
-                        _events.trySend(RegisterEvent.NavigateToHome)
-                    }
-                    .addOnFailureListener { e ->
-                        result.user?.delete()
-                        isLoading.value = false
-                        error.value = mapFirebaseError(e)
-                    }
-            }
-            .addOnFailureListener { e ->
-                isLoading.value = false
+            val authResult = try {
+                auth.createUserWithEmailAndPassword(email.value, password.value).await()
+            } catch (e: Exception) {
                 error.value = mapFirebaseError(e)
+                isLoading.value = false
+                return@launch
             }
+
+            val uid = authResult.user?.uid
+            if (uid == null) {
+                error.value = RegisterError.Unknown(null)
+                isLoading.value = false
+                return@launch
+            }
+
+            val user = hashMapOf(
+                "firstName" to firstName.value,
+                "lastName" to lastName.value,
+                "username" to username.value,
+                "email" to email.value
+            )
+
+            try {
+                db.collection("users").document(uid).set(user).await()
+                _events.send(RegisterEvent.NavigateToHome)
+            } catch (e: Exception) {
+                authResult.user?.delete()?.await()
+                error.value = mapFirebaseError(e)
+            } finally {
+                isLoading.value = false
+            }
+        }
     }
 
     private fun mapFirebaseError(e: Exception): RegisterError = when (e) {
