@@ -117,7 +117,7 @@ fun PWForgottenScreenContent(
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(40.dp),
+                    .height(48.dp),
                 onClick = onResetClick,
                 enabled = !isLoading
             ) {
@@ -129,7 +129,7 @@ fun PWForgottenScreenContent(
             TextButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(40.dp),
+                    .height(48.dp),
                 onClick = onBackClick
             ) {
                 Text(stringResource(R.string.back_to_login))
