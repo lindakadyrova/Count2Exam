@@ -13,7 +13,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-class RegisterViewModel : ViewModel() {
+class RegisterViewModel @JvmOverloads constructor(
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
+    private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+) : ViewModel() {
 
     val firstName = mutableStateOf("")
     val lastName = mutableStateOf("")
@@ -41,9 +44,6 @@ class RegisterViewModel : ViewModel() {
 
     private val _events = Channel<RegisterEvent>(Channel.BUFFERED)
     val events = _events.receiveAsFlow()
-
-    private val auth = FirebaseAuth.getInstance()
-    private val db = FirebaseFirestore.getInstance()
 
     fun register() {
         if (
