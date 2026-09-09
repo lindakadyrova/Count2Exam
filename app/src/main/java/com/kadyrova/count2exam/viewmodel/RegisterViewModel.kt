@@ -6,6 +6,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
+import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 
 class RegisterViewModel : ViewModel() {
 
@@ -21,6 +24,9 @@ class RegisterViewModel : ViewModel() {
     sealed interface RegisterError {
         object EmptyFields : RegisterError
         object PasswordsDoNotMatch : RegisterError
+        object EmailAlreadyInUse : RegisterError
+        object WeakPassword : RegisterError
+        object NetworkError : RegisterError
         data class Unknown(val message: String?) : RegisterError
     }
 
@@ -81,12 +87,19 @@ class RegisterViewModel : ViewModel() {
                     .addOnFailureListener { e ->
                         result.user?.delete()
                         isLoading.value = false
-                        error.value = RegisterError.Unknown(e.message)
+                        error.value = mapFirebaseError(e)
                     }
             }
             .addOnFailureListener { e ->
                 isLoading.value = false
-                error.value = RegisterError.Unknown(e.message)
+                error.value = mapFirebaseError(e)
             }
+    }
+
+    private fun mapFirebaseError(e: Exception): RegisterError = when (e) {
+        is FirebaseAuthUserCollisionException -> RegisterError.EmailAlreadyInUse
+        is FirebaseAuthWeakPasswordException -> RegisterError.WeakPassword
+        is FirebaseNetworkException -> RegisterError.NetworkError
+        else -> RegisterError.Unknown(e.message)
     }
 }

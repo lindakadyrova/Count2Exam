@@ -85,4 +85,6 @@
     <string name="logo_description">Count2Exam logo</string>
     <string name="hide_password">Hide password</string>
     <string name="show_password">Show password</string>
+    <string name="email_already_in_use">This email is already registered.</string>
+    <string name="weak_password">Password must be at least 6 characters.</string>
 </resources>
