@@ -82,4 +82,7 @@
     <string name="too_many_attempts">Too many failed attempts. Please try again later.</string>
     <string name="unknown_error">Something went wrong. Please try again.</string>
     <string name="invalid_email_format">Please enter a valid email address.</string>
+    <string name="logo_description">Count2Exam logo</string>
+    <string name="hide_password">Hide password</string>
+    <string name="show_password">Show password</string>
 </resources>

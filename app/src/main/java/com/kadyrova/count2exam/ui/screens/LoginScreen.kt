@@ -202,7 +202,10 @@ fun PasswordTextField(
                         Icons.Filled.Visibility
                     else
                         Icons.Filled.VisibilityOff,
-                    contentDescription = null
+                    contentDescription = if (passwordVisible)
+                        stringResource(R.string.hide_password)
+                    else
+                        stringResource(R.string.show_password)
                 )
             }
         },
@@ -219,7 +222,7 @@ fun Logo(
 ) {
     Image(
         painter = painterResource(R.drawable.count2exam),
-        contentDescription = "Count2Exam Logo",
+        contentDescription = stringResource(R.string.logo_description),
         modifier = modifier
     )
 }

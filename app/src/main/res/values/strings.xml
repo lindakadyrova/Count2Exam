@@ -81,4 +81,7 @@
     <string name="too_many_attempts">Zu viele fehlgeschlagene Versuche. Bitte versuche es später erneut.</string>
     <string name="unknown_error">Etwas ist schiefgelaufen. Bitte versuche es erneut.</string>
     <string name="invalid_email_format">Bitte gib eine gültige E-Mail-Adresse ein.</string>
+    <string name="logo_description">Count2Exam Logo</string>
+    <string name="hide_password">Passwort verbergen</string>
+    <string name="show_password">Passwort anzeigen</string>
 </resources>
