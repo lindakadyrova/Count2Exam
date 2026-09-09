@@ -36,6 +36,7 @@ import com.kadyrova.count2exam.ui.components.AppHeader
 private fun RegisterViewModel.RegisterError.toMessage(): String = when (this) {
     RegisterViewModel.RegisterError.EmptyFields -> stringResource(R.string.fill_all_fields)
     RegisterViewModel.RegisterError.PasswordsDoNotMatch -> stringResource(R.string.passwords_no_match)
+    RegisterViewModel.RegisterError.InvalidEmailFormat -> stringResource(R.string.invalid_email_format)
     RegisterViewModel.RegisterError.EmailAlreadyInUse -> stringResource(R.string.email_already_in_use)
     RegisterViewModel.RegisterError.WeakPassword -> stringResource(R.string.weak_password)
     RegisterViewModel.RegisterError.NetworkError -> stringResource(R.string.no_internet)
