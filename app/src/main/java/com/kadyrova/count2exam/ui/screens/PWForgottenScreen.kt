@@ -84,7 +84,10 @@ fun PWForgottenScreenContent(
             EmailTextField(
                 value = email,
                 onValueChange = onEmailChange,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Done
+                ),
                 keyboardActions = KeyboardActions(
                     onDone = {
                         focusManager.clearFocus()
