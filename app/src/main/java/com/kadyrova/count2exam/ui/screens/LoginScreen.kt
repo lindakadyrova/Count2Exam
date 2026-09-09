@@ -76,8 +76,8 @@ fun LoginScreen(
         password = viewModel.password.value,
         isLoading = viewModel.isLoading.value,
         errorMessage = viewModel.error.value?.toMessage(),
-        onEmailChange = { viewModel.email.value = it },
-        onPasswordChange = { viewModel.password.value = it },
+        onEmailChange = { viewModel.onEmailChange(it) },
+        onPasswordChange = { viewModel.onPasswordChange(it) },
         onLoginClick = { viewModel.login() },
         onRegisterClick = onRegisterClick,
         onForgotPasswordClick = onForgotPasswordClick

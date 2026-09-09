@@ -1,5 +1,6 @@
 package com.kadyrova.count2exam.viewmodel
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,8 +18,13 @@ class LoginViewModel @JvmOverloads constructor(
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 ) : ViewModel() {
 
-    val email = mutableStateOf("")
-    val password = mutableStateOf("")
+    private val _email = mutableStateOf("")
+    val email: State<String> = _email
+    private val _password = mutableStateOf("")
+    val password: State<String> = _password
+
+    fun onEmailChange(value: String) { _email.value = value }
+    fun onPasswordChange(value: String) { _password.value = value }
 
     val isLoading = mutableStateOf(false)
     val error = mutableStateOf<LoginError?>(null)
