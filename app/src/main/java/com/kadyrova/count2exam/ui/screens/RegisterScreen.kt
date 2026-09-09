@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -34,13 +33,18 @@ import com.kadyrova.count2exam.viewmodel.RegisterViewModel
 import com.kadyrova.count2exam.ui.components.AppHeader
 
 @Composable
+private fun RegisterViewModel.RegisterError.toMessage(): String = when (this) {
+    RegisterViewModel.RegisterError.EmptyFields -> stringResource(R.string.fill_all_fields)
+    RegisterViewModel.RegisterError.PasswordsDoNotMatch -> stringResource(R.string.passwords_no_match)
+    is RegisterViewModel.RegisterError.Unknown -> stringResource(R.string.unknown_error)
+}
+
+@Composable
 fun RegisterScreen(
     onRegisterSuccess: () -> Unit = {},
     onBackClick: () -> Unit = {},
     viewModel: RegisterViewModel = viewModel()
 ) {
-    val context = LocalContext.current
-
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
             when (event) {
@@ -57,14 +61,14 @@ fun RegisterScreen(
         password = viewModel.password.value,
         confirmPassword = viewModel.confirmPassword.value,
         isLoading = viewModel.isLoading.value,
-        errorMessage = viewModel.errorMessage.value,
+        errorMessage = viewModel.error.value?.toMessage(),
         onFirstNameChange = { viewModel.firstName.value = it },
         onLastNameChange = { viewModel.lastName.value = it },
         onUsernameChange = { viewModel.username.value = it },
         onEmailChange = { viewModel.email.value = it },
         onPasswordChange = { viewModel.password.value = it },
         onConfirmPasswordChange = { viewModel.confirmPassword.value = it },
-        onRegisterClick = { viewModel.register(context) },
+        onRegisterClick = { viewModel.register() },
         onBackClick = onBackClick
     )
 }

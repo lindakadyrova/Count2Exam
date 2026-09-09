@@ -1,11 +1,9 @@
 package com.kadyrova.count2exam.viewmodel
 
-import android.content.Context
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.kadyrova.count2exam.R
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 
@@ -19,7 +17,14 @@ class RegisterViewModel : ViewModel() {
     val confirmPassword = mutableStateOf("")
 
     val isLoading = mutableStateOf(false)
-    val errorMessage = mutableStateOf<String?>(null)
+
+    sealed interface RegisterError {
+        object EmptyFields : RegisterError
+        object PasswordsDoNotMatch : RegisterError
+        data class Unknown(val message: String?) : RegisterError
+    }
+
+    val error = mutableStateOf<RegisterError?>(null)
 
     sealed interface RegisterEvent {
         object NavigateToHome : RegisterEvent
@@ -31,7 +36,7 @@ class RegisterViewModel : ViewModel() {
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
 
-    fun register(context: Context) {
+    fun register() {
         if (
             firstName.value.isBlank() ||
             lastName.value.isBlank() ||
@@ -40,24 +45,24 @@ class RegisterViewModel : ViewModel() {
             password.value.isBlank() ||
             confirmPassword.value.isBlank()
         ) {
-            errorMessage.value = context.getString(R.string.fill_all_fields)
+            error.value = RegisterError.EmptyFields
             return
         }
 
         if (password.value != confirmPassword.value) {
-            errorMessage.value = context.getString(R.string.passwords_no_match)
+            error.value = RegisterError.PasswordsDoNotMatch
             return
         }
 
         isLoading.value = true
-        errorMessage.value = null
+        error.value = null
 
         auth.createUserWithEmailAndPassword(email.value, password.value)
             .addOnSuccessListener { result ->
                 val uid = result.user?.uid
                 if (uid == null) {
                     isLoading.value = false
-                    errorMessage.value = context.getString(R.string.unknown_error)
+                    error.value = RegisterError.Unknown(null)
                     return@addOnSuccessListener
                 }
 
@@ -76,12 +81,12 @@ class RegisterViewModel : ViewModel() {
                     .addOnFailureListener { e ->
                         result.user?.delete()
                         isLoading.value = false
-                        errorMessage.value = e.message
+                        error.value = RegisterError.Unknown(e.message)
                     }
             }
             .addOnFailureListener { e ->
                 isLoading.value = false
-                errorMessage.value = e.message
+                error.value = RegisterError.Unknown(e.message)
             }
     }
 }
