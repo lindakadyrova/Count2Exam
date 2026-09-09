@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.kadyrova.count2exam.R
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 
 class RegisterViewModel : ViewModel() {
 
@@ -18,7 +20,13 @@ class RegisterViewModel : ViewModel() {
 
     val isLoading = mutableStateOf(false)
     val errorMessage = mutableStateOf<String?>(null)
-    val registerSuccess = mutableStateOf(false)
+
+    sealed interface RegisterEvent {
+        object NavigateToHome : RegisterEvent
+    }
+
+    private val _events = Channel<RegisterEvent>(Channel.BUFFERED)
+    val events = _events.receiveAsFlow()
 
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
@@ -63,7 +71,7 @@ class RegisterViewModel : ViewModel() {
                 db.collection("users").document(uid).set(user)
                     .addOnSuccessListener {
                         isLoading.value = false
-                        registerSuccess.value = true
+                        _events.trySend(RegisterEvent.NavigateToHome)
                     }
                     .addOnFailureListener { e ->
                         result.user?.delete()

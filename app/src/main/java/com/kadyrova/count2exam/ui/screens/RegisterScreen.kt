@@ -41,9 +41,11 @@ fun RegisterScreen(
 ) {
     val context = LocalContext.current
 
-    LaunchedEffect(viewModel.registerSuccess.value) {
-        if (viewModel.registerSuccess.value) {
-            onRegisterSuccess()
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event ->
+            when (event) {
+                RegisterViewModel.RegisterEvent.NavigateToHome -> onRegisterSuccess()
+            }
         }
     }
 
