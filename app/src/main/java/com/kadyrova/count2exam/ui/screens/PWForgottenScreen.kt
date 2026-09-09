@@ -23,13 +23,19 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.ui.components.AppHeader
 import com.kadyrova.count2exam.viewmodel.PWForgottenViewModel
 import com.kadyrova.count2exam.R
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 
+@Composable
+private fun PWForgottenViewModel.ResetError.toMessage(): String = when (this) {
+    PWForgottenViewModel.ResetError.EmptyEmail -> stringResource(R.string.email_required)
+    PWForgottenViewModel.ResetError.InvalidEmailFormat -> stringResource(R.string.invalid_email_format)
+    PWForgottenViewModel.ResetError.NetworkError -> stringResource(R.string.no_internet)
+    is PWForgottenViewModel.ResetError.Unknown -> stringResource(R.string.unknown_error)
+}
 
 @Composable
 fun PWForgottenScreen(
@@ -37,21 +43,21 @@ fun PWForgottenScreen(
     onBackClick: () -> Unit = {},
     viewModel: PWForgottenViewModel = viewModel()
 ) {
-    val context = LocalContext.current
-
-    LaunchedEffect(viewModel.resetSuccess.value) {
-        if (viewModel.resetSuccess.value) {
-            onResetSuccess()
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event ->
+            when (event) {
+                PWForgottenViewModel.ResetEvent.EmailSent -> onResetSuccess()
+            }
         }
     }
 
     PWForgottenScreenContent(
         email = viewModel.email.value,
         isLoading = viewModel.isLoading.value,
-        errorMessage = viewModel.errorMessage.value,
+        errorMessage = viewModel.error.value?.toMessage(),
         resetSuccess = viewModel.resetSuccess.value,
         onEmailChange = { viewModel.email.value = it },
-        onResetClick = { viewModel.resetPassword(context) },
+        onResetClick = { viewModel.resetPassword() },
         onBackClick = onBackClick
     )
 }
