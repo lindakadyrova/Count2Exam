@@ -9,7 +9,9 @@ import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 
 
-class PWForgottenViewModel : ViewModel() {
+class PWForgottenViewModel @JvmOverloads constructor(
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+) : ViewModel() {
     val email = mutableStateOf("")
 
     val isLoading = mutableStateOf(false)
@@ -30,10 +32,6 @@ class PWForgottenViewModel : ViewModel() {
     private val _events = Channel<ResetEvent>(Channel.BUFFERED)
     val events = _events.receiveAsFlow()
 
-
-    private val auth = FirebaseAuth.getInstance()
-
-    // PWForgottenViewModel.kt
     fun resetPassword() {
         if (email.value.isBlank()) {
             error.value = ResetError.EmptyEmail
