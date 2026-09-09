@@ -13,15 +13,15 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel @JvmOverloads constructor(
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+) : ViewModel() {
 
     val email = mutableStateOf("")
     val password = mutableStateOf("")
 
     val isLoading = mutableStateOf(false)
     val error = mutableStateOf<LoginError?>(null)
-
-    private val auth = FirebaseAuth.getInstance()
 
     sealed interface LoginEvent {
         object NavigateToHome : LoginEvent
