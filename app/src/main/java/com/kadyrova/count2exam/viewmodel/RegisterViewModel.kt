@@ -46,7 +46,12 @@ class RegisterViewModel : ViewModel() {
 
         auth.createUserWithEmailAndPassword(email.value, password.value)
             .addOnSuccessListener { result ->
-                val uid = result.user!!.uid
+                val uid = result.user?.uid
+                if (uid == null) {
+                    isLoading.value = false
+                    errorMessage.value = context.getString(R.string.unknown_error)
+                    return@addOnSuccessListener
+                }
 
                 val user = hashMapOf(
                     "firstName" to firstName.value,
