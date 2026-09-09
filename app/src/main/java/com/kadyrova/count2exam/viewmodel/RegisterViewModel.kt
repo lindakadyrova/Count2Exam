@@ -12,18 +12,36 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import androidx.compose.runtime.State
 
 class RegisterViewModel @JvmOverloads constructor(
     private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 ) : ViewModel() {
 
-    val firstName = mutableStateOf("")
-    val lastName = mutableStateOf("")
-    val username = mutableStateOf("")
-    val email = mutableStateOf("")
-    val password = mutableStateOf("")
-    val confirmPassword = mutableStateOf("")
+    private val _firstName = mutableStateOf("")
+    val firstName: State<String> = _firstName
+    fun onFirstNameChange(value: String) { _firstName.value = value }
+
+    private val _lastName = mutableStateOf("")
+    val lastName: State<String> = _lastName
+    fun onLastNameChange(value: String) { _lastName.value = value }
+
+    private val _username = mutableStateOf("")
+    val username: State<String> = _username
+    fun onUsernameChange(value: String) { _username.value = value }
+
+    private val _email = mutableStateOf("")
+    val email: State<String> = _email
+    fun onEmailChange(value: String) { _email.value = value }
+
+    private val _password = mutableStateOf("")
+    val password: State<String> = _password
+    fun onPasswordChange(value: String) { _password.value = value }
+
+    private val _confirmPassword = mutableStateOf("")
+    val confirmPassword: State<String> = _confirmPassword
+    fun onConfirmPasswordChange(value: String) { _confirmPassword.value = value }
 
     val isLoading = mutableStateOf(false)
 

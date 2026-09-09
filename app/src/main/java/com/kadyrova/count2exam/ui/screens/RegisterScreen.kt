@@ -65,12 +65,12 @@ fun RegisterScreen(
         confirmPassword = viewModel.confirmPassword.value,
         isLoading = viewModel.isLoading.value,
         errorMessage = viewModel.error.value?.toMessage(),
-        onFirstNameChange = { viewModel.firstName.value = it },
-        onLastNameChange = { viewModel.lastName.value = it },
-        onUsernameChange = { viewModel.username.value = it },
-        onEmailChange = { viewModel.email.value = it },
-        onPasswordChange = { viewModel.password.value = it },
-        onConfirmPasswordChange = { viewModel.confirmPassword.value = it },
+        onFirstNameChange = { viewModel.onFirstNameChange(it) },
+        onLastNameChange = { viewModel.onLastNameChange(it) },
+        onUsernameChange = { viewModel.onUsernameChange(it) },
+        onEmailChange = { viewModel.onEmailChange(it) },
+        onPasswordChange = { viewModel.onPasswordChange(it) },
+        onConfirmPasswordChange = { viewModel.onConfirmPasswordChange(it) },
         onRegisterClick = { viewModel.register() },
         onBackClick = onBackClick
     )
