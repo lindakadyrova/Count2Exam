@@ -25,6 +25,8 @@ class RegisterViewModel : ViewModel() {
 
     fun register(context: Context) {
         if (
+            firstName.value.isBlank() ||
+            lastName.value.isBlank() ||
             username.value.isBlank() ||
             email.value.isBlank() ||
             password.value.isBlank() ||
