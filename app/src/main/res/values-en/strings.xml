@@ -81,4 +81,5 @@
     <string name="no_internet">No internet connection. Please check your network and try again.</string>
     <string name="too_many_attempts">Too many failed attempts. Please try again later.</string>
     <string name="unknown_error">Something went wrong. Please try again.</string>
+    <string name="invalid_email_format">Please enter a valid email address.</string>
 </resources>

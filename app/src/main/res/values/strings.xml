@@ -80,4 +80,5 @@
     <string name="no_internet">Keine Internetverbindung. Bitte überprüfe deine Netzwerkverbindung und versuche es erneut.</string>
     <string name="too_many_attempts">Zu viele fehlgeschlagene Versuche. Bitte versuche es später erneut.</string>
     <string name="unknown_error">Etwas ist schiefgelaufen. Bitte versuche es erneut.</string>
+    <string name="invalid_email_format">Bitte gib eine gültige E-Mail-Adresse ein.</string>
 </resources>

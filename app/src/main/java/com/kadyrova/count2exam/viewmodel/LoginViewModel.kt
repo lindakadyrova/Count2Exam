@@ -29,6 +29,7 @@ class LoginViewModel @JvmOverloads constructor(
 
     sealed interface LoginError {
         object EmptyFields : LoginError
+        object InvalidEmailFormat : LoginError
         object InvalidCredentials : LoginError
         object NetworkError : LoginError
         object TooManyAttempts : LoginError
@@ -40,6 +41,10 @@ class LoginViewModel @JvmOverloads constructor(
     fun login() {
         if (email.value.isBlank() || password.value.isBlank()) {
             error.value = LoginError.EmptyFields
+            return
+        }
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.value).matches()) {
+            error.value = LoginError.InvalidEmailFormat
             return
         }
         viewModelScope.launch {

@@ -47,6 +47,7 @@ import com.kadyrova.count2exam.viewmodel.LoginViewModel.LoginEvent
 @Composable
 private fun LoginViewModel.LoginError.toMessage(): String = when (this) {
     LoginViewModel.LoginError.EmptyFields -> stringResource(R.string.fill_all_fields)
+    LoginViewModel.LoginError.InvalidEmailFormat -> stringResource(R.string.invalid_email_format)
     LoginViewModel.LoginError.InvalidCredentials -> stringResource(R.string.wrong_credentials)
     LoginViewModel.LoginError.NetworkError -> stringResource(R.string.no_internet)
     LoginViewModel.LoginError.TooManyAttempts -> stringResource(R.string.too_many_attempts)
