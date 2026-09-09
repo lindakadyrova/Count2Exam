@@ -61,7 +61,6 @@ fun LoginScreen(
     onForgotPasswordClick: () -> Unit = {},
     viewModel: LoginViewModel = viewModel()
 ) {
-    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         viewModel.events.collect { event ->
@@ -158,7 +157,7 @@ fun LoginScreenContent(
         Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(40.dp),
+                .height(48.dp),
             onClick = onLoginClick,
             enabled = !isLoading
         ) {
@@ -169,7 +168,7 @@ fun LoginScreenContent(
         Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(40.dp),
+                .height(48.dp),
             onClick = onRegisterClick,
         ) {
             Text(stringResource(R.string.register_button))
