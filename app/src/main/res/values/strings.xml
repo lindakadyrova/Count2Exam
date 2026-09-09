@@ -77,4 +77,7 @@
     <string name="error_exam_not_found_or_access_denied">Prüfung nicht gefunden oder Zugriff verweigert</string>
     <string name="email_required">Bitte E-Mail eintragen</string>
     <string name="fill_all_fields">Bitte alle Felder ausfüllen</string>
+    <string name="no_internet">Keine Internetverbindung. Bitte überprüfe deine Netzwerkverbindung und versuche es erneut.</string>
+    <string name="too_many_attempts">Zu viele fehlgeschlagene Versuche. Bitte versuche es später erneut.</string>
+    <string name="unknown_error">Etwas ist schiefgelaufen. Bitte versuche es erneut.</string>
 </resources>

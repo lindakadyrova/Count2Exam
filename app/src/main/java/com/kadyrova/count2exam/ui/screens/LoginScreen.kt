@@ -42,6 +42,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kadyrova.count2exam.R
 import com.kadyrova.count2exam.viewmodel.LoginViewModel
 import androidx.compose.ui.res.stringResource
+import com.kadyrova.count2exam.viewmodel.LoginViewModel.LoginEvent
 
 
 @Composable
@@ -53,9 +54,11 @@ fun LoginScreen(
 ) {
     val context = LocalContext.current
 
-    LaunchedEffect(viewModel.loginSuccess.value) {
-        if (viewModel.loginSuccess.value) {
-            onLoginSuccess()
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event ->
+            when (event) {
+                LoginEvent.NavigateToHome -> onLoginSuccess()
+            }
         }
     }
 

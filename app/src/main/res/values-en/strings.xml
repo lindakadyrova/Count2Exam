@@ -78,4 +78,7 @@
     <string name="error_exam_not_found_or_access_denied">Exam not found or access denied</string>
     <string name="email_required">Please enter your email</string>
     <string name="fill_all_fields">Please fill in all fields</string>
+    <string name="no_internet">No internet connection. Please check your network and try again.</string>
+    <string name="too_many_attempts">Too many failed attempts. Please try again later.</string>
+    <string name="unknown_error">Something went wrong. Please try again.</string>
 </resources>
